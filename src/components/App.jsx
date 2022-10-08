@@ -8,16 +8,10 @@ const App = () => {
     return (
         <div className="bg-slate-100 h-screen">
             <Header />
-            <div className="container mx-auto">
-                <CreateMap />
-                {/* <div className="flex">
-                    <div className="basis-2/3">
-                        <CreateMap />
-                    </div>
-                    <div className="basis-1/3">
-                        <Sidebar />
-                    </div>
-                </div> */}
+            <div className="grid p-0 place-items-center" style={{ height: 'calc(100vh - 72px)' }}>
+                <div style={{ Width: 1110, Height: 696 }}>
+                    <CreateMap />
+                </div>
             </div>
         </div>
     )

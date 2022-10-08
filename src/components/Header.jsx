@@ -3,7 +3,7 @@ import React from "react";
 const Header = () => {
     return (
         <header>
-            <div className="mx-auto max-w-screen-xl px-4 py-3 sm:py-5 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-screen-xl px-4 py-2 sm:py-4 sm:px-6 lg:px-8">
                 <div className="sm:flex sm:items-center sm:justify-between">
                     <div className="text-center sm:text-left">
                         <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">

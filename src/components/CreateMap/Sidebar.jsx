@@ -10,14 +10,14 @@ const Sidebar = () => {
                 + Create New Component
             </a>
             <div className="grid grid-cols-2 gap-1 overflow-y-scroll" style={{ height: 650 }}>
-                <div className="rounded bg-white drop-shadow" style={{ height: 200 }}></div>
-                <div className="rounded bg-white drop-shadow" style={{ height: 200 }}></div>
-                <div className="rounded bg-white drop-shadow" style={{ height: 200 }}></div>
-                <div className="rounded bg-white drop-shadow" style={{ height: 200 }}></div>
-                <div className="rounded bg-white drop-shadow" style={{ height: 200 }}></div>
-                <div className="rounded bg-white drop-shadow" style={{ height: 200 }}></div>
-                <div className="rounded bg-white drop-shadow" style={{ height: 200 }}></div>
-                <div className="rounded bg-white drop-shadow" style={{ height: 200 }}></div>
+                <div className="rounded bg-white drop-shadow" style={{ height: 220, width: 220 }}></div>
+                <div className="rounded bg-white drop-shadow" style={{ height: 220, width: 220 }}></div>
+                <div className="rounded bg-white drop-shadow" style={{ height: 220, width: 220 }}></div>
+                <div className="rounded bg-white drop-shadow" style={{ height: 220, width: 220 }}></div>
+                <div className="rounded bg-white drop-shadow" style={{ height: 220, width: 220 }}></div>
+                <div className="rounded bg-white drop-shadow" style={{ height: 220, width: 220 }}></div>
+                <div className="rounded bg-white drop-shadow" style={{ height: 220, width: 220 }}></div>
+                <div className="rounded bg-white drop-shadow" style={{ height: 220, width: 220 }}></div>
             </div>
         </div >
     );
