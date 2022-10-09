@@ -4,6 +4,7 @@ import '../index.css';
 import Header from "./Header";
 import CreateMap from "./CreateMap";
 import CreateComponent from "./CreateComponent";
+import Gallery from "./Gallery";
 
 const App = () => {
     return (
@@ -12,7 +13,8 @@ const App = () => {
             <div className="grid p-0 place-items-center" style={{ height: 'calc(100vh - 72px)' }}>
                 <div style={{ Width: 1110, Height: 696 }}>
                     {/* <CreateMap /> */}
-                    <CreateComponent />
+                    {/* <CreateComponent /> */}
+                    <Gallery />
                 </div>
             </div>
         </div>
