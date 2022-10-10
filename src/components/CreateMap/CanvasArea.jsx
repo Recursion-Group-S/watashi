@@ -25,7 +25,7 @@ const CanvasArea = ({canvasComponents, setCanvasComponents}) => {
                     )}
                     
                 </div>
-                <Buttons setCanvasComponents={setCanvasComponents} />
+                <Buttons canvasComponents={canvasComponents} setCanvasComponents={setCanvasComponents} />
             </div>
         </div >
     );

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import CanvasArea from "./CanvasArea";
 import Sidebar from "./Sidebar";
 
@@ -8,15 +8,15 @@ const CreateMap = () => {
 
     // コンポーネントのデータ構造が不明なので仮のコンポーネントオブジェクトを作成
     // これはキャンバス内に含まれているコンポーネントのリスト
-    const addComponent = (e, color)=>{
+    const addComponent = (e, x, y, color)=>{
         // canvas外でドロップしてもcanvasComponentsには追加しない
-        if(e.clientX >= 650 || e.clientY < 85 || e.clientY > 500){
+        if(e.clientX <= 50 || e.clientX >= 650 || e.clientY < 85 || e.clientY > 500){
             return;
         }
         let newComponent = {
             color: color,
-            x: e.clientX - 75,
-            y: e.clientY - 100,
+            x: x,
+            y: y,
             id: currentID
         }
         setCurrentId(currentID + 1);

@@ -1,8 +1,12 @@
 import React from "react";
 
-const Buttons = ({setCanvasComponents}) => {
+const Buttons = ({canvasComponents, setCanvasComponents}) => {
     const handleClearAll = () => {
         setCanvasComponents([]);
+    }
+
+    const handleSave = () => {
+        console.log(canvasComponents);
     }
 
     return (
@@ -17,12 +21,13 @@ const Buttons = ({setCanvasComponents}) => {
                 </button>
             </div>
             <div className="basis-1/2">
-                <a
+                <button
                     className="w-full text-center inline-block rounded border border-sky-600 bg-sky-600 px-12 py-2 text-sm font-medium text-white hover:bg-transparent hover:text-sky-600 focus:outline-none focus:ring active:text-sky-600"
                     href="/download"
+                    onClick={handleSave}
                 >
                     Save Map
-                </a>
+                </button>
             </div>
         </div>
     );

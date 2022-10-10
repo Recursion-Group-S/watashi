@@ -53,7 +53,6 @@ const CanvasComponent = ({component, maxZIndex, setMaxZIndex, canvasComponents, 
                 onClick={handleClick}
                 onDragEnd={handleDragEnd}
                 onDragStart={handleDragStart}
-                // onMouseDown={(e) => e.target.style.cursor = '!grabbing'}
             />
     );
 }

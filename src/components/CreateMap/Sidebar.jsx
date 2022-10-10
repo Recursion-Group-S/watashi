@@ -2,14 +2,21 @@ import React, { useState } from "react";;
 
 const Sidebar = ({addComponent}) => {
     // キャンバス内外関わらず、ユーザーによって作成されたコンポーネント(サイドバーに表示される)
-    const [sideComponents, setSideComponents] = useState(['orange', 'red', 'green', 'blue', 'pink'])
+    const [sideComponents, setSideComponents] = useState(['orange', 'red', 'green', 'blue', 'pink']);
+    const [shiftX, setShiftX] = useState(0);
+    const [shiftY, setShiftY] = useState(0);
 
     const handleDragEnd = (e) =>{
         e.preventDefault();
-        addComponent(e, e.target.innerHTML);
+        let x = e.clientX - shiftX;
+        let y = e.clientY - shiftY;
+        addComponent(e, x, y, e.target.innerHTML);
     }
 
-   
+    const handleDragStart = (e) => {
+        setShiftX(e.clientX - e.target.getBoundingClientRect().left);
+        setShiftY(e.clientY - e.target.getBoundingClientRect().top);
+    }
 
     return (
         <div>
@@ -25,6 +32,7 @@ const Sidebar = ({addComponent}) => {
                     <div key={component}
                         draggable
                         onDragEnd={handleDragEnd}
+                        onDragStart={handleDragStart}
                         className="rounded bg-white drop-shadow"
                         style={{ height: 220,
                                 width: 220,
