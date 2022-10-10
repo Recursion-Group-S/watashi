@@ -31,6 +31,7 @@ const CanvasComponent = ({component, maxZIndex, setMaxZIndex, canvasComponents, 
     }
 
     const handleClick = () =>{
+        console.log(component.color);
         setIsSelected(!isSelected)
     }
 
@@ -38,12 +39,13 @@ const CanvasComponent = ({component, maxZIndex, setMaxZIndex, canvasComponents, 
     return (
             // クリックして選択されたコンポーネントの拡大縮小が出来る
             <div className={`${isSelected ? "resize":""} overflow-auto h-36 w-36 top-0 left-0 flex flex-col
-                            content-center justify-between p-0 items-end bg-${component.color}-500`}
+                            content-center justify-between p-0 items-end`}
                 style={{
                     top: top,
                     left: left,
                     position: 'absolute',
-                    zIndex: zIndex
+                    zIndex: zIndex,
+                    backgroundColor: component.color
                 }}
                 draggable
                 onClick={handleClick}
