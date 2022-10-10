@@ -10,12 +10,13 @@ const CanvasComponent = ({component, maxZIndex, setMaxZIndex, canvasComponents, 
 
     const handleDragEnd = (e) => {
         // マウスがキャンバス外に出たらコンポーネントを削除
+        e.preventDefault();
         let rightOver = e.clientX >= e.target.parentElement.getBoundingClientRect().right;
         let leftOver = e.clientX <= 0;
         let topOver = e.clientY <= e.target.parentElement.getBoundingClientRect().top;
         let bottomOver = e.clientY >= e.target.parentElement.getBoundingClientRect().bottom;
         if(rightOver || leftOver || topOver || bottomOver){
-            setCanvasComponents(canvasComponents.filter(comp => comp.id != component.id));
+            setCanvasComponents(canvasComponents.filter(comp => comp.id !== component.id));
             return;
         }
         setLeft(left + (e.clientX - startX) );
@@ -30,27 +31,29 @@ const CanvasComponent = ({component, maxZIndex, setMaxZIndex, canvasComponents, 
         setMaxZIndex(maxZIndex + 1);
     }
 
-    const handleClick = () =>{
-        console.log(component.color);
+    const handleClick = (e) =>{
+        e.preventDefault();
         setIsSelected(!isSelected)
     }
 
 
     return (
             // クリックして選択されたコンポーネントの拡大縮小が出来る
-            <div className={`${isSelected ? "resize":""} overflow-auto h-36 w-36 top-0 left-0 flex flex-col
-                            content-center justify-between p-0 items-end`}
+            <div className={`${isSelected ? "resize":""}
+                            overflow-auto h-36 w-36 top-0 left-0 flex flex-col
+                            content-center justify-between p-0 items-end `}
                 style={{
                     top: top,
                     left: left,
                     position: 'absolute',
                     zIndex: zIndex,
-                    backgroundColor: component.color
+                    backgroundColor: component.color,
                 }}
                 draggable
                 onClick={handleClick}
                 onDragEnd={handleDragEnd}
                 onDragStart={handleDragStart}
+                // onMouseDown={(e) => e.target.style.cursor = '!grabbing'}
             />
     );
 }

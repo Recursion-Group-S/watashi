@@ -5,9 +5,11 @@ const Sidebar = ({addComponent}) => {
     const [sideComponents, setSideComponents] = useState(['orange', 'red', 'green', 'blue', 'pink'])
 
     const handleDragEnd = (e) =>{
-        console.log(e.target.innerHTML);
+        e.preventDefault();
         addComponent(e, e.target.innerHTML);
     }
+
+   
 
     return (
         <div>
@@ -21,10 +23,13 @@ const Sidebar = ({addComponent}) => {
                 
                 {sideComponents.map(component => 
                     <div key={component}
-                        onDragEnd={handleDragEnd}
                         draggable
+                        onDragEnd={handleDragEnd}
                         className="rounded bg-white drop-shadow"
-                        style={{ height: 220, width: 220, backgroundColor: component }}>{component}</div>
+                        style={{ height: 220,
+                                width: 220,
+                                backgroundColor: component,
+                            }}>{component}</div>
                 )}
             </div>
         </div >
