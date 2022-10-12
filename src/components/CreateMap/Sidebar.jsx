@@ -10,7 +10,6 @@ const Sidebar = ({addComponent}) => {
         e.preventDefault();
         let x = e.clientX - shiftX;
         let y = e.clientY - shiftY;
-        console.log(e.target.parentElement);
         addComponent(e, x, y, e.target.innerHTML);
     }
 

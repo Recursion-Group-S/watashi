@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const CanvasComponent = ({component, maxZIndex, setMaxZIndex,
-                        canvasComponents, setCanvasComponents, topDiff, sideDiff}) => {
-    const [left, setLeft] = useState(component.x - sideDiff);
-    const [top, setTop] = useState(component.y - topDiff);
+                        canvasComponents, setCanvasComponents}) => {
+
+    const [move, setMove] = useState(false);
     const [startX, setStartX] = useState(component.x);
     const [startY, setStartY] = useState(component.y);
     const [isSelected, setIsSelected] = useState(false);
@@ -20,23 +20,26 @@ const CanvasComponent = ({component, maxZIndex, setMaxZIndex,
             setCanvasComponents(canvasComponents.filter(comp => comp.id !== component.id));
             return;
         }
-        setLeft(left + (e.clientX - startX) );
-        setTop(top + (e.clientY - startY));
-        setZIndex(maxZIndex);
+        component.x += (e.clientX - startX);
+        component.y += (e.clientY - startY);
+        component.zIndex = maxZIndex;
+        // setZIndex(maxZIndex + 1);
+        setMove(!move);
     }
 
     const handleDragStart = (e) => {
         setStartX(e.clientX);
         setStartY(e.clientY);
         // 最新のドラッグされたコンポーネントが最前面にくる
+        // setZIndex(maxZIndex + 1);
         setMaxZIndex(maxZIndex + 1);
     }
 
     const handleClick = (e) =>{
         e.preventDefault();
-        setIsSelected(!isSelected)
+        setIsSelected(!isSelected);
     }
-
+    
 
     return (
             // クリックして選択されたコンポーネントの拡大縮小が出来る
@@ -44,10 +47,10 @@ const CanvasComponent = ({component, maxZIndex, setMaxZIndex,
                             overflow-auto top-0 left-0 flex flex-col
                             content-center justify-between p-0 items-end`}
                 style={{
-                    top: top,
-                    left: left,
+                    top: component.y,
+                    left: component.x,
                     position: 'absolute',
-                    zIndex: zIndex,
+                    zIndex: component.zIndex,
                     backgroundColor: component.color,
                     height: 220,
                     width: 220,
@@ -56,6 +59,9 @@ const CanvasComponent = ({component, maxZIndex, setMaxZIndex,
                 onClick={handleClick}
                 onDragEnd={handleDragEnd}
                 onDragStart={handleDragStart}
+                onDoubleClick={(e) =>{
+                    console.log(e.target.style.zIndex);
+                } }
             />
     );
 }
