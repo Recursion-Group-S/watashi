@@ -10,18 +10,21 @@ const CreateMap = () => {
     // これはキャンバス内に含まれているコンポーネントのリスト
     const addComponent = (e, x, y, color)=>{
         // canvas外でドロップしてもcanvasComponentsには追加しない
-        if(e.clientX <= 50 || e.clientX >= 650 || e.clientY < 85 || e.clientY > 500){
-            return;
-        }
+        // if(e.clientX <= 50 || e.clientX >= 650 || e.clientY < 85 || e.clientY > 500){
+        //     return;
+        // }
         let newComponent = {
             color: color,
             x: x,
             y: y,
             id: currentID
         }
+        console.log("x: " + x + ", y: " + y);
         setCurrentId(currentID + 1);
         setCanvasComponents([...canvasComponents, newComponent]);
     }
+
+
 
     return (
         <div className="flex gap-x-4">

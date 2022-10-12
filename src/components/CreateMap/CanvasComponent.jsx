@@ -1,8 +1,9 @@
 import { useState } from "react";
 
-const CanvasComponent = ({component, maxZIndex, setMaxZIndex, canvasComponents, setCanvasComponents}) => {
-    const [left, setLeft] = useState(component.x);
-    const [top, setTop] = useState(component.y);
+const CanvasComponent = ({component, maxZIndex, setMaxZIndex,
+                        canvasComponents, setCanvasComponents, topDiff, sideDiff}) => {
+    const [left, setLeft] = useState(component.x - sideDiff);
+    const [top, setTop] = useState(component.y - topDiff);
     const [startX, setStartX] = useState(component.x);
     const [startY, setStartY] = useState(component.y);
     const [isSelected, setIsSelected] = useState(false);
@@ -12,7 +13,7 @@ const CanvasComponent = ({component, maxZIndex, setMaxZIndex, canvasComponents, 
         // マウスがキャンバス外に出たらコンポーネントを削除
         e.preventDefault();
         let rightOver = e.clientX >= e.target.parentElement.getBoundingClientRect().right;
-        let leftOver = e.clientX <= 0;
+        let leftOver = e.clientX <= e.target.parentElement.getBoundingClientRect().left;
         let topOver = e.clientY <= e.target.parentElement.getBoundingClientRect().top;
         let bottomOver = e.clientY >= e.target.parentElement.getBoundingClientRect().bottom;
         if(rightOver || leftOver || topOver || bottomOver){
@@ -20,7 +21,7 @@ const CanvasComponent = ({component, maxZIndex, setMaxZIndex, canvasComponents, 
             return;
         }
         setLeft(left + (e.clientX - startX) );
-        setTop(top + (e.clientY - startY) );
+        setTop(top + (e.clientY - startY));
         setZIndex(maxZIndex);
     }
 
@@ -40,14 +41,16 @@ const CanvasComponent = ({component, maxZIndex, setMaxZIndex, canvasComponents, 
     return (
             // クリックして選択されたコンポーネントの拡大縮小が出来る
             <div className={`${isSelected ? "resize":""}
-                            overflow-auto h-36 w-36 top-0 left-0 flex flex-col
-                            content-center justify-between p-0 items-end `}
+                            overflow-auto top-0 left-0 flex flex-col
+                            content-center justify-between p-0 items-end`}
                 style={{
                     top: top,
                     left: left,
                     position: 'absolute',
                     zIndex: zIndex,
                     backgroundColor: component.color,
+                    height: 220,
+                    width: 220,
                 }}
                 draggable
                 onClick={handleClick}
