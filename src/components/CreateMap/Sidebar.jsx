@@ -5,7 +5,7 @@ const Sidebar = () => {
         <div>
             <a
                 class="w-full text-center inline-block rounded border border-sky-600 bg-sky-600 px-12 py-2 mb-2 text-sm font-medium text-white hover:bg-white hover:text-sky-600 focus:outline-none focus:ring active:text-sky-600"
-                href=""
+                href="/createComponent"
             >
                 + Create New Component
             </a>
