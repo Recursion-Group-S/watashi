@@ -12,7 +12,7 @@ const Header = () => {
                     </div>
 
                     <div className="mt-4 flex flex-col gap-4 sm:mt-0 sm:flex-row sm:items-center">
-                        <a href="#">Gallery</a>
+                        <a href="/gallery">Gallery</a>
                         <img class="w-10 h-10 rounded-full" src="https://i.pravatar.cc/300" alt="Rounded avatar"></img>
                     </div>
                 </div>
