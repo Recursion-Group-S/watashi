@@ -14,10 +14,10 @@ export const RouterConfig = () => {
       <BrowserRouter>
         <Suspense fallback={Loading}>
           <Routes>
-            <Route path="/" element={<CreateMap />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/gallery" element={<Gallery />} />
+            <Route path="/" element={<Login />} />
+            <Route path="/createMap" element={<CreateMap />} />
             <Route path="/createComponent" element={<CreateComponent />} />
+            <Route path="/gallery" element={<Gallery />} />
           </Routes>
         </Suspense>
       </BrowserRouter>
