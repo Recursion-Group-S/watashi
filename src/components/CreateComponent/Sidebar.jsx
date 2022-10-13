@@ -1,7 +1,30 @@
 import React from "react";
+import axios from "axios";
 import { useState, useEffect } from "react";
 
+import { temporalToken } from "../../apis/flaticon";
+
 const Sidebar = () => {
+    /** api testing */
+    console.log(temporalToken);
+
+    var headersForStyles = {
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${temporalToken}`
+    };
+
+    const test = async temporalToken => {
+        const styles = axios.get('https://api.flaticon.com/v3/styles', {
+            headers: headersForStyles,
+        }).then(res => {
+            console.log(res);
+        });
+
+        console.log(styles);
+    }
+    console.log(test);
+    /** api testing */
+
     const [userAction, setUserAction] = useState("addText");
 
     const chooseUserAction = (e) => {
@@ -10,7 +33,6 @@ const Sidebar = () => {
 
     const DisplaySidebarContent = () => {
         if (userAction === "addText") {
-            console.log(userAction);
             return (
                 <div>
                     <label className="block mb-1 text-sm font-medium text-gray-300">Select font-style</label>
