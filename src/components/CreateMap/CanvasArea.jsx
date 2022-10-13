@@ -1,32 +1,52 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Buttons from "./Buttons";
-import CanvasComponent from "./CanvasComponent";
+import { Stage, Layer } from "react-konva";
+import ImageComponent from "./ImageComponent";
 
 
-const CanvasArea = ({canvasComponents, setCanvasComponents }, canvasRef) => {
-    const [maxZIndex, setMaxZIndex] = useState(1);
-    const handleDragOver = (e) => {
-        e.preventDefault();
-    }
-    
+const CanvasArea = ({ imageComponents, setImageComponents }, canvasRef) => {
+    const [selectedId, selectImage] = useState(null);
+
+    const checkDeselect = (e) => {
+        const clickedOnEmpty = e.target === e.target.getStage();
+        if (clickedOnEmpty) {
+            selectImage(null);
+        }
+    };
 
     return (
         <div ref={canvasRef}>
-            
-            <div className="mx-auto" style={{ width: 650 }}>
-                <div id="container" className="bg-white w-full mb-2 rounded drop-shadow relative overflow-hidden"
-                    style={{ height: 650, width: 650 }}
-                    onDragOver={handleDragOver}
+            <div className="mx-auto" style={{ width: 650 }} onDragOver={(e) => e.preventDefault()} >
+                <Stage width={650} height={650} 
+                    className="bg-white w-full mb-2 rounded drop-shadow relative overflow-hidden"
+                    onMouseDown={checkDeselect}
+                    onTouchStart={checkDeselect}
                 >
-                    {canvasComponents.map(component =>
-                        <CanvasComponent key={component.id} component={component}
-                                        maxZIndex={maxZIndex} setMaxZIndex={setMaxZIndex}
-                                        canvasComponents={canvasComponents}
-                                        setCanvasComponents={setCanvasComponents}
-                        />
-                    )}
-                </div>
-                <Buttons canvasComponents={canvasComponents} setCanvasComponents={setCanvasComponents} />
+                    <Layer>
+                        {imageComponents.map((img, i) => 
+                        (
+                            <ImageComponent
+                                key={i}
+                                imgProps={img}
+                                isSelected={img.id === selectedId}
+                                onSelect={() => {
+                                    selectImage(img.id);
+                                }}
+                                onChange={(newAttrs) => {
+                                    const items = imageComponents.slice();
+                                    items.splice(i, 1);
+                                    const item = newAttrs;
+                                    items.push(item);
+                                    setImageComponents(items);
+                                }}
+                                imageComponents={imageComponents}
+                                setImageComponents={setImageComponents}
+                            />
+                        )
+                        )}
+                    </Layer>
+                </Stage>
+                <Buttons imageComponents={imageComponents} setImageComponents={setImageComponents} />
             </div>
         </div >
     );

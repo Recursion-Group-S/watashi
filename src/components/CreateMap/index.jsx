@@ -3,15 +3,13 @@ import CanvasArea from "./CanvasArea";
 import Sidebar from "./Sidebar";
 
 const CreateMap = () => {
-    const [canvasComponents, setCanvasComponents] = useState([])
-    const [currentID, setCurrentId] = useState(1);
-
+    //Map内のコンポーネントの配列
+    const [imageComponents, setImageComponents] = useState([]);
     const WrappedCanvasArea = forwardRef(CanvasArea);
     const canvasRef = useRef();
+    const [currentID, setCurrentId] = useState(1);
 
-    // コンポーネントのデータ構造が不明なので仮のコンポーネントオブジェクトを作成
-    // これはキャンバス内に含まれているコンポーネントのリスト
-    const addComponent = (e, x, y, color)=>{
+    const addComponent = (e, item)=>{
         // canvas外でドロップしてもcanvasComponentsには追加しない
         let topOver = e.clientY < canvasRef.current.getBoundingClientRect().top;
         let leftOver = e.clientX < canvasRef.current.getBoundingClientRect().left;
@@ -21,22 +19,23 @@ const CreateMap = () => {
             return;
         }
         let newComponent = {
-            color: color,
-            x: x - canvasRef.current.getBoundingClientRect().left,
-            y: y - canvasRef.current.getBoundingClientRect().top,
-            zIndex: 1,
-            id: currentID
+            x: item.x - canvasRef.current.getBoundingClientRect().left,
+            y: item.y - canvasRef.current.getBoundingClientRect().top,
+            width: 220,
+            height: 220,
+            rotation: 0,
+            url: item.url,
+            id: currentID.toString(),
         }
         setCurrentId(currentID + 1);
-        setCanvasComponents([...canvasComponents, newComponent]);
+        setImageComponents([...imageComponents, newComponent]);
     }
 
 
 
     return (
         <div className="flex gap-x-4">
-            {/* <CanvasArea canvasComponents={canvasComponents} setCanvasComponents={setCanvasComponents} /> */}
-            <WrappedCanvasArea canvasComponents={canvasComponents} setCanvasComponents={setCanvasComponents}
+            <WrappedCanvasArea imageComponents={imageComponents} setImageComponents={setImageComponents}
                                 ref={canvasRef}  />
             <Sidebar addComponent={addComponent} />
         </div>

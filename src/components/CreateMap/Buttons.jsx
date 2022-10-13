@@ -1,12 +1,12 @@
 import React from "react";
 
-const Buttons = ({canvasComponents, setCanvasComponents}) => {
+const Buttons = ({imageComponents, setImageComponents}) => {
     const handleClearAll = () => {
-        setCanvasComponents([]);
+        setImageComponents([]);
     }
 
     const handleSave = () => {
-        console.log(canvasComponents);
+        console.log(imageComponents);
     }
 
     return (
