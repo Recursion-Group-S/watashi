@@ -1,13 +1,13 @@
 import React, { forwardRef, useRef, useState } from "react";
 import CanvasArea from "./CanvasArea";
 import Sidebar from "./Sidebar";
+import uuid from 'react-uuid'
 
 const CreateMap = () => {
     //Map内のコンポーネントの配列
     const [imageComponents, setImageComponents] = useState([]);
     const WrappedCanvasArea = forwardRef(CanvasArea);
     const canvasRef = useRef();
-    const [currentID, setCurrentId] = useState(1);
 
     const addComponent = (e, item)=>{
         // canvas外でドロップしてもcanvasComponentsには追加しない
@@ -25,9 +25,8 @@ const CreateMap = () => {
             height: 220,
             rotation: 0,
             url: item.url,
-            id: currentID.toString(),
+            id: uuid(),
         }
-        setCurrentId(currentID + 1);
         setImageComponents([...imageComponents, newComponent]);
     }
 
