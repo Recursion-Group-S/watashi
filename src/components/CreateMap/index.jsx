@@ -1,4 +1,7 @@
-import React, { forwardRef, useRef, useState } from "react";
+
+import React, { forwardRef, useRef, useState,useEffect } from "react";
+import { useNavigate } from "react-router-dom/dist";
+import { useAuth } from "../../hooks/useAuth";
 import CanvasArea from "./CanvasArea";
 import Sidebar from "./Sidebar";
 import uuid from 'react-uuid'
@@ -8,6 +11,8 @@ const CreateMap = () => {
     const [imageComponents, setImageComponents] = useState([]);
     const WrappedCanvasArea = forwardRef(CanvasArea);
     const canvasRef = useRef();
+    const navigate = useNavigate();
+    const { userAuth } = useAuth();
 
     const addComponent = (e, item)=>{
         // canvas外でドロップしてもcanvasComponentsには追加しない
@@ -29,8 +34,9 @@ const CreateMap = () => {
         }
         setImageComponents([...imageComponents, newComponent]);
     }
-
-
+      useEffect(() => {
+    if (!userAuth) navigate("/");
+  });
 
     return (
         <div className="flex gap-x-4">
@@ -40,5 +46,8 @@ const CreateMap = () => {
         </div>
     );
 }
+ 
+
+
 
 export default CreateMap;

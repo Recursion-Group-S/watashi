@@ -2,10 +2,7 @@ import React from "react";
 import '../index.css';
 
 import Header from "./Header";
-import Login from "./Login";
-import CreateMap from "./CreateMap";
-import CreateComponent from "./CreateComponent";
-import Gallery from "./Gallery";
+import { RouterConfig } from "./RouterConfig";
 
 const App = () => {
     return (
@@ -13,10 +10,7 @@ const App = () => {
             <Header />
             <div className="grid p-0 place-items-center" style={{ height: 'calc(100vh - 72px)' }}>
                 <div style={{ Width: 1110, Height: 696 }}>
-                    {/* <Login /> */}
-                    <CreateMap />
-                    {/* <CreateComponent /> */}
-                    {/* <Gallery /> */}
+                    <RouterConfig />
                 </div>
             </div>
         </div>
