@@ -1,21 +1,20 @@
 import React, { useEffect } from "react";
 import {
   GoogleAuthProvider,
-  signInWithRedirect,
   getRedirectResult,
+  signInWithPopup,
 } from "firebase/auth";
 import { auth } from "../client/firebase";
 import { useAuth } from "../hooks/useAuth";
+import { useNavigate } from "react-router-dom/dist";
 
 const Login = () => {
   const { setUserAuth } = useAuth();
   const provider = new GoogleAuthProvider();
-  const clickLogin = () => {
-    signInWithRedirect(auth, provider);
-  };
-
-  useEffect(() => {
-    getRedirectResult(auth)
+  const navigate = useNavigate();
+  const clickLogin = async () => {
+    await signInWithPopup(auth, provider);
+    await getRedirectResult(auth)
       .then((result) => {
         console.log(result.user);
         setUserAuth(result.user);
@@ -24,7 +23,8 @@ const Login = () => {
         console.error(err.code);
         console.error(err.message);
       });
-  });
+    navigate("/createMap");
+  };
 
   return (
     <div>
