@@ -1,20 +1,10 @@
-import { getBytes, getDownloadURL, listAll, ref, uploadBytes } from "firebase/storage";
-import { useAtomValue } from "jotai";
+import { async } from "@firebase/util";
+import { getDownloadURL, listAll, ref, uploadBytes } from "firebase/storage";
 import { useEffect, useState } from "react";
 import { storage } from "../../client/firebase";
 
 export const UploadImage = () => {
-  const [image, setImage] = useState(null);
-  const [createObjectURL, setCreateObjectURL] = useState(null);
   const [uploadedImages, setUploadedImages] = useState([]);
-  const uploadToClient = (event) => {
-    if (event.target.files && event.target.files[0]) {
-      const file = event.target.files[0];
-
-      setImage(file);
-      setCreateObjectURL(URL.createObjectURL(file));
-    }
-  };
   const postImage = async (image = null) => {
     let uploadResult = "";
     if (image.name) {
@@ -37,10 +27,30 @@ export const UploadImage = () => {
   };
   const uploadToServer = async (event) => {
     if (event.target.files && event.target.files[0]) {
-      const result = await postImage(event.target.files[0]);
-      console.log(result);
+      await postImage(event.target.files[0]);
+      await getUploadedImages(ref(storage, "/images"));
     }
   };
+  const getUploadedImages = async (reference) => {
+    const storageRef = ref(storage);
+    //listAllでアップロードした画像のfullPathを入手
+    await listAll(reference).then(async (result) => {
+      //入手したパスを用いて画像URLを取得。
+      await Promise.all(
+        result.items.map(async (reference) => {
+          const uploadRef = ref(storageRef, reference.fullPath);
+          return getDownloadURL(uploadRef);
+        })
+        //Promise.Allで解決したgetDownloadURLの戻り値をまとめて配列として返す。
+      ).then((uploadedImageURLs) => {
+        setUploadedImages(uploadedImageURLs);
+      });
+    });
+  };
+
+  useEffect(() => {
+    getUploadedImages(ref(storage, "/images"));
+  }, []);
 
   return (
     <>
@@ -53,14 +63,20 @@ export const UploadImage = () => {
         accept="image/*"
         onChange={uploadToServer}
       ></input>
-      {/* {uploadedImages.map(uploadedImage =>
-        
-        )}
-      <img
-        alt={image}
-        className="flex justify-center items-center"
-        src={createObjectURL}
-      /> */}
+      <div className="flex flex-wrap">
+        {uploadedImages.map((uploadedPath) => {
+          return (
+            <img
+              className="object-contain m-5"
+              width={100}
+              height={80}
+              key={uploadedPath}
+              alt={uploadedPath}
+              src={uploadedPath}
+            />
+          );
+        })}
+      </div>
     </>
   );
 };
