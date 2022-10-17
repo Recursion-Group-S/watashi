@@ -1,24 +1,44 @@
 import React from "react";
 
-const Sidebar = ({ userAction, setUserAction }) => {
+const Sidebar = ({ userAction, setUserAction, detailAction, setDetailAction, setFontFamily }) => {
 
     const chooseUserAction = (e) => {
         setUserAction(e.target.value);
     };
 
+    const chooseDetailAction = (e) => {
+        if(detailAction == e.target.value){
+            setDetailAction("");
+        }
+        else {
+            setDetailAction(e.target.value)
+        }
+    }
+
     const DisplaySidebarContent = () => {
-        if (userAction === "addText") {
+        if (userAction === "Text") {
             return (
                 <div>
+                    <div className="flex justify-center">
+                        <button className={`border p-3 rounded ${detailAction == 'addText' ? 'bg-gray-300': ''}`}
+                            value="addText"
+                            onClick={chooseDetailAction}>
+                            Add Text
+                        </button>
+                    </div>
+                    
                     <label className="block mb-1 text-sm font-medium text-gray-300">Select font-style</label>
-                    <select class="mb-2bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5">
-                        <option>font1</option>
-                        <option>font2</option>
-                        <option>font3</option>
+                    <select class="mb-2bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5"
+                            onChange={(e) => setFontFamily(e.target.value)}>
+                        <option value="Times New Roman">Times New Roman</option>
+                        <option value="Verdana">Verdana</option>
+                        <option value="Calibri">Calibri</option>
+                        <option value="Cambria">Cambria</option>
+                        <option value="Garamond">Garamond</option>
                     </select>
                 </div>
             );
-        } else if (userAction === "addIcon") {
+        } else if (userAction === "Icon") {
             return (
                 <div>
                     <label className="block mb-1 text-sm font-medium text-gray-300">Search icons</label>
@@ -38,7 +58,7 @@ const Sidebar = ({ userAction, setUserAction }) => {
                     </div>
                 </div>
             );
-        } else if (userAction === "addImage") {
+        } else if (userAction === "Image") {
             return (
                 <div>
                     <label className="block mb-1 text-sm font-medium text-gray-300">Upload images</label>
@@ -60,10 +80,10 @@ const Sidebar = ({ userAction, setUserAction }) => {
             <div className="p-6 overflow-y-scroll bg-white rounded drop-shadow" style={{ height: 650 }}>
                 <div className="w-5/6 mx-auto mb-6">
                     <div className="flex justify-between">
-                        <button onClick={chooseUserAction} value="addText">Text 💬</button>
-                        <button onClick={chooseUserAction} value="addIcon">Icon 😄</button>
-                        <button onClick={chooseUserAction} value="addImage">Image 🏞</button>
-                        <button onClick={chooseUserAction} value="controller">Conroller</button>
+                        <button onClick={chooseUserAction} value="Text">Text 💬</button>
+                        <button onClick={chooseUserAction} value="Icon">Icon 😄</button>
+                        <button onClick={chooseUserAction} value="Image">Image 🏞</button>
+                        <button onClick={chooseUserAction} value="Controller">Conroller</button>
                     </div>
                 </div>
                 <DisplaySidebarContent />

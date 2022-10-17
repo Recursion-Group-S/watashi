@@ -8,8 +8,9 @@ const TextComponent = ({ textProps, setInputPosition, setIsTyping, setSelectedTe
     const handleDblClick = () => {
         setSelectedText(textProps);
         setTextContent(textProps.text);
-        setHidingElement(componentRef.current);
+        setHidingElement([componentRef.current, trRef.current]);
         componentRef.current.hide();
+        trRef.current.hide();
         setIsTyping(true);
         let textPosition = componentRef.current.absolutePosition();
         setInputPosition({x: textPosition.x, y: textPosition.y});
@@ -29,6 +30,7 @@ const TextComponent = ({ textProps, setInputPosition, setIsTyping, setSelectedTe
                 x={textProps.x}
                 y={textProps.y}
                 fontSize={30}
+                fontFamily={textProps.fontFamily}
                 width={200}
                 draggable
                 onDblClick={handleDblClick}

@@ -2,23 +2,27 @@ import React, { useEffect, useRef, useState } from "react";
 import Buttons from "./Buttons";
 import TextComponent from "./TextComponent";
 import { Stage, Layer } from "react-konva";
+import uuid from "react-uuid";
 
-const CanvasArea = ({ userAction, setUserAction }) => {
+const CanvasArea = ({ userAction, setUserAction, detailAction, setDetailAction, fontFamily }) => {
     const [textComponents, setTextComponents] = useState([]);
-    const [currentId, setCurrentId] = useState(1);
     const [inputPosition, setInputPosition] = useState(null);
     const [isTyping, setIsTyping] = useState(false);
     const [selectedText, setSelectedText] = useState(null);
     const [textContent, setTextContent] = useState(null);
-    const [hidingElement, setHidingElement] = useState(null);
+    const [hidingElement, setHidingElement] = useState([]);
     const stageRef = useRef();
     const textAreaRef = useRef();
 
     function removeSelectedText(){
-        if(hidingElement) hidingElement.show();
+        if(hidingElement){
+            for(let ele of hidingElement){
+                ele.show();
+            }
+        }
         setIsTyping(false);
         setSelectedText(null);
-        setHidingElement(null);
+        setHidingElement([]);
     }
 
     const handleClick = (e) => {
@@ -26,7 +30,7 @@ const CanvasArea = ({ userAction, setUserAction }) => {
             if(textContent) selectedText.text = textContent;
             removeSelectedText();
         }
-        if(userAction == 'addText'){
+        if(userAction == 'Text' && detailAction == "addText"){
             let newTextComponent = {
                 text: 'New Text',
                 x: e.evt.clientX - stageRef.current.attrs.container.offsetLeft - 80,
@@ -34,14 +38,13 @@ const CanvasArea = ({ userAction, setUserAction }) => {
                 width: 200,
                 height: 30,
                 fontSize: 30,
-                fontFamily: 'Times New Roman',
+                fontFamily: fontFamily,
                 color: 'black',
                 rotation: 0,
-                id: currentId
+                id: uuid(),
             }
             setTextComponents([...textComponents, newTextComponent]);
-            setCurrentId(currentId + 1);
-            setUserAction('controller');
+            setDetailAction("");
         }
     }
 
@@ -56,13 +59,30 @@ const CanvasArea = ({ userAction, setUserAction }) => {
         }
     }
 
+    const deleteTextComponent = (e) => {
+        if(e.key == "Backspace" && selectedText && !isTyping){
+            setTextComponents(textComponents.filter(comp => comp.id != selectedText.id));
+        }
+    }
+
     useEffect(() => {
         if(isTyping){
             let end = textAreaRef.current.value.length;
             textAreaRef.current.setSelectionRange(end, end);
             textAreaRef.current.focus();
         }
-    },[isTyping])
+        window.addEventListener('keydown', deleteTextComponent)
+        return () => {
+            window.removeEventListener('keydown', deleteTextComponent);
+        };
+    },[isTyping, selectedText])
+
+    // useEffect(() => {
+    //     window.addEventListener('keydown', deleteTextComponent)
+    //     return () => {
+    //         window.removeEventListener('keydown', deleteTextComponent);
+    //     };
+    // },[selectedText])
 
    
 
