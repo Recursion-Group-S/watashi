@@ -9,7 +9,7 @@ const CreateComponent = () => {
     const navigate = useNavigate();
     const { userAuth } = useAuth();
     useEffect(() => {
-        if(!userAuth)navigate("/")
+        // if(!userAuth)navigate("/")
     })
     return (
         <div className="flex gap-x-4">
