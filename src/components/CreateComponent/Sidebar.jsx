@@ -1,6 +1,6 @@
 import React from "react";
 
-const Sidebar = ({ userAction, setUserAction, detailAction, setDetailAction, setFontFamily }) => {
+const Sidebar = ({ userAction, setUserAction, detailAction, setDetailAction, fontFamily, setFontFamily }) => {
 
     const chooseUserAction = (e) => {
         setUserAction(e.target.value);
@@ -29,12 +29,13 @@ const Sidebar = ({ userAction, setUserAction, detailAction, setDetailAction, set
                     
                     <label className="block mb-1 text-sm font-medium text-gray-300">Select font-style</label>
                     <select class="mb-2bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5"
+                            value={fontFamily}
                             onChange={(e) => setFontFamily(e.target.value)}>
-                        <option value="Times New Roman">Times New Roman</option>
-                        <option value="Verdana">Verdana</option>
-                        <option value="Calibri">Calibri</option>
-                        <option value="Cambria">Cambria</option>
-                        <option value="Garamond">Garamond</option>
+                        <option value="Potta One" style={{fontFamily: 'Potta One'}}>Potta One</option>
+                        <option value="Hachi Maru Pop" style={{fontFamily: 'Hachi Maru Pop'}}>Hachi Maru Pop</option>
+                        <option value="Yomogi" style={{fontFamily: 'Yomogi'}}>Yomogi</option>
+                        <option value="Hina Mincho" style={{fontFamily: 'Hina Mincho'}}>Hina Mincho</option>
+                        <option value="RocknRoll One" style={{fontFamily: 'RocknRoll One'}}>RocknRoll One</option>
                     </select>
                 </div>
             );

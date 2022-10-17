@@ -4,7 +4,7 @@ import TextComponent from "./TextComponent";
 import { Stage, Layer } from "react-konva";
 import uuid from "react-uuid";
 
-const CanvasArea = ({ userAction, setUserAction, detailAction, setDetailAction, fontFamily }) => {
+const CanvasArea = ({ userAction, setUserAction, detailAction, setDetailAction, fontFamily, setFontFamily }) => {
     const [textComponents, setTextComponents] = useState([]);
     const [inputPosition, setInputPosition] = useState(null);
     const [isTyping, setIsTyping] = useState(false);
@@ -71,19 +71,21 @@ const CanvasArea = ({ userAction, setUserAction, detailAction, setDetailAction, 
             textAreaRef.current.setSelectionRange(end, end);
             textAreaRef.current.focus();
         }
+        if(selectedText){
+            setFontFamily(selectedText.fontFamily);
+        }
         window.addEventListener('keydown', deleteTextComponent)
         return () => {
             window.removeEventListener('keydown', deleteTextComponent);
         };
     },[isTyping, selectedText])
 
-    // useEffect(() => {
-    //     window.addEventListener('keydown', deleteTextComponent)
-    //     return () => {
-    //         window.removeEventListener('keydown', deleteTextComponent);
-    //     };
-    // },[selectedText])
-
+    useEffect(() => {
+        if(selectedText){
+            selectedText.fontFamily = fontFamily;
+            removeSelectedText();
+        }
+    },[fontFamily])
    
 
     return (
