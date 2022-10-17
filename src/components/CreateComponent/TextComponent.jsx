@@ -49,6 +49,7 @@ const TextComponent = ({ textProps, setInputPosition, setIsTyping, setSelectedTe
                     textProps.rotation = node.attrs.rotation;
                     textProps.width = node.attrs.width;
                     textProps.height = node.attrs.height;
+                    console.log(node.attrs.width);
                 }}
                 ref={componentRef}
             />
@@ -57,7 +58,10 @@ const TextComponent = ({ textProps, setInputPosition, setIsTyping, setSelectedTe
                     enabledAnchors= {['middle-left', 'middle-right']}
                     ref={trRef}
                     boundBoxFunc={(oldBox, newBox) => {
-                        newBox.width = Math.max(30, newBox.width);
+                        if(newBox.width < 200){
+                            return oldBox;
+                        }
+                        newBox.width = Math.max(200, newBox.width);
                         return newBox;
                     }}
                 />
