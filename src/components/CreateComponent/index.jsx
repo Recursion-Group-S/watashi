@@ -8,9 +8,9 @@ import Sidebar from "./Sidebar";
 const CreateComponent = () => {
     const navigate = useNavigate();
     const { userAuth } = useAuth();
-    useEffect(() => {
-        if(!userAuth)navigate("/")
-    })
+    // useEffect(() => {
+    //     if(!userAuth)navigate("/")
+    // })
     return (
         <div className="flex gap-x-4">
             <CanvasArea />
