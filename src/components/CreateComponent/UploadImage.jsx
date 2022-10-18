@@ -1,34 +1,31 @@
 import { async } from "@firebase/util";
 import { getDownloadURL, listAll, ref, uploadBytes } from "firebase/storage";
+import { useAtomValue } from "jotai";
 import { useEffect, useState } from "react";
+import { authUserAtom } from "../../atoms/authUser";
 import { storage } from "../../client/firebase";
 
 export const UploadImage = () => {
   const [uploadedImages, setUploadedImages] = useState([]);
+  const userAuth = useAtomValue(authUserAtom);
+
   const postImage = async (image = null) => {
     let uploadResult = "";
     if (image.name) {
       const storageRef = ref(storage);
       const ext = image.name.split(".").pop();
       const hashName = Math.random().toString(36).slice(-8);
-      const fullPath = "/images/" + hashName + "." + ext;
+      const fullPath = `/images/${userAuth.uid}/` + hashName + "." + ext;
       const uploadRef = ref(storageRef, fullPath);
 
-      await uploadBytes(uploadRef, image).then(async (result) => {
-        console.log(result);
-        console.log("Uploaded a blob or file!");
-
-        await getDownloadURL(uploadRef).then((url) => {
-          uploadResult = url;
-        });
-      });
+      await uploadBytes(uploadRef, image);
     }
     return uploadResult;
   };
   const uploadToServer = async (event) => {
     if (event.target.files && event.target.files[0]) {
       await postImage(event.target.files[0]);
-      await getUploadedImages(ref(storage, "/images"));
+      await getUploadedImages(ref(storage, `/images/${userAuth.uid}/`));
     }
   };
   const getUploadedImages = async (reference) => {
@@ -49,7 +46,8 @@ export const UploadImage = () => {
   };
 
   useEffect(() => {
-    getUploadedImages(ref(storage, "/images"));
+    console.log(userAuth.uid);
+    getUploadedImages(ref(storage, `/images/${userAuth.uid}/`));
   }, []);
 
   return (
