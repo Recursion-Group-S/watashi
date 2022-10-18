@@ -7,7 +7,7 @@ const CreateComponent = () => {
     const [userAction, setUserAction] = useState("Text");
     const [detailAction, setDetailAction] = useState("");
     const [fontFamily, setFontFamily] = useState("Potta One");
-    const [color, setColor] = useState('#aaaaaa')
+    const [color, setColor] = useState('#000000')
     const [fontSize, setFontSize] = useState(30);
 
     return (
