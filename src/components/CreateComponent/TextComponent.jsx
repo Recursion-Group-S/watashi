@@ -58,9 +58,6 @@ const TextComponent = ({ textProps, setInputPosition, setIsTyping, setSelectedTe
                     enabledAnchors= {['middle-left', 'middle-right']}
                     ref={trRef}
                     boundBoxFunc={(oldBox, newBox) => {
-                        if(newBox.width < 200){
-                            return oldBox;
-                        }
                         newBox.width = Math.max(200, newBox.width);
                         return newBox;
                     }}
