@@ -17,7 +17,7 @@ const Sidebar = () => {
           <label className="block mb-1 text-sm font-medium text-gray-300">
             Select font-style
           </label>
-          <select class="mb-2bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5">
+          <select className="mb-2bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5">
             <option>font1</option>
             <option>font2</option>
             <option>font3</option>

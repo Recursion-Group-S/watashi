@@ -1,9 +1,29 @@
-import React from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { useSetAtom } from "jotai";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { authUserAtom } from "../atoms/authUser";
+import { auth } from "../client/firebase";
 import "../index.css";
 
 import Header from "./Header";
 
 const Container = ({ children }) => {
+  const navigate = useNavigate();
+  const setUserAuth = useSetAtom(authUserAtom);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUserAuth(user);
+      } else {
+        setUserAuth(null);
+        navigate("/");
+      }
+    });
+    return () => unsubscribe();
+  }, []);
+
   return (
     <div className="bg-slate-100 h-screen">
       <Header />

@@ -1,29 +1,20 @@
-import React, { useEffect } from "react";
-import {
-  GoogleAuthProvider,
-  getRedirectResult,
-  signInWithPopup,
-} from "firebase/auth";
+import React from "react";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "../client/firebase";
-import { useAuth } from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom/dist";
+import { authUserAtom } from "../atoms/authUser";
+import { useSetAtom } from "jotai";
 
 const Login = () => {
-  const { setUserAuth } = useAuth();
+  // const { setUserAuth } = useAuth();
   const provider = new GoogleAuthProvider();
   const navigate = useNavigate();
+  const setUserAuth = useSetAtom(authUserAtom);
   const clickLogin = async () => {
-    await signInWithPopup(auth, provider);
-    await getRedirectResult(auth)
-      .then((result) => {
-        console.log(result.user);
-        setUserAuth(result.user);
-      })
-      .catch((err) => {
-        console.error(err.code);
-        console.error(err.message);
-      });
-    navigate("/createMap");
+    await signInWithPopup(auth, provider).then((result) => {
+      setUserAuth(result.user);
+      navigate("/createMap");
+    });
   };
 
   return (

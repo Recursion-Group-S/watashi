@@ -1,14 +1,7 @@
-import { React, useEffect } from "react";
+import { React } from "react";
 import MapList from "./MapList";
-import { useNavigate } from "react-router-dom/dist";
-import { useAuth } from "../../hooks/useAuth";
 
 const Gallery = () => {
-  const navigate = useNavigate();
-  const { userAuth } = useAuth();
-  useEffect(() => {
-    if (!userAuth) navigate("/");
-  });
   return (
     <div className="w-screen">
       <div className="w-2/3 mx-auto mb-6 flex">
@@ -24,14 +17,14 @@ const Gallery = () => {
       >
         <MapList />
       </div>
-      <div class="flex justify-center gap-1">
+      <div className="flex justify-center gap-1">
         <a
           href="/?page=1"
-          class="inline-flex h-8 w-8 items-center justify-center rounded border border-gray-100"
+          className="inline-flex h-8 w-8 items-center justify-center rounded border border-gray-100"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="h-3 w-3"
+            className="h-3 w-3"
             viewBox="0 0 20 20"
             fill="currentColor"
           >
@@ -45,18 +38,18 @@ const Gallery = () => {
 
         <input
           type="number"
-          class="w-12 rounded border border-gray-100 p-0 text-center text-xs font-medium [-moz-appearance:_textfield] [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none"
+          className="w-12 rounded border border-gray-100 p-0 text-center text-xs font-medium [-moz-appearance:_textfield] [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none"
           min="1"
           value="2"
         />
 
         <a
           href="/?page=3"
-          class="inline-flex h-8 w-8 items-center justify-center rounded border border-gray-100"
+          className="inline-flex h-8 w-8 items-center justify-center rounded border border-gray-100"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="h-3 w-3"
+            className="h-3 w-3"
             viewBox="0 0 20 20"
             fill="currentColor"
           >
