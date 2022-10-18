@@ -38,7 +38,7 @@ const CanvasArea = ({ userAction, detailAction, setDetailAction, fontFamily, set
                 height: 30,
                 fontSize: fontSize,
                 fontFamily: fontFamily,
-                color: color.hex,
+                color: color,
                 rotation: 0,
                 id: uuid(),
             }
@@ -73,6 +73,7 @@ const CanvasArea = ({ userAction, detailAction, setDetailAction, fontFamily, set
         if(selectedText){
             setFontFamily(selectedText.fontFamily);
             setFontSize(selectedText.fontSize);
+            setColor(selectedText.color);
         }
         window.addEventListener('keydown', deleteTextComponent)
         return () => {
@@ -89,7 +90,7 @@ const CanvasArea = ({ userAction, detailAction, setDetailAction, fontFamily, set
 
     useEffect(() => {
         if(selectedText){
-            selectedText.color = color.hex;
+            selectedText.color = color;
         }
     },[color])
 

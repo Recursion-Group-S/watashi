@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import CanvasArea from "./CanvasArea";
 import Sidebar from "./Sidebar";
-import { useColor } from "react-color-palette";
 
 
 const CreateComponent = () => {
     const [userAction, setUserAction] = useState("Text");
     const [detailAction, setDetailAction] = useState("");
     const [fontFamily, setFontFamily] = useState("Potta One");
-    const [color, setColor] = useColor("hex", "#121212");
+    const [color, setColor] = useState('#aaaaaa')
     const [fontSize, setFontSize] = useState(30);
 
     return (

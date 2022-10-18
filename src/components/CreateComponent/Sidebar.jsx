@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
-import { ColorPicker } from "react-color-palette";
-import "react-color-palette/lib/css/styles.css";
+import React from "react";
+import { HexColorPicker } from "react-colorful";
 
 const Sidebar = ({ userAction, setUserAction, detailAction, setDetailAction, fontFamily, setFontFamily, color, setColor, fontSize, setFontSize }) => {
 
@@ -48,9 +47,9 @@ const Sidebar = ({ userAction, setUserAction, detailAction, setDetailAction, fon
                         <option value="RocknRoll One" style={{fontFamily: 'RocknRoll One'}}>RocknRoll One</option>
                     </select>
                     <div className="flex justify-center m-5">
-                        <ColorPicker width={400} height={200} color={color} 
-                        onChange={setColor} 
-                        hideHSV hideRGB hideHEX dark />
+                        <HexColorPicker color={color} onChange={setColor}
+                        style={{ width: 300}}
+                        />
                     </div>
                     
                 </div>
