@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { ColorPicker } from "react-color-palette";
+import "react-color-palette/lib/css/styles.css";
 
-const Sidebar = ({ userAction, setUserAction, detailAction, setDetailAction, fontFamily, setFontFamily }) => {
+const Sidebar = ({ userAction, setUserAction, detailAction, setDetailAction, fontFamily, setFontFamily, color, setColor, fontSize, setFontSize }) => {
 
     const chooseUserAction = (e) => {
         setUserAction(e.target.value);
@@ -16,6 +18,7 @@ const Sidebar = ({ userAction, setUserAction, detailAction, setDetailAction, fon
     }
 
     const DisplaySidebarContent = () => {
+        
         if (userAction === "Text") {
             return (
                 <div>
@@ -25,6 +28,13 @@ const Sidebar = ({ userAction, setUserAction, detailAction, setDetailAction, fon
                             onClick={chooseDetailAction}>
                             Add Text
                         </button>
+                    </div>
+                    <div className="flex justify-center m-3">
+                        <p>Select font size:</p>
+                        <input className="border w-20 ml-3" type='number'
+                            value={fontSize}
+                            onChange={(e) => setFontSize(e.target.value)}
+                        />
                     </div>
                     
                     <label className="block mb-1 text-sm font-medium text-gray-300">Select font-style</label>
@@ -37,6 +47,12 @@ const Sidebar = ({ userAction, setUserAction, detailAction, setDetailAction, fon
                         <option value="Hina Mincho" style={{fontFamily: 'Hina Mincho'}}>Hina Mincho</option>
                         <option value="RocknRoll One" style={{fontFamily: 'RocknRoll One'}}>RocknRoll One</option>
                     </select>
+                    <div className="flex justify-center m-5">
+                        <ColorPicker width={400} height={200} color={color} 
+                        onChange={setColor} 
+                        hideHSV hideRGB hideHEX dark />
+                    </div>
+                    
                 </div>
             );
         } else if (userAction === "Icon") {

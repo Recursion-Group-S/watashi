@@ -29,10 +29,11 @@ const TextComponent = ({ textProps, setInputPosition, setIsTyping, setSelectedTe
                 text={textProps.text}
                 x={textProps.x}
                 y={textProps.y}
-                fontSize={30}
+                fontSize={textProps.fontSize}
                 fontFamily={textProps.fontFamily}
                 width={200}
                 draggable
+                fill={textProps.color}
                 onDblClick={handleDblClick}
                 onDblTap={handleDblClick}
                 onClick={() => setSelectedText(textProps)}
@@ -49,7 +50,6 @@ const TextComponent = ({ textProps, setInputPosition, setIsTyping, setSelectedTe
                     textProps.rotation = node.attrs.rotation;
                     textProps.width = node.attrs.width;
                     textProps.height = node.attrs.height;
-                    console.log(node.attrs.width);
                 }}
                 ref={componentRef}
             />

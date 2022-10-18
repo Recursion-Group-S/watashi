@@ -4,7 +4,7 @@ import TextComponent from "./TextComponent";
 import { Stage, Layer } from "react-konva";
 import uuid from "react-uuid";
 
-const CanvasArea = ({ userAction, setUserAction, detailAction, setDetailAction, fontFamily, setFontFamily }) => {
+const CanvasArea = ({ userAction, detailAction, setDetailAction, fontFamily, setFontFamily, color, setColor, fontSize, setFontSize }) => {
     const [textComponents, setTextComponents] = useState([]);
     const [inputPosition, setInputPosition] = useState(null);
     const [isTyping, setIsTyping] = useState(false);
@@ -27,7 +27,6 @@ const CanvasArea = ({ userAction, setUserAction, detailAction, setDetailAction, 
 
     const handleClick = (e) => {
         if(selectedText && stageRef.current == e.target){
-            if(textContent) selectedText.text = textContent;
             removeSelectedText();
         }
         if(userAction == 'Text' && detailAction == "addText"){
@@ -37,9 +36,9 @@ const CanvasArea = ({ userAction, setUserAction, detailAction, setDetailAction, 
                 y: e.evt.clientY - stageRef.current.attrs.container.getBoundingClientRect().top - 10,
                 width: 200,
                 height: 30,
-                fontSize: 30,
+                fontSize: fontSize,
                 fontFamily: fontFamily,
-                color: 'black',
+                color: color.hex,
                 rotation: 0,
                 id: uuid(),
             }
@@ -73,6 +72,7 @@ const CanvasArea = ({ userAction, setUserAction, detailAction, setDetailAction, 
         }
         if(selectedText){
             setFontFamily(selectedText.fontFamily);
+            setFontSize(selectedText.fontSize);
         }
         window.addEventListener('keydown', deleteTextComponent)
         return () => {
@@ -86,6 +86,18 @@ const CanvasArea = ({ userAction, setUserAction, detailAction, setDetailAction, 
             removeSelectedText();
         }
     },[fontFamily])
+
+    useEffect(() => {
+        if(selectedText){
+            selectedText.color = color.hex;
+        }
+    },[color])
+
+    useEffect(() => {
+        if(selectedText){
+            selectedText.fontSize = fontSize;
+        }
+    },[fontSize])
    
 
     return (
@@ -115,7 +127,10 @@ const CanvasArea = ({ userAction, setUserAction, detailAction, setDetailAction, 
                     {isTyping &&
                         <textarea 
                             value={textContent}
-                            onChange={(e) => setTextContent(e.target.value)}
+                            onChange={(e) =>{
+                                setTextContent(e.target.value);
+                                selectedText.text = e.target.value;
+                            }}
                             className="absolute border-none p-0 m-0 overflow-hidden outline-none 
                                        resize-none leading-none origin-top-left"
                             ref={textAreaRef}
