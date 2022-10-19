@@ -1,9 +1,12 @@
+import { useAtom } from "jotai";
 import React, { useRef, useEffect } from "react";
 import { Text, Transformer } from "react-konva";
+import { inputPositionAtom } from "../../atoms/TextAtom";
 
-const TextComponent = ({ textProps, setInputPosition, setIsTyping, setSelectedText, setTextContent, setHidingElement, isSelected }) => {
+const TextComponent = ({ textProps, setIsTyping, setSelectedText, setTextContent, setHidingElement, isSelected }) => {
     const componentRef = useRef();
     const trRef = useRef();
+    const [, setInputPosition] = useAtom(inputPositionAtom);
 
     const handleDblClick = () => {
         setSelectedText(textProps);
@@ -58,7 +61,7 @@ const TextComponent = ({ textProps, setInputPosition, setIsTyping, setSelectedTe
                     enabledAnchors= {['middle-left', 'middle-right']}
                     ref={trRef}
                     boundBoxFunc={(oldBox, newBox) => {
-                        newBox.width = Math.max(200, newBox.width);
+                        newBox.width = Math.max(100, newBox.width);
                         return newBox;
                     }}
                 />

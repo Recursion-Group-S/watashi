@@ -3,14 +3,22 @@ import Buttons from "./Buttons";
 import TextComponent from "./TextComponent";
 import { Stage, Layer } from "react-konva";
 import uuid from "react-uuid";
+import { useAtom, useAtomValue } from "jotai";
+import { fontFamilyAtom, fontSizeAtom, inputPositionAtom, textColorAtom, textComponentsAtom } from "../../atoms/TextAtom";
+import { detailActionAtom, userActionAtom } from "../../atoms/Atoms";
 
-const CanvasArea = ({ userAction, detailAction, setDetailAction, fontFamily, setFontFamily, color, setColor, fontSize, setFontSize }) => {
-    const [textComponents, setTextComponents] = useState([]);
-    const [inputPosition, setInputPosition] = useState(null);
+const CanvasArea = () => {
+    const [userAction] = useAtom(userActionAtom);
+    const [detailAction, setDetailAction] = useAtom(detailActionAtom);
+    const [textComponents, setTextComponents] = useAtom(textComponentsAtom);
+    const [inputPosition] = useAtom(inputPositionAtom);
     const [isTyping, setIsTyping] = useState(false);
     const [selectedText, setSelectedText] = useState(null);
     const [textContent, setTextContent] = useState(null);
     const [hidingElement, setHidingElement] = useState([]);
+    const [color, setColor] = useAtom(textColorAtom);
+    const [fontFamily, setFontFamily] = useAtom(fontFamilyAtom);
+    const [fontSize, setFontSize] = useAtom(fontSizeAtom);
     const stageRef = useRef();
     const textAreaRef = useRef();
 
@@ -115,7 +123,6 @@ const CanvasArea = ({ userAction, detailAction, setDetailAction, fontFamily, set
                                 <TextComponent 
                                     key={component.id}
                                     textProps={component}
-                                    setInputPosition={setInputPosition}
                                     setIsTyping={setIsTyping}
                                     setSelectedText={setSelectedText}
                                     setTextContent={setTextContent}

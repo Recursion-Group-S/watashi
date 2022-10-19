@@ -1,7 +1,16 @@
+import { useAtom } from "jotai";
 import React from "react";
 import { HexColorPicker } from "react-colorful";
+import { detailActionAtom, userActionAtom } from "../../atoms/Atoms";
+import { fontFamilyAtom, fontSizeAtom, textColorAtom } from "../../atoms/TextAtom";
 
-const Sidebar = ({ userAction, setUserAction, detailAction, setDetailAction, fontFamily, setFontFamily, color, setColor, fontSize, setFontSize }) => {
+const Sidebar = () => {
+    const [userAction, setUserAction] = useAtom(userActionAtom);
+    const [detailAction, setDetailAction] = useAtom(detailActionAtom);
+
+    const [color, setColor] = useAtom(textColorAtom);
+    const [fontFamily, setFontFamily] = useAtom(fontFamilyAtom);
+    const [fontSize, setFontSize] = useAtom(fontSizeAtom);
 
     const chooseUserAction = (e) => {
         setUserAction(e.target.value);
