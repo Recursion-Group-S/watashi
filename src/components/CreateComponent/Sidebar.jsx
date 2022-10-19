@@ -97,7 +97,6 @@ const Sidebar = () => {
         } else if (userAction === "addImage") {
            return <UploadImage />;
         }
-    }
   };
 
     return (
