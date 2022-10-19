@@ -1,5 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import { UploadImage } from "./UploadImage";
 
 import FlaticonWrapper from "../../apis/flaticon.js";
 
@@ -70,9 +71,9 @@ const Sidebar = () => {
         setIcons(icons.data);
     };
 
-    const chooseUserAction = (e) => {
-        setUserAction(e.target.value);
-    };
+  const chooseUserAction = (e) => {
+    setUserAction(e.target.value);
+  };
 
     const DisplaySidebarContent = () => {
         if (userAction === "addText") {
@@ -95,13 +96,11 @@ const Sidebar = () => {
             );
         } else if (userAction === "addImage") {
             return (
-                <div>
-                    <label className="block mb-1 text-sm font-medium text-gray-300">Upload images</label>
-                    <input type="file" className="text-sm"></input>
-                </div>
+               return <UploadImage />;
             );
         }
     }
+  };
 
     return (
         <div style={{ width: 444 }}>
