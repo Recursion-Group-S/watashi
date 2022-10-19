@@ -144,13 +144,13 @@ const CanvasArea = () => {
                                 left: inputPosition.x + stageRef.current.attrs.container.offsetLeft,
                                 top: inputPosition.y + stageRef.current.attrs.container.offsetTop,
                                 width: selectedText.width,
-                                height: selectedText.height,
-                                fontSize: selectedText.fontSize,
+                                height: 'auto',
+                                fontSize: selectedText.fontSize + 'px',
                                 background: 'none',
                                 fontFamily: selectedText.fontFamily,
                                 color: selectedText.color,
                                 rotation: selectedText.rotation,
-                                transform: `rotateZ(${selectedText.rotation}deg)`,
+                                transform: `rotateZ(${selectedText.rotation}deg)translateY(-${0}px)`,
                             }}
                             onKeyDown={handleTextKeyDown}
                         />

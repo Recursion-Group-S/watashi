@@ -47,8 +47,10 @@ const TextComponent = ({ textProps, setIsTyping, setSelectedText, setHidingEleme
                 }}
                 onTransform={() =>{
                     const node = componentRef.current;
-                    node.attrs.width = node.width() * node.scaleX();
-                    node.scaleX(1);
+                    node.setAttrs({
+                        width: node.width() * node.scaleX(),
+                        scaleX: 1,
+                    });
                     textProps.rotation = node.attrs.rotation;
                     textProps.width = node.attrs.width;
                     textProps.height = node.attrs.height;
