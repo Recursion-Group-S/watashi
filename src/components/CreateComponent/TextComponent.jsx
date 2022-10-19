@@ -3,14 +3,13 @@ import React, { useRef, useEffect } from "react";
 import { Text, Transformer } from "react-konva";
 import { inputPositionAtom } from "../../atoms/TextAtom";
 
-const TextComponent = ({ textProps, setIsTyping, setSelectedText, setTextContent, setHidingElement, isSelected }) => {
+const TextComponent = ({ textProps, setIsTyping, setSelectedText, setHidingElement, isSelected }) => {
     const componentRef = useRef();
     const trRef = useRef();
     const [, setInputPosition] = useAtom(inputPositionAtom);
 
     const handleDblClick = () => {
         setSelectedText(textProps);
-        setTextContent(textProps.text);
         setHidingElement([componentRef.current, trRef.current]);
         componentRef.current.hide();
         trRef.current.hide();
@@ -41,12 +40,12 @@ const TextComponent = ({ textProps, setIsTyping, setSelectedText, setTextContent
                 onDblTap={handleDblClick}
                 onClick={() => setSelectedText(textProps)}
                 onTap={() => setSelectedText(textProps)}
-                onDragEnd={(e) => {
+                onDragEnd={() => {
                     const node = componentRef.current;
                     textProps.x = node.attrs.x;
                     textProps.y = node.attrs.y;
                 }}
-                onTransform={(e) =>{
+                onTransform={() =>{
                     const node = componentRef.current;
                     node.attrs.width = node.width() * node.scaleX();
                     node.scaleX(1);

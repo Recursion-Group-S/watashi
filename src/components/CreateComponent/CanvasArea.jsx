@@ -3,7 +3,7 @@ import Buttons from "./Buttons";
 import TextComponent from "./TextComponent";
 import { Stage, Layer } from "react-konva";
 import uuid from "react-uuid";
-import { useAtom, useAtomValue } from "jotai";
+import { useAtom } from "jotai";
 import { fontFamilyAtom, fontSizeAtom, inputPositionAtom, textColorAtom, textComponentsAtom } from "../../atoms/TextAtom";
 import { detailActionAtom, userActionAtom } from "../../atoms/Atoms";
 
@@ -14,7 +14,7 @@ const CanvasArea = () => {
     const [inputPosition] = useAtom(inputPositionAtom);
     const [isTyping, setIsTyping] = useState(false);
     const [selectedText, setSelectedText] = useState(null);
-    const [textContent, setTextContent] = useState(null);
+    const [, setTextContent] = useState(null);
     const [hidingElement, setHidingElement] = useState([]);
     const [color, setColor] = useAtom(textColorAtom);
     const [fontFamily, setFontFamily] = useAtom(fontFamilyAtom);
@@ -58,7 +58,6 @@ const CanvasArea = () => {
    
     const handleTextKeyDown = (e) => {
         if(e.key == 'Enter' && !e.shiftKey){
-            selectedText.text = textContent;
             removeSelectedText();
         }
         if(e.key == 'Escape'){
@@ -125,7 +124,6 @@ const CanvasArea = () => {
                                     textProps={component}
                                     setIsTyping={setIsTyping}
                                     setSelectedText={setSelectedText}
-                                    setTextContent={setTextContent}
                                     setHidingElement={setHidingElement}
                                     isSelected={component == selectedText}
                                 />
@@ -134,7 +132,7 @@ const CanvasArea = () => {
                     </Stage>
                     {isTyping &&
                         <textarea 
-                            value={textContent}
+                            value={selectedText.text}
                             onChange={(e) =>{
                                 setTextContent(e.target.value);
                                 selectedText.text = e.target.value;
