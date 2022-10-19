@@ -22,7 +22,7 @@ const CanvasArea = () => {
     const stageRef = useRef();
     const textAreaRef = useRef();
 
-    function removeSelectedText(){
+    function cancelSelectedText(){
         if(hidingElement){
             for(let ele of hidingElement){
                 ele.show();
@@ -35,10 +35,11 @@ const CanvasArea = () => {
 
     const handleClick = (e) => {
         if(selectedText && stageRef.current == e.target){
-            removeSelectedText();
+            cancelSelectedText();
         }
         if(userAction == 'Text' && detailAction == "addText"){
             let newTextComponent = {
+                type: 'Text',
                 text: 'New Text',
                 x: e.evt.clientX - stageRef.current.attrs.container.offsetLeft - 80,
                 y: e.evt.clientY - stageRef.current.attrs.container.getBoundingClientRect().top - 10,
@@ -57,11 +58,8 @@ const CanvasArea = () => {
 
    
     const handleTextKeyDown = (e) => {
-        if(e.key == 'Enter' && !e.shiftKey){
-            removeSelectedText();
-        }
-        if(e.key == 'Escape'){
-            removeSelectedText();
+        if(e.key == 'Enter' && !e.shiftKey || e.key == 'Escape'){
+            cancelSelectedText();
         }
     }
 
@@ -91,7 +89,7 @@ const CanvasArea = () => {
     useEffect(() => {
         if(selectedText){
             selectedText.fontFamily = fontFamily;
-            removeSelectedText();
+            cancelSelectedText();
         }
     },[fontFamily])
 

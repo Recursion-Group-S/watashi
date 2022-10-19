@@ -7,7 +7,6 @@ import { fontFamilyAtom, fontSizeAtom, textColorAtom } from "../../atoms/TextAto
 const Sidebar = () => {
     const [userAction, setUserAction] = useAtom(userActionAtom);
     const [detailAction, setDetailAction] = useAtom(detailActionAtom);
-
     const [color, setColor] = useAtom(textColorAtom);
     const [fontFamily, setFontFamily] = useAtom(fontFamilyAtom);
     const [fontSize, setFontSize] = useAtom(fontSizeAtom);
