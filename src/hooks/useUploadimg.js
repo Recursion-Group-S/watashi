@@ -1,4 +1,4 @@
-import { getDownloadURL, listAll, ref, uploadBytes } from "firebase/storage";
+import { deleteObject, getDownloadURL, listAll, ref, uploadBytes } from "firebase/storage";
 import { useAtomValue } from "jotai";
 import { useEffect, useState } from "react";
 import { authUserAtom } from "../atoms/authUser";
@@ -35,7 +35,11 @@ export const useUploadImg = () => {
       await Promise.all(
         result.items.map(async (reference) => {
           const uploadRef = ref(storageRef, reference.fullPath);
-          return getDownloadURL(uploadRef);
+          const res = {
+            path: reference.fullPath,
+            url: await getDownloadURL(uploadRef),
+          };
+          return res;
         })
         //Promise.Allで解決したgetDownloadURLの戻り値をまとめて配列として返す。
       ).then((uploadedImageURLs) => {
@@ -43,10 +47,16 @@ export const useUploadImg = () => {
       });
     });
   };
+  const deleteUploadedImage = async (path = null) => {
+    const copyArray = [...uploadedImages].filter(uploadedImage => uploadedImage.path !== path);
+    setUploadedImages(copyArray);
+    const desertRef = ref(storage, path);
+    await deleteObject(desertRef);
+  }
 
   useEffect(() => {
     getUploadedImages(ref(storage, `/images/${userAuth.uid}/`));
   }, []);
 
-  return { uploadedImages, uploadToServer }
+  return { uploadedImages, uploadToServer, deleteUploadedImage }
 }
