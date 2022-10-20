@@ -3,6 +3,9 @@ import { useState, useEffect } from "react";
 import { UploadImage } from "./UploadImage";
 
 import FlaticonWrapper from "../../apis/flaticon.js";
+import { canvasIconsAtom, canvasRefAtom } from "../../atoms/ComponentAtom";
+import { useAtom } from "jotai";
+import { useNewItem } from "../../hooks/useNewItem";
 
 const SearchBar = (props) => {
     const [searchTerm, setSearchTerm] = useState("");
@@ -34,17 +37,27 @@ const SearchBar = (props) => {
 }
 
 const IconList = (props) => {
+    const [canvasAtom] = useAtom(canvasRefAtom);
+    const { isValidDrop, createAddItem } = useNewItem();
+    const [canvasIcons, setCanvasIcons] = useAtom(canvasIconsAtom);
     const addIcon = (e) => {
         e.preventDefault();
-        let x = e.clientX;
-        let y = e.clientY;
+        if (!isValidDrop(e, canvasAtom)) {
+            return;
+        }
+
         let icon = props.icons.find(icon => icon.id === parseInt(e.target.id));
-        let iconComponent = {
-            x: x,
-            y: y,
+        let newIcon = {
+            x: e.clientX,
+            y: e.clientY,
             url: icon.images[256],
         }
-        console.log(iconComponent);
+        createAddItem(newIcon, canvasAtom, canvasIcons, setCanvasIcons);
+        /*
+            shift座標の計算
+            CanvasAreaのLayerにImageとしてcanvasIconsを追加(ImageComponentsとほぼ同じ)
+            Icon削除、選択作業(selectedText --> selectedItem)
+        */
     }
     const renderedItem = props.icons.map((icon) => {
         return (
@@ -57,7 +70,7 @@ const IconList = (props) => {
                     className="mx-auto"
                     id={icon.id}
                     draggable
-                    onDragEnd={(e) => addIcon(e)}
+                    onDragEnd={addIcon}
                 />
             </div>
         )

@@ -1,7 +1,6 @@
-import React, { forwardRef, useRef, useState } from "react";
+import React, { forwardRef, useRef } from "react";
 import CanvasArea from "./CanvasArea";
 import Sidebar from "./Sidebar";
-import uuid from "react-uuid";
 import { useNewItem } from "../../hooks/useNewItem";
 import { useAtom } from "jotai";
 import { imageComponentsAtom } from "../../atoms/MapAtom";
