@@ -18,6 +18,23 @@ const TextComponent = ({ textProps, setIsTyping, setSelectedText, setHidingEleme
         setInputPosition({x: textPosition.x, y: textPosition.y});
     } 
 
+    const handleDragEnd = () => {
+        const node = componentRef.current;
+        textProps.x = node.attrs.x;
+        textProps.y = node.attrs.y;
+    }
+
+    const handleTransform = () => {
+        const node = componentRef.current;
+        node.setAttrs({
+            width: node.width() * node.scaleX(),
+            scaleX: 1,
+        });
+        textProps.rotation = node.attrs.rotation;
+        textProps.width = node.attrs.width;
+        textProps.height = node.attrs.height;
+    }
+
     useEffect(() => {
         if(isSelected){
             trRef.current.nodes([componentRef.current]);
@@ -40,21 +57,8 @@ const TextComponent = ({ textProps, setIsTyping, setSelectedText, setHidingEleme
                 onDblTap={handleDblClick}
                 onClick={() => setSelectedText(textProps)}
                 onTap={() => setSelectedText(textProps)}
-                onDragEnd={() => {
-                    const node = componentRef.current;
-                    textProps.x = node.attrs.x;
-                    textProps.y = node.attrs.y;
-                }}
-                onTransform={() =>{
-                    const node = componentRef.current;
-                    node.setAttrs({
-                        width: node.width() * node.scaleX(),
-                        scaleX: 1,
-                    });
-                    textProps.rotation = node.attrs.rotation;
-                    textProps.width = node.attrs.width;
-                    textProps.height = node.attrs.height;
-                }}
+                onDragEnd={handleDragEnd}
+                onTransform={handleTransform}
                 ref={componentRef}
             />
             {isSelected && 

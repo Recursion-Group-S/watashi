@@ -1,25 +1,28 @@
 import { useAtom } from "jotai";
+import { fontFamilyAtom, fontSizeAtom, textColorAtom } from "../atoms/TextAtom";
 import uuid from "react-uuid";
-import { fontSizeAtom, textComponentsAtom } from "../atoms/TextAtom";
 
-export default function useText(e, stageRef) {
+export const useText = () => {
     const [fontSize] = useAtom(fontSizeAtom);
-    const [textComponents, setTextComponents] = useAtom(textComponentsAtom);
+    const [fontFamily] = useAtom(fontFamilyAtom);
+    const [color] = useAtom(textColorAtom);
     
-    let newTextComponent = {
-        type: 'Text',
-        text: 'New Text',
-        x: e.evt.clientX - stageRef.current.attrs.container.offsetLeft - 80,
-        y: e.evt.clientY - stageRef.current.attrs.container.getBoundingClientRect().top - 10,
-        width: 200,
-        height: 30,
-        fontSize: fontSize,
-        // fontFamily: fontFamily,
-        // color: color,
-        rotation: 0,
-        id: uuid(),
+    const addCanvasText = (e, parentRef, target, setTarget) => {
+        let newTextComponent = {
+            type: 'Text',
+            text: 'New Text',
+            x: e.evt.clientX - parentRef.current.attrs.container.offsetLeft - 80,
+            y: e.evt.clientY - parentRef.current.attrs.container.getBoundingClientRect().top - 10,
+            width: 200,
+            height: 30,
+            fontSize: fontSize,
+            fontFamily: fontFamily,
+            color: color,
+            rotation: 0,
+            id: uuid(),
+        }
+        setTarget([...target, newTextComponent]);
     }
-    console.log("this");
-    setTextComponents([...textComponents, newTextComponent]);
-    return {};
+
+    return { addCanvasText };
 }

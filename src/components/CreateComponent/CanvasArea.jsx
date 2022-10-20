@@ -6,6 +6,7 @@ import uuid from "react-uuid";
 import { useAtom } from "jotai";
 import { fontFamilyAtom, fontSizeAtom, inputPositionAtom, textColorAtom, textComponentsAtom } from "../../atoms/TextAtom";
 import { detailActionAtom, userActionAtom } from "../../atoms/Atoms";
+import { useText } from "../../hooks/useText";
 
 const CanvasArea = () => {
     const [userAction] = useAtom(userActionAtom);
@@ -21,6 +22,8 @@ const CanvasArea = () => {
     const [fontSize, setFontSize] = useAtom(fontSizeAtom);
     const stageRef = useRef();
     const textAreaRef = useRef();
+
+    const { addCanvasText } = useText();
 
     function cancelSelectedText(){
         if(hidingElement){
@@ -38,20 +41,7 @@ const CanvasArea = () => {
             cancelSelectedText();
         }
         if(userAction == 'Text' && detailAction == "addText"){
-            let newTextComponent = {
-                type: 'Text',
-                text: 'New Text',
-                x: e.evt.clientX - stageRef.current.attrs.container.offsetLeft - 80,
-                y: e.evt.clientY - stageRef.current.attrs.container.getBoundingClientRect().top - 10,
-                width: 200,
-                height: 30,
-                fontSize: fontSize,
-                fontFamily: fontFamily,
-                color: color,
-                rotation: 0,
-                id: uuid(),
-            }
-            setTextComponents([...textComponents, newTextComponent]);
+            addCanvasText(e, stageRef, textComponents, setTextComponents);
             setDetailAction("");
         }
     }
@@ -104,7 +94,6 @@ const CanvasArea = () => {
             selectedText.fontSize = fontSize;
         }
     },[fontSize])
-   
 
     return (
         <div>
