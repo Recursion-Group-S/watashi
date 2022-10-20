@@ -16,6 +16,7 @@ const SearchBar = (props) => {
         props.fetchIcons(searchTerm);
     };
 
+
     return (
         <>
             <form onSubmit={onFormSubmit}>
@@ -33,6 +34,18 @@ const SearchBar = (props) => {
 }
 
 const IconList = (props) => {
+    const addIcon = (e) => {
+        e.preventDefault();
+        let x = e.clientX;
+        let y = e.clientY;
+        let icon = props.icons.find(icon => icon.id === parseInt(e.target.id));
+        let iconComponent = {
+            x: x,
+            y: y,
+            url: icon.images[256],
+        }
+        console.log(iconComponent);
+    }
     const renderedItem = props.icons.map((icon) => {
         return (
             <div
@@ -42,6 +55,9 @@ const IconList = (props) => {
                 <img
                     src={icon.images[256]}
                     className="mx-auto"
+                    id={icon.id}
+                    draggable
+                    onDragEnd={(e) => addIcon(e)}
                 />
             </div>
         )

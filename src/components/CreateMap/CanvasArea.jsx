@@ -2,10 +2,13 @@ import React, { useState } from "react";
 import Buttons from "./Buttons";
 import { Stage, Layer } from "react-konva";
 import ImageComponent from "./ImageComponent";
+import { useAtom } from "jotai";
+import { imageComponentsAtom } from "../../atoms/MapAtom";
 
 
-const CanvasArea = ({ imageComponents, setImageComponents }, canvasRef) => {
+const CanvasArea = ({}, canvasRef) => {
     const [selectedId, selectImage] = useState(null);
+    const [imageComponents, setImageComponents] = useAtom(imageComponentsAtom);
 
     const checkDeselect = (e) => {
         const clickedOnEmpty = e.target === e.target.getStage();
@@ -39,8 +42,6 @@ const CanvasArea = ({ imageComponents, setImageComponents }, canvasRef) => {
                                     items.push(item);
                                     setImageComponents(items);
                                 }}
-                                imageComponents={imageComponents}
-                                setImageComponents={setImageComponents}
                             />
                         )
                         )}
