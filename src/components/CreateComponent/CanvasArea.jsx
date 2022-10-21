@@ -8,6 +8,7 @@ import { useNewItem } from "../../hooks/useNewItem";
 
 const CanvasArea = ({}, canvasRef) => {
     const [selectedId, selectImage] = useState(null);
+    const [isDragging, setIsDragging] = useState(false);
     const [iconsAndImages, setIconsAndImages] = useAtom(iconsAndImagesAtom);
     const { isValidDrop } = useNewItem();
 
@@ -19,13 +20,16 @@ const CanvasArea = ({}, canvasRef) => {
     };
 
     const removeOut = (e) => {
+        setIsDragging(false);
         if(!isValidDrop(e.evt, canvasRef)){
             setIconsAndImages(iconsAndImages.filter(item => item.id !== e.target.attrs.id));
         }
     }
 
-    const deleteItem = () => {
-        setIconsAndImages(iconsAndImages.filter(item => item.id !== selectedId));
+    const deleteItem = (e) => {
+        if(!isDragging && e.key == 'Backspace'){
+            setIconsAndImages(iconsAndImages.filter(item => item.id !== selectedId));
+        }
     }
 
     useEffect(() => {
@@ -33,7 +37,7 @@ const CanvasArea = ({}, canvasRef) => {
         return () => {
             window.removeEventListener('keydown', deleteItem);
         };
-    },[selectedId])
+    },[selectedId, isDragging])
 
     return (
         <div ref={canvasRef}>
@@ -42,6 +46,7 @@ const CanvasArea = ({}, canvasRef) => {
                     className="bg-white w-full mb-2 rounded drop-shadow relative overflow-hidden"
                     onMouseDown={checkDeselect}
                     onTouchStart={checkDeselect}
+                    onDragStart={() => setIsDragging(true)}
                     onDragEnd={removeOut}
                 >
                     <Layer>

@@ -9,6 +9,7 @@ import { useNewItem } from "../../hooks/useNewItem";
 
 const CanvasArea = ({}, canvasRef) => {
     const [selectedId, selectImage] = useState(null);
+    const [isDragging, setIsDragging] = useState(false);
     const [imageComponents, setImageComponents] = useAtom(imageComponentsAtom);
     const { isValidDrop } = useNewItem();
 
@@ -20,13 +21,16 @@ const CanvasArea = ({}, canvasRef) => {
     };
 
     const removeOut = (e) => {
+        setIsDragging(false);
         if(!isValidDrop(e.evt, canvasRef)){
             setImageComponents(imageComponents.filter(img => img.id !== e.target.attrs.id));
         }
     }
 
-    const deleteImageComponent = () => {
-        setImageComponents(imageComponents.filter(img => img.id !== selectedId));
+    const deleteImageComponent = (e) => {
+        if(!isDragging && e.key == 'Backspace'){
+            setImageComponents(imageComponents.filter(img => img.id !== selectedId));
+        }
     }
 
     useEffect(() => {
@@ -34,7 +38,7 @@ const CanvasArea = ({}, canvasRef) => {
         return () => {
             window.removeEventListener('keydown', deleteImageComponent);
         };
-    },[selectedId])
+    },[selectedId, isDragging])
 
     return (
         <div ref={canvasRef}>
@@ -44,6 +48,7 @@ const CanvasArea = ({}, canvasRef) => {
                     onMouseDown={checkDeselect}
                     onTouchStart={checkDeselect}
                     onDragEnd={removeOut}
+                    onDragStart={() => setIsDragging(true)}
                 >
                     <Layer>
                         {imageComponents.map((img, i) => 
