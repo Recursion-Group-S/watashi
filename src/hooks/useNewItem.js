@@ -24,6 +24,7 @@ export const useNewItem = () => {
             rotation: 0,
             url: item.url,
             id: uuid(),
+            type: item.type,
         };
         setIconsAndImages([...iconsAndImages, newItem]);
     }

@@ -27,6 +27,7 @@ export const UploadImage = () => {
           x: e.clientX - shift.x,
           y: e.clientY - shift.y,
           url: image.url,
+          type: 'image'
         }
         addItem(newImage, canvasAtom);
   }

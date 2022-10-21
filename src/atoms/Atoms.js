@@ -1,3 +1,3 @@
 import { atom } from "jotai";
 
-export const canvasIconsAtom = atom([]);
+export const userActionAtom = atom('addText');

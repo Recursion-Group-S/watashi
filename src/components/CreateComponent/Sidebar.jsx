@@ -3,9 +3,11 @@ import { useState } from "react";
 import { UploadImage } from "./UploadImage";
 
 import FlaticonWrapper from "../../apis/flaticon.js";
-import { canvasIconsAtom, canvasRefAtom } from "../../atoms/ComponentAtom";
+import { canvasIconsAtom, canvasRefAtom, paintColorAtom, paintModeAtom, paintWidthAtom } from "../../atoms/ComponentAtom";
 import { useAtom } from "jotai";
 import { useNewItem } from "../../hooks/useNewItem";
+import { userActionAtom } from "../../atoms/Atoms";
+import { HexColorPicker } from "react-colorful"
 
 const SearchBar = (props) => {
     const [searchTerm, setSearchTerm] = useState("");
@@ -59,6 +61,7 @@ const IconList = (props) => {
             x: e.clientX - shift.x,
             y: e.clientY - shift.y,
             url: icon.images[256],
+            type: 'icon'
         }
         addItem(newIcon, canvasAtom);
     }
@@ -94,7 +97,7 @@ const IconList = (props) => {
 };
 
 const Sidebar = () => {
-    const [userAction, setUserAction] = useState("addText");
+    const [userAction, setUserAction] = useAtom(userActionAtom);
     const [icons, setIcons] = useState([]);
 
     const fetchIcons = async (searchTerm) => {
@@ -110,6 +113,10 @@ const Sidebar = () => {
   };
 
     const DisplaySidebarContent = () => {
+        const [paintMode, setPaintMode] = useAtom(paintModeAtom);
+        const [paintWidth, setPaintWidth] = useAtom(paintWidthAtom);
+        const [paintColor, setPaintColor] = useAtom(paintColorAtom);
+
         if (userAction === "addText") {
             return (
                 <div>
@@ -130,6 +137,18 @@ const Sidebar = () => {
             );
         } else if (userAction === "addImage") {
            return <UploadImage />;
+        } else if (userAction === 'drawing') {
+            return (
+                <div>
+                    <select value={paintMode} onChange={(e) => setPaintMode(e.target.value)}>
+                        <option value="brush">brush</option>
+                        <option value="eraser">erasor</option>
+                    </select>
+                    <input type="range" min='1' max='10' 
+                            value={paintWidth} onChange={(e) => setPaintWidth(e.target.value)} />
+                    <HexColorPicker color={paintColor} onChange={setPaintColor} />
+                </div>
+            );
         }
   };
 
@@ -148,6 +167,7 @@ const Sidebar = () => {
                         <button onClick={chooseUserAction} value="addText">Text 💬</button>
                         <button onClick={chooseUserAction} value="addIcon">Icon 😄</button>
                         <button onClick={chooseUserAction} value="addImage">Image 🏞</button>
+                        <button onClick={chooseUserAction} value="drawing">Drawing</button>
                     </div>
                 </div>
                 <DisplaySidebarContent />
