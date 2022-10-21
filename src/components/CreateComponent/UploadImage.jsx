@@ -47,6 +47,7 @@ export const UploadImage = () => {
           return (
             <>
             {/* UIの変更 */}
+            <div className="relative flex justify-end">
               <img
                 className="object-contain m-5"
                 width={100}
@@ -58,13 +59,14 @@ export const UploadImage = () => {
                 onDragEnd={addImage}
                 onDragStart={handleShift}
               />
-              <button
+              <button className="absolute border rounded-md bg-gray-300 text-xl w-7 h-7 mr-2 mt-2"
                 onClick={() => {
                   deleteUploadedImage(uploadedPath.path);
                 }}
               >
-                削除
+                × 
               </button>
+            </div>
             </>
           );
         })}
