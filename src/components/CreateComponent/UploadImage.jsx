@@ -2,13 +2,21 @@ import { useAtom } from "jotai";
 import { useUploadImg } from "../../hooks/useUploadimg";
 import { canvasImagesAtom, canvasRefAtom } from "../../atoms/ComponentAtom";
 import { useNewItem } from "../../hooks/useNewItem";
+import { useState } from "react";
 
 export const UploadImage = () => {
   const { uploadedImages, uploadToServer, deleteUploadedImage } = useUploadImg();
   const [canvasAtom] = useAtom(canvasRefAtom);
-  const [canvasImages, setCanvasImages] = useAtom(canvasImagesAtom)
-  const { isValidDrop, createAddItem } = useNewItem();
+  const [shift, setShift] = useState({x: 0, y: 0});
+  const { isValidDrop, addItem } = useNewItem();
   
+  const handleShift = (e) => {
+    setShift({
+      x: e.clientX - e.target.getBoundingClientRect().left, 
+      y: e.clientY - e.target.getBoundingClientRect().top
+    })
+  }
+
   const addImage = (e) => {
     e.preventDefault();
         if (!isValidDrop(e, canvasAtom)) {
@@ -16,16 +24,11 @@ export const UploadImage = () => {
         }
         const image = uploadedImages.find(img => img.path === e.target.alt);
         let newImage = {
-          x: e.clientX,
-          y: e.clientY,
+          x: e.clientX - shift.x,
+          y: e.clientY - shift.y,
           url: image.url,
         }
-        createAddItem(newImage, canvasAtom, canvasImages, setCanvasImages);
-        /*
-            shift座標の計算
-            CanvasAreaのLayerにImageとしてcanvasImagesを追加(ImageComponentsとほぼ同じ)
-            Icon削除、選択作業(selectedText --> selectedItem) CanvasArea
-        */
+        addItem(newImage, canvasAtom);
   }
   return (
     <>
@@ -52,6 +55,7 @@ export const UploadImage = () => {
                 src={uploadedPath.url}
                 draggable
                 onDragEnd={addImage}
+                onDragStart={handleShift}
               />
               <button
                 onClick={() => {

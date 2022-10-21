@@ -10,14 +10,14 @@ const CreateMap = () => {
   const [imageComponents, setImageComponents] = useAtom(imageComponentsAtom);
   const WrappedCanvasArea = forwardRef(CanvasArea);
   const canvasRef = useRef();
-  const { isValidDrop, createAddItem } = useNewItem();
+  const { isValidDrop, addComponent } = useNewItem();
 
-  const addComponent = (e, item) => {
+  const handleAdd = (e, item) => {
     // canvas外でドロップしてもcanvasComponentsには追加しない
     if(!isValidDrop(e, canvasRef)){
       return;
     }
-    createAddItem(item, canvasRef, imageComponents, setImageComponents);
+    addComponent(item, canvasRef);
   };
 
   return (
@@ -25,7 +25,7 @@ const CreateMap = () => {
       <WrappedCanvasArea
         ref={canvasRef}
       />
-      <Sidebar addComponent={addComponent} />
+      <Sidebar handleAdd={handleAdd} />
     </div>
   );
 };

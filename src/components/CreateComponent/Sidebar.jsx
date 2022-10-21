@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { UploadImage } from "./UploadImage";
 
 import FlaticonWrapper from "../../apis/flaticon.js";
@@ -38,8 +38,16 @@ const SearchBar = (props) => {
 
 const IconList = (props) => {
     const [canvasAtom] = useAtom(canvasRefAtom);
-    const { isValidDrop, createAddItem } = useNewItem();
-    const [canvasIcons, setCanvasIcons] = useAtom(canvasIconsAtom);
+    const { isValidDrop, addItem } = useNewItem();
+    const [shift, setShift] = useState({x: 0, y: 0});
+
+    const handleShift = (e) => {
+        setShift({
+          x: e.clientX - e.target.getBoundingClientRect().left, 
+          y: e.clientY - e.target.getBoundingClientRect().top
+        })
+    }
+
     const addIcon = (e) => {
         e.preventDefault();
         if (!isValidDrop(e, canvasAtom)) {
@@ -48,17 +56,13 @@ const IconList = (props) => {
 
         let icon = props.icons.find(icon => icon.id === parseInt(e.target.id));
         let newIcon = {
-            x: e.clientX,
-            y: e.clientY,
+            x: e.clientX - shift.x,
+            y: e.clientY - shift.y,
             url: icon.images[256],
         }
-        createAddItem(newIcon, canvasAtom, canvasIcons, setCanvasIcons);
-        /*
-            shift座標の計算
-            CanvasAreaのLayerにImageとしてcanvasIconsを追加(ImageComponentsとほぼ同じ)
-            Icon削除、選択作業(selectedText --> selectedItem)
-        */
+        addItem(newIcon, canvasAtom);
     }
+
     const renderedItem = props.icons.map((icon) => {
         return (
             <div
@@ -71,6 +75,7 @@ const IconList = (props) => {
                     id={icon.id}
                     draggable
                     onDragEnd={addIcon}
+                    onDragStart={handleShift}
                 />
             </div>
         )

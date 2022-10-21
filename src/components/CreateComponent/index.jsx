@@ -3,8 +3,6 @@ import { useRef } from "react";
 import { forwardRef } from "react";
 import CanvasArea from "./CanvasArea";
 import Sidebar from "./Sidebar";
-import uuid from "react-uuid/uuid";
-import { useNewItem } from "../../hooks/useNewItem";
 import { useAtom } from "jotai";
 import { canvasRefAtom } from "../../atoms/ComponentAtom";
 
