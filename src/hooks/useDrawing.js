@@ -1,5 +1,5 @@
 import { useAtom } from "jotai";
-import { canvasLinesAtom, isPaintAtom, paintColorAtom, paintModeAtom, paintWidthAtom } from "../atoms/ComponentAtom";
+import { canvasItemsAtom, isPaintAtom, paintColorAtom, paintModeAtom, paintWidthAtom } from "../atoms/ComponentAtom";
 import uuid from "react-uuid";
 
 export const useDrawing = () => {
@@ -7,7 +7,7 @@ export const useDrawing = () => {
     const [paintMode] = useAtom(paintModeAtom);
     const [paintWidth] = useAtom(paintWidthAtom);
     const [paintColor] = useAtom(paintColorAtom);
-    const [canvasLines, setCanvasLines] = useAtom(canvasLinesAtom);
+    const [canvasItems, setCanvasItems] = useAtom(canvasItemsAtom);
 
     const startDrawing = (stageRef) => {
         setIsPaint(true);
@@ -24,7 +24,7 @@ export const useDrawing = () => {
             // add point twice, so we have some drawings even on a simple click
             points: [position.x, position.y, position.x, position.y],
         };
-        setCanvasLines([...canvasLines, newLine]);
+        setCanvasItems([...canvasItems, newLine]);
     }
 
     const endDrawing = () => {
@@ -42,8 +42,8 @@ export const useDrawing = () => {
         const lastLineRef = lines[lines.length - 1];
         var newPoints = lastLineRef.points().concat([position.x, position.y]);
         lastLineRef.points(newPoints);
-
-        const lastLine = canvasLines[canvasLines.length - 1];
+        let lineItems = canvasItems.filter(item => item.type == 'line');
+        const lastLine = lineItems[lineItems.length - 1];
         lastLine.points = lastLineRef.points();
     }
 

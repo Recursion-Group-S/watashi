@@ -3,7 +3,7 @@ import { useState } from "react";
 import { UploadImage } from "./UploadImage";
 
 import FlaticonWrapper from "../../apis/flaticon.js";
-import { canvasIconsAtom, canvasRefAtom, paintColorAtom, paintModeAtom, paintWidthAtom } from "../../atoms/ComponentAtom";
+import { canvasRefAtom, paintColorAtom, paintModeAtom, paintWidthAtom } from "../../atoms/ComponentAtom";
 import { useAtom } from "jotai";
 import { useNewItem } from "../../hooks/useNewItem";
 import { userActionAtom } from "../../atoms/Atoms";

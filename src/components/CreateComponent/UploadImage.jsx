@@ -1,6 +1,6 @@
 import { useAtom } from "jotai";
 import { useUploadImg } from "../../hooks/useUploadimg";
-import { canvasImagesAtom, canvasRefAtom } from "../../atoms/ComponentAtom";
+import { canvasRefAtom } from "../../atoms/ComponentAtom";
 import { useNewItem } from "../../hooks/useNewItem";
 import { useState } from "react";
 

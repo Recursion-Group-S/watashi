@@ -1,11 +1,11 @@
 import { useAtom } from "jotai";
 import uuid from "react-uuid";
-import { iconsAndImagesAtom } from "../atoms/ComponentAtom";
+import { canvasItemsAtom } from "../atoms/ComponentAtom";
 import { imageComponentsAtom } from "../atoms/MapAtom";
 
 
 export const useNewItem = () => {
-    const [iconsAndImages, setIconsAndImages] = useAtom(iconsAndImagesAtom);
+    const [canvasItems, setCanvasItems] = useAtom(canvasItemsAtom);
     const [imageComponents, setImageComponents] = useAtom(imageComponentsAtom);
     const isValidDrop = (e, parentRef) => {
         let topOver = e.clientY < parentRef.current.getBoundingClientRect().top;
@@ -26,7 +26,7 @@ export const useNewItem = () => {
             id: uuid(),
             type: item.type,
         };
-        setIconsAndImages([...iconsAndImages, newItem]);
+        setCanvasItems([...canvasItems, newItem]);
     }
 
     const addComponent = (item, parentRef) => {

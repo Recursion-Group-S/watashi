@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Buttons from "./Buttons";
 import { Stage, Layer, Line } from "react-konva";
 import { useAtom } from "jotai";
-import { canvasLinesAtom, iconsAndImagesAtom } from "../../atoms/ComponentAtom";
+import { canvasItemsAtom } from "../../atoms/ComponentAtom";
 import ImageComponent from "../CreateMap/ImageComponent";
 import { useNewItem } from "../../hooks/useNewItem";
 import { useDrawing } from "../../hooks/useDrawing";
@@ -11,9 +11,8 @@ import { userActionAtom } from "../../atoms/Atoms";
 const CanvasArea = ({}, canvasRef) => {
     const [selectedId, selectImage] = useState(null);
     const [isDragging, setIsDragging] = useState(false);
-    const [iconsAndImages, setIconsAndImages] = useAtom(iconsAndImagesAtom);
-    const [canvasLines] = useAtom(canvasLinesAtom);
-    const [userAction, setUserAction] = useAtom(userActionAtom);
+    const [canvasItems, setCanvasItems] = useAtom(canvasItemsAtom);
+    const [userAction] = useAtom(userActionAtom);
     const stageRef = useRef(null);
     const { isValidDrop } = useNewItem();
     const { startDrawing, endDrawing, moveDrawing } = useDrawing();
@@ -42,13 +41,13 @@ const CanvasArea = ({}, canvasRef) => {
     const removeOut = (e) => {
         setIsDragging(false);
         if(!isValidDrop(e.evt, canvasRef)){
-            setIconsAndImages(iconsAndImages.filter(item => item.id !== e.target.attrs.id));
+            setCanvasItems(canvasItems.filter(item => item.id !== e.target.attrs.id));
         }
     }
 
     const deleteItem = (e) => {
         if(!isDragging && e.key == 'Backspace'){
-            setIconsAndImages(iconsAndImages.filter(item => item.id !== selectedId));
+            setCanvasItems(canvasItems.filter(item => item.id !== selectedId));
         }
     }
 
@@ -59,9 +58,6 @@ const CanvasArea = ({}, canvasRef) => {
         };
     },[selectedId, isDragging])
 
-    useEffect(() => {
-        
-    }, [iconsAndImages, canvasLines])
 
     return (
         <div ref={canvasRef}>
@@ -79,37 +75,36 @@ const CanvasArea = ({}, canvasRef) => {
                     ref={stageRef}
                 >
                     <Layer>
-                        {iconsAndImages.map((image, i) => (
-                            <ImageComponent
-                            key={image.id}
-                            id={image.id}
-                            imgProps={image}
-                            isSelected={image.id === selectedId}
-                            onSelect={() => {
-                                selectImage(image.id);
-                            }}
-                            onChange={(newAttrs) => {
-                                const items = iconsAndImages.slice();
-                                items.splice(i, 1);
-                                const item = newAttrs;
-                                items.push(item);
-                                setIconsAndImages(items);
-                            }}
-                        />
-                        ))}
-                        {canvasLines.map(line => (
+                        {canvasItems.map((item, i) => (
+                            item.type == 'line' ?
                             <Line
-                                key={line.id}
-                                id="line"
-                                stroke={line.stroke}
-                                strokeWidth={line.strokeWidth}
-                                globalCompositeOperation={line.globalCompositeOperation}
-                                lineCap={line.lineCap}
-                                lineJoin={line.lineJoin}
-                                points={line.points}
+                                key={item.id}
+                                id={item.type}
+                                stroke={item.stroke}
+                                strokeWidth={item.strokeWidth}
+                                globalCompositeOperation={item.globalCompositeOperation}
+                                lineCap={item.lineCap}
+                                lineJoin={item.lineJoin}
+                                points={item.points}
+                            /> 
+                            :
+                            <ImageComponent
+                                key={item.id}
+                                id={item.type}
+                                imgProps={item}
+                                isSelected={item.id === selectedId}
+                                onSelect={() => {
+                                    selectImage(item.id);
+                                }}
+                                onChange={(newAttrs) => {
+                                    const images = canvasItems.slice();
+                                    images.splice(i, 1);
+                                    const image = newAttrs;
+                                    images.push(image);
+                                    setCanvasItems(images);
+                                }}
                             />
                         ))}
-                        
                     </Layer>
                 </Stage>
                 <Buttons />

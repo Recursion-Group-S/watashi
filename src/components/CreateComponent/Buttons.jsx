@@ -1,24 +1,21 @@
 import { useAtom } from "jotai";
 import React from "react";
-import { canvasLinesAtom, iconsAndImagesAtom } from "../../atoms/ComponentAtom";
+import { canvasItemsAtom } from "../../atoms/ComponentAtom";
 
 
 const Buttons = () => {
-    const [iconsAndImages, setIconsAndImages] = useAtom(iconsAndImagesAtom);
-    const [canvasLines, setCanvasLines] = useAtom(canvasLinesAtom);
-    // text
+    const [canvasItems, setCanvasItems] = useAtom(canvasItemsAtom);
 
     const saveComponent = () => {
-        console.log(iconsAndImages);
-        console.log(canvasLines);
-        // text
+        console.log(canvasItems);
+        // textもitemに入れる
     }
     return (
         <div className="flex gap-4">
             <div className="basis-1/2">
                 <a
                     className="w-full text-center inline-block rounded border border-sky-600 px-12 py-2 text-sm font-medium text-sky-600 hover:bg-sky-600 hover:text-white focus:outline-none focus:ring active:bg-sky-600"
-                    onClick={() => setIconsAndImages([])}
+                    onClick={() => setCanvasItems([])}
                 >
                     Clear All
                 </a>
