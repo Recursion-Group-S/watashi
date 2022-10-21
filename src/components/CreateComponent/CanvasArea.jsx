@@ -4,10 +4,12 @@ import { Stage, Layer } from "react-konva";
 import { useAtom } from "jotai";
 import { iconsAndImagesAtom } from "../../atoms/ComponentAtom";
 import ImageComponent from "../CreateMap/ImageComponent";
+import { useNewItem } from "../../hooks/useNewItem";
 
 const CanvasArea = ({}, canvasRef) => {
     const [selectedId, selectImage] = useState(null);
     const [iconsAndImages, setIconsAndImages] = useAtom(iconsAndImagesAtom);
+    const { isValidDrop } = useNewItem();
 
     const checkDeselect = (e) => {
         const clickedOnEmpty = e.target === e.target.getStage();
@@ -15,6 +17,12 @@ const CanvasArea = ({}, canvasRef) => {
             selectImage(null);
         }
     };
+
+    const removeOut = (e) => {
+        if(!isValidDrop(e.evt, canvasRef)){
+            setIconsAndImages(iconsAndImages.filter(item => item.id !== e.target.attrs.id));
+        }
+    }
 
     const deleteItem = () => {
         setIconsAndImages(iconsAndImages.filter(item => item.id !== selectedId));
@@ -34,6 +42,7 @@ const CanvasArea = ({}, canvasRef) => {
                     className="bg-white w-full mb-2 rounded drop-shadow relative overflow-hidden"
                     onMouseDown={checkDeselect}
                     onTouchStart={checkDeselect}
+                    onDragEnd={removeOut}
                 >
                     <Layer>
                         {iconsAndImages.map((image, i) => (
