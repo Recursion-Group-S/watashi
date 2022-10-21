@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Buttons from "./Buttons";
 import { Stage, Layer } from "react-konva";
 import ImageComponent from "./ImageComponent";
@@ -16,6 +16,17 @@ const CanvasArea = ({}, canvasRef) => {
             selectImage(null);
         }
     };
+
+    const deleteImageComponent = () => {
+        setImageComponents(imageComponents.filter(img => img.id !== selectedId));
+    }
+
+    useEffect(() => {
+        window.addEventListener('keydown', deleteImageComponent)
+        return () => {
+            window.removeEventListener('keydown', deleteImageComponent);
+        };
+    },[selectedId])
 
     return (
         <div ref={canvasRef}>
