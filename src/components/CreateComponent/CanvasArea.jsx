@@ -90,6 +90,8 @@ const CanvasArea = () => {
     },[color])
 
     useEffect(() => {
+        console.log(textComponents)
+        console.log(selectedText)
         if(selectedText){
             selectedText.fontSize = fontSize;
         }
