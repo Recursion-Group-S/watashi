@@ -4,6 +4,7 @@ import { auth } from "../client/firebase";
 import { useNavigate } from "react-router-dom/dist";
 import { authUserAtom } from "../atoms/authUser";
 import { useSetAtom } from "jotai";
+import { postUser } from "../db/user";
 
 const Login = () => {
   // const { setUserAuth } = useAuth();
@@ -13,6 +14,12 @@ const Login = () => {
   const clickLogin = async () => {
     await signInWithPopup(auth, provider).then((result) => {
       setUserAuth(result.user);
+      postUser(
+        result.user.uid,
+        result.user.displayName,
+        result.user.email,
+        result.user.photoURL
+      );
       navigate("/createMap");
     });
   };
