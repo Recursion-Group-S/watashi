@@ -29,24 +29,17 @@ const Sidebar = () => {
         if (userAction === "Text") {
             return (
                 <div>
-                    <div className="flex justify-center">
-                        <button className={`border p-3 rounded ${detailAction == 'addText' ? 'bg-gray-300': ''}`}
-                            value="addText"
-                            onClick={chooseDetailAction}>
-                            Add Text
-                        </button>
-                    </div>
-                    <div className="flex justify-center m-3">
-                        <p>Select font size:</p>
-                        <input className="border w-20 ml-3" type='number'
+                        <label className="block mb-1 text-sm font-medium text-gray-300">Select font-size</label>
+                        <input className="mb-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full mb-3 p-2.5" type='number'
                             value={fontSize}
                             onChange={(e) => setFontSize(e.target.value)}
                         />
-                    </div>
+                   
                     
                     <label className="block mb-1 text-sm font-medium text-gray-300">Select font-style</label>
-                    <select class="mb-2bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5"
+                    <select class="mb-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full mb-3 p-2.5"
                             value={fontFamily}
+                            style={{fontFamily: fontFamily}}
                             onChange={(e) => setFontFamily(e.target.value)}>
                         <option value="Potta One" style={{fontFamily: 'Potta One'}}>Potta One</option>
                         <option value="Hachi Maru Pop" style={{fontFamily: 'Hachi Maru Pop'}}>Hachi Maru Pop</option>
@@ -54,11 +47,17 @@ const Sidebar = () => {
                         <option value="Hina Mincho" style={{fontFamily: 'Hina Mincho'}}>Hina Mincho</option>
                         <option value="RocknRoll One" style={{fontFamily: 'RocknRoll One'}}>RocknRoll One</option>
                     </select>
-                    <div className="flex justify-center m-5">
+                    <div className="mb-3">
+                    <label className="block mb-1 text-sm font-medium text-gray-300">Select color</label>
                         <HexColorPicker color={color} onChange={setColor}
-                        style={{ width: 300}}
+                            style={{ width: "100%"}}    
                         />
                     </div>
+                        <button className={`bg-sky-600 text-white w-full border my-3 p-3 rounded  ${detailAction == 'addText' ? 'bg-gray-300': ''}`}
+                            value="addText"
+                            onClick={chooseDetailAction}>
+                            Add Text
+                        </button>
                     
                 </div>
             );
