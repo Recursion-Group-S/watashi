@@ -33,43 +33,46 @@ export const UploadImage = () => {
   }
   return (
     <>
-      <label className="block mb-1 text-sm font-medium text-gray-300">
-        Upload images
-      </label>
-      <input
-        type="file"
-        className="text-sm"
-        accept="image/*"
-        onChange={uploadToServer}
-      ></input>
-      <div className="flex flex-wrap">
-        {uploadedImages.map((uploadedPath) => {
-          return (
-            <>
-            {/* UIの変更 */}
-            <div className="relative flex justify-end">
-              <img
-                className="object-contain m-5"
-                width={100}
-                height={80}
-                key={uploadedPath.path}
-                alt={uploadedPath.path}
-                src={uploadedPath.url}
-                draggable
-                onDragEnd={addImage}
-                onDragStart={handleShift}
-              />
-              <button className="absolute border rounded-md bg-gray-300 text-xl w-7 h-7 mr-2 mt-2"
-                onClick={() => {
-                  deleteUploadedImage(uploadedPath.path);
-                }}
-              >
-                × 
-              </button>
-            </div>
-            </>
-          );
-        })}
+      <div className="mb-2">
+        <label className="block mb-1 text-sm font-medium text-gray-300">
+          Upload images
+        </label>
+        <input
+          type="file"
+          className="text-sm"
+          accept="image/*"
+          onChange={uploadToServer}
+        ></input>
+      </div>
+      <div className="overflow-y-scroll border rounded-lg p-3" style={{height: 496}}>
+        <div className="flex flex-wrap justify-between">
+          {uploadedImages.map((uploadedPath) => {
+            return (
+              <>
+              {/* UIの変更 */}
+              <div className="relative mb-5">
+                <img
+                  className="object-contain"
+                  width={100}
+                  height={80}
+                  key={uploadedPath.path}
+                  alt={uploadedPath.path}
+                  src={uploadedPath.url}
+                  draggable
+                  onDragEnd={addImage}
+                  onDragStart={handleShift}
+                />
+                <button className="absolute border align-middle rounded-full bg-gray-300 text-lg -top-2 -right-2 w-7 h-7 flex justify-center items-center border-white border-2"
+                  onClick={() => {
+                    deleteUploadedImage(uploadedPath.path);
+                  }}
+                ><div className="">×</div>
+                </button>
+              </div>
+              </>
+            );
+          })}
+        </div>
       </div>
     </>
   );
