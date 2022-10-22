@@ -140,13 +140,15 @@ const Sidebar = () => {
         } else if (userAction === 'drawing') {
             return (
                 <div>
-                    <select value={paintMode} onChange={(e) => setPaintMode(e.target.value)}>
-                        <option value="brush">brush</option>
-                        <option value="eraser">erasor</option>
-                    </select>
-                    <input type="range" min='1' max='10' 
-                            value={paintWidth} onChange={(e) => setPaintWidth(e.target.value)} />
-                    <HexColorPicker color={paintColor} onChange={setPaintColor} />
+                    <div className="mb-2">
+                        <select className="border rounded mr-2" value={paintMode} onChange={(e) => setPaintMode(e.target.value)}>
+                            <option value="brush">brush</option>
+                            <option value="eraser">erasor</option>
+                        </select>
+                        <input type="range" min='1' max='10' 
+                                value={paintWidth} onChange={(e) => setPaintWidth(e.target.value)} />
+                    </div>
+                    <HexColorPicker color={paintColor} onChange={setPaintColor} style={{width: '100%'}} />
                 </div>
             );
         }
