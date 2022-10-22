@@ -1,8 +1,13 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { UploadImage } from "./UploadImage";
 
 import FlaticonWrapper from "../../apis/flaticon.js";
+import { canvasRefAtom, paintColorAtom, paintModeAtom, paintWidthAtom } from "../../atoms/ComponentAtom";
+import { useAtom } from "jotai";
+import { useNewItem } from "../../hooks/useNewItem";
+import { userActionAtom } from "../../atoms/Atoms";
+import { HexColorPicker } from "react-colorful"
 
 const SearchBar = (props) => {
     const [searchTerm, setSearchTerm] = useState("");
@@ -15,6 +20,7 @@ const SearchBar = (props) => {
         e.preventDefault();
         props.fetchIcons(searchTerm);
     };
+
 
     return (
         <>
@@ -33,6 +39,33 @@ const SearchBar = (props) => {
 }
 
 const IconList = (props) => {
+    const [canvasAtom] = useAtom(canvasRefAtom);
+    const { isValidDrop, addItem } = useNewItem();
+    const [shift, setShift] = useState({x: 0, y: 0});
+
+    const handleShift = (e) => {
+        setShift({
+          x: e.clientX - e.target.getBoundingClientRect().left, 
+          y: e.clientY - e.target.getBoundingClientRect().top
+        })
+    }
+
+    const addIcon = (e) => {
+        e.preventDefault();
+        if (!isValidDrop(e, canvasAtom)) {
+            return;
+        }
+
+        let icon = props.icons.find(icon => icon.id === parseInt(e.target.id));
+        let newIcon = {
+            x: e.clientX - shift.x,
+            y: e.clientY - shift.y,
+            url: icon.images[256],
+            type: 'icon'
+        }
+        addItem(newIcon, canvasAtom);
+    }
+
     const renderedItem = props.icons.map((icon) => {
         return (
             <div
@@ -42,6 +75,10 @@ const IconList = (props) => {
                 <img
                     src={icon.images[256]}
                     className="mx-auto"
+                    id={icon.id}
+                    draggable
+                    onDragEnd={addIcon}
+                    onDragStart={handleShift}
                 />
             </div>
         )
@@ -60,7 +97,7 @@ const IconList = (props) => {
 };
 
 const Sidebar = () => {
-    const [userAction, setUserAction] = useState("addText");
+    const [userAction, setUserAction] = useAtom(userActionAtom);
     const [icons, setIcons] = useState([]);
 
     const fetchIcons = async (searchTerm) => {
@@ -76,6 +113,10 @@ const Sidebar = () => {
   };
 
     const DisplaySidebarContent = () => {
+        const [paintMode, setPaintMode] = useAtom(paintModeAtom);
+        const [paintWidth, setPaintWidth] = useAtom(paintWidthAtom);
+        const [paintColor, setPaintColor] = useAtom(paintColorAtom);
+
         if (userAction === "addText") {
             return (
                 <div>
@@ -96,6 +137,20 @@ const Sidebar = () => {
             );
         } else if (userAction === "addImage") {
            return <UploadImage />;
+        } else if (userAction === 'drawing') {
+            return (
+                <div>
+                    <div className="mb-2">
+                        <select className="border rounded mr-2" value={paintMode} onChange={(e) => setPaintMode(e.target.value)}>
+                            <option value="brush">brush</option>
+                            <option value="eraser">erasor</option>
+                        </select>
+                        <input type="range" min='1' max='10' 
+                                value={paintWidth} onChange={(e) => setPaintWidth(e.target.value)} />
+                    </div>
+                    <HexColorPicker color={paintColor} onChange={setPaintColor} style={{width: '100%'}} />
+                </div>
+            );
         }
   };
 
@@ -114,6 +169,7 @@ const Sidebar = () => {
                         <button onClick={chooseUserAction} value="addText">Text 💬</button>
                         <button onClick={chooseUserAction} value="addIcon">Icon 😄</button>
                         <button onClick={chooseUserAction} value="addImage">Image 🏞</button>
+                        <button onClick={chooseUserAction} value="drawing">Drawing</button>
                     </div>
                 </div>
                 <DisplaySidebarContent />

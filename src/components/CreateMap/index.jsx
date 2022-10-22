@@ -1,44 +1,31 @@
-import React, { forwardRef, useRef, useState } from "react";
+import React, { forwardRef, useRef } from "react";
 import CanvasArea from "./CanvasArea";
 import Sidebar from "./Sidebar";
-import uuid from "react-uuid";
+import { useNewItem } from "../../hooks/useNewItem";
+import { useAtom } from "jotai";
+import { imageComponentsAtom } from "../../atoms/MapAtom";
 
 const CreateMap = () => {
   //Map内のコンポーネントの配列
-  const [imageComponents, setImageComponents] = useState([]);
+  const [imageComponents, setImageComponents] = useAtom(imageComponentsAtom);
   const WrappedCanvasArea = forwardRef(CanvasArea);
   const canvasRef = useRef();
+  const { isValidDrop, addComponent } = useNewItem();
 
-  const addComponent = (e, item) => {
+  const handleAdd = (e, item) => {
     // canvas外でドロップしてもcanvasComponentsには追加しない
-    let topOver = e.clientY < canvasRef.current.getBoundingClientRect().top;
-    let leftOver = e.clientX < canvasRef.current.getBoundingClientRect().left;
-    let bottomOver =
-      e.clientY > canvasRef.current.getBoundingClientRect().bottom;
-    let rightOver = e.clientX > canvasRef.current.getBoundingClientRect().right;
-    if (topOver || leftOver || bottomOver || rightOver) {
+    if(!isValidDrop(e, canvasRef)){
       return;
     }
-    let newComponent = {
-      x: item.x - canvasRef.current.getBoundingClientRect().left,
-      y: item.y - canvasRef.current.getBoundingClientRect().top,
-      width: 220,
-      height: 220,
-      rotation: 0,
-      url: item.url,
-      id: uuid(),
-    };
-    setImageComponents([...imageComponents, newComponent]);
+    addComponent(item, canvasRef);
   };
 
   return (
     <div className="flex gap-x-4">
       <WrappedCanvasArea
-        imageComponents={imageComponents}
-        setImageComponents={setImageComponents}
         ref={canvasRef}
       />
-      <Sidebar addComponent={addComponent} />
+      <Sidebar handleAdd={handleAdd} />
     </div>
   );
 };

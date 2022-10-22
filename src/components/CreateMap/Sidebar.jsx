@@ -29,7 +29,7 @@ const sideComponentImages = [
     }
 ]
 
-const Sidebar = ({addComponent}) => {
+const Sidebar = ({handleAdd}) => {
     const [sideComponents, setSideComponents] = useState(sideComponentImages);
     const [shiftX, setShiftX] = useState(0);
     const [shiftY, setShiftY] = useState(0);
@@ -37,13 +37,11 @@ const Sidebar = ({addComponent}) => {
     const handleDragEnd = (e) =>{
         e.preventDefault();
         //コンポーネントのどの位置を持ったかでのズレを調整
-        let x = e.clientX - shiftX;
-        let y = e.clientY - shiftY;
         let item = sideComponents.find(component => component.id === parseInt(e.target.id));
-        item.x = x;
-        item.y = y;
+        item.x = e.clientX - shiftX
+        item.y = e.clientY - shiftY
         // キャンバス内にあるコンポーネントの配列に追加する
-        addComponent(e, item);
+        handleAdd(e, item);
     }
 
     const handleDragStart = (e) => {
