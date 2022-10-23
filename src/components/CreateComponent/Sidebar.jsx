@@ -1,14 +1,13 @@
 import { useAtom } from "jotai";
-import React from "react";
+import React, { useState } from "react";
 import { HexColorPicker } from "react-colorful";
 import { detailActionAtom, userActionAtom } from "../../atoms/Atoms";
-import { fontFamilyAtom, fontSizeAtom, textColorAtom } from "../../atoms/TextAtom";
+import { fontFamilyAtom, fontSizeAtom, sizeChangingAtom, textColorAtom } from "../../atoms/TextAtom";
 
 const Sidebar = () => {
     const [userAction, setUserAction] = useAtom(userActionAtom);
     const [detailAction, setDetailAction] = useAtom(detailActionAtom);
-    
-    
+    const [sizeChanging, setSizeChanging] = useAtom(sizeChangingAtom);
 
     const chooseUserAction = (e) => {
         setUserAction(e.target.value);
@@ -32,11 +31,16 @@ const Sidebar = () => {
             <label className="block mb-1 text-sm font-medium text-gray-300">Select font-size</label>
                 <input className="mb-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full mb-3 p-2.5" type='number'
                     value={fontSize}
-                    onChange={(e) => {
-                        setFontSize(e.target.value)
-                        console.log(fontSize)
+                    min="1" max='200'
+                    onFocus={() => setSizeChanging(true)}
+                    onBlur={() => setSizeChanging(false)}
+                    onKeyDown={(e) => {
+                        if(e.key == "Enter"){
+                            document.activeElement.blur();
+                        }
                     }}
-            />
+                    onChange={(e) => setFontSize(e.target.value)}
+                />
             <label className="block mb-1 text-sm font-medium text-gray-300">Select font-style</label>
             <select class="mb-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full mb-3 p-2.5"
                     value={fontFamily}

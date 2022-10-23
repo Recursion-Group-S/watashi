@@ -1,12 +1,13 @@
 import { useAtom } from "jotai";
 import React, { useRef, useEffect } from "react";
 import { Text, Transformer } from "react-konva";
-import { inputPositionAtom } from "../../atoms/TextAtom";
+import { inputPositionAtom, selectedTextAtom } from "../../atoms/TextAtom";
 
-const TextComponent = ({ textProps, setIsTyping, setSelectedText, setHidingElement, isSelected }) => {
+const TextComponent = ({ textProps, setIsTyping, setHidingElement, isSelected }) => {
     const componentRef = useRef();
     const trRef = useRef();
     const [, setInputPosition] = useAtom(inputPositionAtom);
+    const [, setSelectedText] = useAtom(selectedTextAtom);
 
     const handleDblClick = () => {
         setSelectedText(textProps);

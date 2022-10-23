@@ -2,9 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import Buttons from "./Buttons";
 import TextComponent from "./TextComponent";
 import { Stage, Layer } from "react-konva";
-import uuid from "react-uuid";
 import { useAtom } from "jotai";
-import { fontFamilyAtom, fontSizeAtom, inputPositionAtom, textColorAtom, textComponentsAtom } from "../../atoms/TextAtom";
+import { fontFamilyAtom, fontSizeAtom, inputPositionAtom, selectedTextAtom, sizeChangingAtom, textColorAtom, textComponentsAtom } from "../../atoms/TextAtom";
 import { detailActionAtom, userActionAtom } from "../../atoms/Atoms";
 import { useText } from "../../hooks/useText";
 
@@ -14,12 +13,13 @@ const CanvasArea = () => {
     const [textComponents, setTextComponents] = useAtom(textComponentsAtom);
     const [inputPosition] = useAtom(inputPositionAtom);
     const [isTyping, setIsTyping] = useState(false);
-    const [selectedText, setSelectedText] = useState(null);
+    const [selectedText, setSelectedText] = useAtom(selectedTextAtom);
     const [, setTextContent] = useState(null);
     const [hidingElement, setHidingElement] = useState([]);
     const [color, setColor] = useAtom(textColorAtom);
     const [fontFamily, setFontFamily] = useAtom(fontFamilyAtom);
     const [fontSize, setFontSize] = useAtom(fontSizeAtom);
+    const [sizeChanging] = useAtom(sizeChangingAtom);
     const stageRef = useRef();
     const textAreaRef = useRef();
 
@@ -54,7 +54,7 @@ const CanvasArea = () => {
     }
 
     const deleteTextComponent = (e) => {
-        if(e.key == "Backspace" && selectedText && !isTyping){
+        if(e.key == "Backspace" && selectedText && !isTyping && !sizeChanging){
             setTextComponents(textComponents.filter(comp => comp.id != selectedText.id));
         }
     }
@@ -74,12 +74,12 @@ const CanvasArea = () => {
         return () => {
             window.removeEventListener('keydown', deleteTextComponent);
         };
-    },[isTyping, selectedText])
+    },[isTyping, selectedText, sizeChanging])
 
     useEffect(() => {
         if(selectedText){
             selectedText.fontFamily = fontFamily;
-            cancelSelectedText();
+            setTextComponents([...textComponents]);
         }
     },[fontFamily])
 
@@ -90,8 +90,6 @@ const CanvasArea = () => {
     },[color])
 
     useEffect(() => {
-        console.log(textComponents)
-        console.log(selectedText)
         if(selectedText){
             selectedText.fontSize = fontSize;
         }
@@ -112,7 +110,6 @@ const CanvasArea = () => {
                                     key={component.id}
                                     textProps={component}
                                     setIsTyping={setIsTyping}
-                                    setSelectedText={setSelectedText}
                                     setHidingElement={setHidingElement}
                                     isSelected={component == selectedText}
                                 />
