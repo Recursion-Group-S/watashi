@@ -2,7 +2,7 @@ import { useAtom } from "jotai";
 import React from "react";
 import { HexColorPicker } from "react-colorful";
 import { userActionAtom } from "../../atoms/Atoms";
-import { fontFamilyAtom, fontSizeAtom, sizeChangingAtom, textColorAtom } from "../../atoms/TextAtom";
+import { fontFamilyAtom, fontSizeAtom, fontStyleAtom, isUnderlineAtom, sizeChangingAtom, textColorAtom } from "../../atoms/TextAtom";
 import { useText } from "../../hooks/useText";
 
 const Sidebar = () => {
@@ -18,6 +18,8 @@ const Sidebar = () => {
         const [fontSize, setFontSize] = useAtom(fontSizeAtom);
         const [color, setColor] = useAtom(textColorAtom);
         const [fontFamily, setFontFamily] = useAtom(fontFamilyAtom);
+        const [fontStyle, setFontStyle] = useAtom(fontStyleAtom);
+        const [isUnderline, setIsUnderline] = useAtom(isUnderlineAtom);
         const {addCanvasText} = useText();
 
         return (
@@ -52,6 +54,37 @@ const Sidebar = () => {
                     style={{ width: "100%"}}    
                 />
             </div>
+                <div className="flex justify-center">
+                {fontStyle.indexOf('bold') == -1 ? 
+                    <button className="border m-1" style={{width: 40, height: 40}}
+                    onClick={() => setFontStyle(fontStyle + 'bold ')}
+                    ><b>B</b></button>
+                :
+                <button className="border m-1 bg-gray-200 border-black" style={{width: 40, height: 40}}
+                    onClick={() => setFontStyle(fontStyle.replace('bold ', ''))}
+                ><b>B</b></button>
+                }
+                {fontStyle.indexOf('italic') == -1 ? 
+                    <button className="border m-1" style={{width: 40, height: 40}}
+                    onClick={() => setFontStyle(fontStyle + 'italic ')}
+                    ><i>I</i></button>
+                :
+                <button className="border m-1 bg-gray-200 border-black" style={{width: 40, height: 40}}
+                    onClick={() => setFontStyle(fontStyle.replace('italic ', ''))}
+                ><i>I</i></button>
+                }
+                {!isUnderline ? 
+                    <button className="border m-1" style={{width: 40, height: 40}}
+                        onClick={() => setIsUnderline(!isUnderline)}
+                    ><u>U</u></button>
+                :
+                <button className="border m-1 bg-gray-200 border-black" style={{width: 40, height: 40}}
+                        onClick={() => setIsUnderline(!isUnderline)}
+                    ><u>U</u></button>
+                }
+                </div>
+                
+
                 <button className={`bg-sky-600 text-white w-full border my-3 p-3 rounded`}
                     value="addText"
                     onClick={(e) => {
@@ -63,6 +96,7 @@ const Sidebar = () => {
                     }}>
                     Add Text
                 </button>
+                
             </>
         )
     }

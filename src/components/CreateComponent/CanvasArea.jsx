@@ -3,7 +3,7 @@ import Buttons from "./Buttons";
 import TextComponent from "./TextComponent";
 import { Stage, Layer } from "react-konva";
 import { useAtom } from "jotai";
-import { fontFamilyAtom, fontSizeAtom, inputPositionAtom, selectedTextAtom, sizeChangingAtom, textColorAtom, textComponentsAtom } from "../../atoms/TextAtom";
+import { fontFamilyAtom, fontSizeAtom, fontStyleAtom, inputPositionAtom, isUnderlineAtom, selectedTextAtom, sizeChangingAtom, textColorAtom, textComponentsAtom } from "../../atoms/TextAtom";
 
 const CanvasArea = () => {
     const [textComponents, setTextComponents] = useAtom(textComponentsAtom);
@@ -15,6 +15,8 @@ const CanvasArea = () => {
     const [color, setColor] = useAtom(textColorAtom);
     const [fontFamily, setFontFamily] = useAtom(fontFamilyAtom);
     const [fontSize, setFontSize] = useAtom(fontSizeAtom);
+    const [fontStyle, setFontStyle] = useAtom(fontStyleAtom);
+    const [isUnderline, setIsUnderline] = useAtom(isUnderlineAtom);
     const [sizeChanging] = useAtom(sizeChangingAtom);
     const stageRef = useRef();
     const textAreaRef = useRef();
@@ -59,6 +61,8 @@ const CanvasArea = () => {
             setFontFamily(selectedText.fontFamily);
             setFontSize(selectedText.fontSize);
             setColor(selectedText.color);
+            setFontStyle(selectedText.fontStyle);
+            setIsUnderline(selectedText.isUnderline);
         }
         window.addEventListener('keydown', deleteTextComponent)
         return () => {
@@ -84,6 +88,20 @@ const CanvasArea = () => {
             selectedText.fontSize = fontSize;
         }
     },[fontSize])
+
+    useEffect(() => {
+        if(selectedText){
+            selectedText.fontStyle = fontStyle;
+            setTextComponents([...textComponents]);
+        }
+    }, [fontStyle])
+
+    useEffect(() => {
+        if(selectedText){
+            selectedText.isUnderline = isUnderline;
+            setTextComponents([...textComponents]);
+        }
+    }, [isUnderline])
 
     return (
         <div>

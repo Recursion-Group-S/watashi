@@ -1,11 +1,13 @@
 import { useAtom } from "jotai";
-import { fontFamilyAtom, fontSizeAtom, textColorAtom, textComponentsAtom } from "../atoms/TextAtom";
+import { fontFamilyAtom, fontSizeAtom, fontStyleAtom, isUnderlineAtom, textColorAtom, textComponentsAtom } from "../atoms/TextAtom";
 import uuid from "react-uuid";
 
 export const useText = () => {
     const [fontSize] = useAtom(fontSizeAtom);
     const [fontFamily] = useAtom(fontFamilyAtom);
     const [color] = useAtom(textColorAtom);
+    const [fontStyle] = useAtom(fontStyleAtom);
+    const [isUnderline] = useAtom(isUnderlineAtom);
     const [textComponents, setTextComponents] = useAtom(textComponentsAtom)
     
     const addCanvasText = () => {
@@ -21,6 +23,8 @@ export const useText = () => {
             fontSize: fontSize,
             fontFamily: fontFamily,
             color: color,
+            fontStyle: fontStyle,
+            isUnderline: isUnderline,
             rotation: 0,
             id: uuid(),
         }

@@ -52,6 +52,8 @@ const TextComponent = ({ textProps, setIsTyping, setHidingElement, isSelected })
                 fontSize={textProps.fontSize}
                 fontFamily={textProps.fontFamily}
                 width={textProps.width}
+                fontStyle={textProps.fontStyle}
+                textDecoration={textProps.isUnderline ? 'underline' : ''}
                 draggable
                 fill={textProps.color}
                 onDblClick={handleDblClick}
