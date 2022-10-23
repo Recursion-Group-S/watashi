@@ -4,12 +4,8 @@ import TextComponent from "./TextComponent";
 import { Stage, Layer } from "react-konva";
 import { useAtom } from "jotai";
 import { fontFamilyAtom, fontSizeAtom, inputPositionAtom, selectedTextAtom, sizeChangingAtom, textColorAtom, textComponentsAtom } from "../../atoms/TextAtom";
-import { detailActionAtom, userActionAtom } from "../../atoms/Atoms";
-import { useText } from "../../hooks/useText";
 
 const CanvasArea = () => {
-    const [userAction] = useAtom(userActionAtom);
-    const [detailAction, setDetailAction] = useAtom(detailActionAtom);
     const [textComponents, setTextComponents] = useAtom(textComponentsAtom);
     const [inputPosition] = useAtom(inputPositionAtom);
     const [isTyping, setIsTyping] = useState(false);
@@ -22,8 +18,6 @@ const CanvasArea = () => {
     const [sizeChanging] = useAtom(sizeChangingAtom);
     const stageRef = useRef();
     const textAreaRef = useRef();
-
-    const { addCanvasText } = useText();
 
     function cancelSelectedText(){
         if(hidingElement){
@@ -39,10 +33,6 @@ const CanvasArea = () => {
     const handleClick = (e) => {
         if(selectedText && stageRef.current == e.target){
             cancelSelectedText();
-        }
-        if(userAction == 'Text' && detailAction == "addText"){
-            addCanvasText(e, stageRef, textComponents, setTextComponents);
-            setDetailAction("");
         }
     }
 

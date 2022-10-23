@@ -1,31 +1,25 @@
 import { useAtom } from "jotai";
-import React, { useState } from "react";
+import React from "react";
 import { HexColorPicker } from "react-colorful";
-import { detailActionAtom, userActionAtom } from "../../atoms/Atoms";
+import { userActionAtom } from "../../atoms/Atoms";
 import { fontFamilyAtom, fontSizeAtom, sizeChangingAtom, textColorAtom } from "../../atoms/TextAtom";
+import { useText } from "../../hooks/useText";
 
 const Sidebar = () => {
     const [userAction, setUserAction] = useAtom(userActionAtom);
-    const [detailAction, setDetailAction] = useAtom(detailActionAtom);
-    const [sizeChanging, setSizeChanging] = useAtom(sizeChangingAtom);
+    const [, setSizeChanging] = useAtom(sizeChangingAtom);
 
     const chooseUserAction = (e) => {
         setUserAction(e.target.value);
     };
 
-    const chooseDetailAction = (e) => {
-        if(detailAction == e.target.value){
-            setDetailAction("");
-        }
-        else {
-            setDetailAction(e.target.value)
-        }
-    }
 
     const SidebarActions = () => {
         const [fontSize, setFontSize] = useAtom(fontSizeAtom);
         const [color, setColor] = useAtom(textColorAtom);
         const [fontFamily, setFontFamily] = useAtom(fontFamilyAtom);
+        const {addCanvasText} = useText();
+
         return (
             <>
             <label className="block mb-1 text-sm font-medium text-gray-300">Select font-size</label>
@@ -58,9 +52,9 @@ const Sidebar = () => {
                     style={{ width: "100%"}}    
                 />
             </div>
-                <button className={`bg-sky-600 text-white w-full border my-3 p-3 rounded  ${detailAction == 'addText' ? 'bg-gray-300': ''}`}
+                <button className={`bg-sky-600 text-white w-full border my-3 p-3 rounded`}
                     value="addText"
-                    onClick={chooseDetailAction}>
+                    onClick={addCanvasText}>
                     Add Text
                 </button>
             </>
