@@ -54,7 +54,13 @@ const Sidebar = () => {
             </div>
                 <button className={`bg-sky-600 text-white w-full border my-3 p-3 rounded`}
                     value="addText"
-                    onClick={addCanvasText}>
+                    onClick={(e) => {
+                        e.target.classList.add('bg-sky-800');
+                        setTimeout(() => {
+                            e.target.classList.remove('bg-sky-800');
+                        }, 200);
+                        addCanvasText();
+                    }}>
                     Add Text
                 </button>
             </>

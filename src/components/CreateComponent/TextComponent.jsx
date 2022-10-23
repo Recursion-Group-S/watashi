@@ -26,7 +26,7 @@ const TextComponent = ({ textProps, setIsTyping, setHidingElement, isSelected })
     }
 
     const handleTransform = () => {
-        const node = componentRef.current;
+        const node = componentRef.current; 
         node.setAttrs({
             width: node.width() * node.scaleX(),
             scaleX: 1,
@@ -51,7 +51,7 @@ const TextComponent = ({ textProps, setIsTyping, setHidingElement, isSelected })
                 y={textProps.y}
                 fontSize={textProps.fontSize}
                 fontFamily={textProps.fontFamily}
-                width={200}
+                width={textProps.width}
                 draggable
                 fill={textProps.color}
                 onDblClick={handleDblClick}
@@ -64,7 +64,7 @@ const TextComponent = ({ textProps, setIsTyping, setHidingElement, isSelected })
             />
             {isSelected && 
                 <Transformer
-                    enabledAnchors= {['middle-left', 'middle-right']}
+                    enabledAnchors={['middle-left', 'middle-right']}
                     ref={trRef}
                     boundBoxFunc={(oldBox, newBox) => {
                         newBox.width = Math.max(100, newBox.width);
