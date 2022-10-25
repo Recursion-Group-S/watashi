@@ -3,7 +3,7 @@ import React, { useRef, useEffect } from "react";
 import { Text, Transformer } from "react-konva";
 import { inputPositionAtom, selectedTextAtom } from "../../atoms/TextAtom";
 
-const TextComponent = ({ textProps, setIsTyping, setHidingElement, isSelected }) => {
+const TextComponent = ({ textProps, setIsTyping, setHidingElement, isSelected, onChange }) => {
     const componentRef = useRef();
     const trRef = useRef();
     const [, setInputPosition] = useAtom(inputPositionAtom);
@@ -23,6 +23,7 @@ const TextComponent = ({ textProps, setIsTyping, setHidingElement, isSelected })
         const node = componentRef.current;
         textProps.x = node.attrs.x;
         textProps.y = node.attrs.y;
+        onChange(textProps);
     }
 
     const handleTransform = () => {
@@ -34,6 +35,7 @@ const TextComponent = ({ textProps, setIsTyping, setHidingElement, isSelected })
         textProps.rotation = node.attrs.rotation;
         textProps.width = node.attrs.width;
         textProps.height = node.attrs.height;
+        onChange(textProps);
     }
 
     useEffect(() => {

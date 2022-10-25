@@ -11,7 +11,6 @@ import TextComponent from "./TextComponent";
 import { fontFamilyAtom, fontSizeAtom, fontStyleAtom, inputPositionAtom, isUnderlineAtom, selectedTextAtom, sizeChangingAtom, textColorAtom, textComponentsAtom } from "../../atoms/TextAtom";
 
 const CanvasArea = ({ }, canvasRef) => {
-    const [textComponents, setTextComponents] = useAtom(textComponentsAtom);
     const [inputPosition] = useAtom(inputPositionAtom);
     const [isTyping, setIsTyping] = useState(false);
     const [selectedText, setSelectedText] = useAtom(selectedTextAtom);
@@ -59,7 +58,7 @@ const CanvasArea = ({ }, canvasRef) => {
 
     const deleteTextComponent = (e) => {
         if (e.key == "Backspace" && selectedText && !isTyping && !sizeChanging) {
-            setTextComponents(textComponents.filter(comp => comp.id != selectedText.id));
+            setCanvasItems(canvasItems.filter(item => item.id != selectedText.id))
         }
     }
 
@@ -85,7 +84,7 @@ const CanvasArea = ({ }, canvasRef) => {
     useEffect(() => {
         if (selectedText) {
             selectedText.fontFamily = fontFamily;
-            setTextComponents([...textComponents]);
+            setCanvasItems([...canvasItems]);
         }
     }, [fontFamily])
 
@@ -104,14 +103,14 @@ const CanvasArea = ({ }, canvasRef) => {
     useEffect(() => {
         if (selectedText) {
             selectedText.fontStyle = fontStyle;
-            setTextComponents([...textComponents]);
+            setCanvasItems([...canvasItems]);
         }
     }, [fontStyle])
 
     useEffect(() => {
         if (selectedText) {
             selectedText.isUnderline = isUnderline;
-            setTextComponents([...textComponents]);
+            setCanvasItems([...canvasItems]);
         }
     }, [isUnderline])
 
@@ -179,12 +178,27 @@ const CanvasArea = ({ }, canvasRef) => {
                                 <Line
                                     key={item.id}
                                     id={item.type}
-                                    stroke={item.stroke}
-                                    strokeWidth={item.strokeWidth}
+                                    stroke={item.color}
+                                    strokeWidth={item.width}
                                     globalCompositeOperation={item.globalCompositeOperation}
-                                    lineCap={item.lineCap}
-                                    lineJoin={item.lineJoin}
+                                    lineCap={'round'}
+                                    lineJoin={'round'}
                                     points={item.points}
+                                />
+                                : item.type == 'text' ?
+                                <TextComponent
+                                    key={item.id}
+                                    textProps={item}
+                                    setIsTyping={setIsTyping}
+                                    setHidingElement={setHidingElement}
+                                    isSelected={item == selectedText}
+                                    onChange={(newAttrs) => {
+                                        const texts = canvasItems.slice();
+                                        texts.splice(i, 1);
+                                        const text = newAttrs;
+                                        texts.push(text);
+                                        setCanvasItems(texts);
+                                    }}
                                 />
                                 :
                                 <ImageComponent
@@ -203,15 +217,6 @@ const CanvasArea = ({ }, canvasRef) => {
                                         setCanvasItems(images);
                                     }}
                                 />
-                        ))}
-                        {textComponents.map(component => (
-                            <TextComponent
-                                key={component.id}
-                                textProps={component}
-                                setIsTyping={setIsTyping}
-                                setHidingElement={setHidingElement}
-                                isSelected={component == selectedText}
-                            />
                         ))}
                     </Layer>
                 </Stage>

@@ -17,15 +17,23 @@ export const useNewItem = () => {
 
     const addItem = (item, parentRef) => {
         let newItem = {
+            id: uuid(),
+            type: item.type,
             x: item.x - parentRef.current.getBoundingClientRect().left,
             y: item.y - parentRef.current.getBoundingClientRect().top,
             width: 100,
             height: 100,
             rotation: 0,
             url: item.url,
-            id: uuid(),
-            type: item.type,
-        };
+            text: null,
+            fontSize: null,
+            fontFamily: null,
+            color: null,
+            fontStyle: null,
+            isUnderline: null,
+            globalCompositeOperation: null,
+            points: null
+        }
         setCanvasItems([...canvasItems, newItem]);
     }
 
