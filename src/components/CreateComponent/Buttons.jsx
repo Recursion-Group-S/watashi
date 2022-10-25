@@ -1,14 +1,17 @@
 import { useAtom } from "jotai";
 import React from "react";
 import { canvasItemsAtom } from "../../atoms/ComponentAtom";
+import { useSave } from "../../hooks/useSave";
 
 
 const Buttons = () => {
     const [canvasItems, setCanvasItems] = useAtom(canvasItemsAtom);
+    const { saveComponent } = useSave();
 
-    const saveComponent = () => {
+    const handleSave = () => {
+        // backEndに渡すデータ
         console.log(canvasItems);
-        // textもitemに入れる
+        saveComponent({left: 0, top: 0, width: 650, height: 650});
     }
     return (
         <div className="flex gap-4">
@@ -24,7 +27,7 @@ const Buttons = () => {
                 <a
                     className="w-full text-center inline-block rounded border border-sky-600 bg-sky-600 px-12 py-2 text-sm font-medium text-white hover:bg-transparent hover:text-sky-600 focus:outline-none focus:ring active:text-sky-600"
                     // href="/download"
-                    onClick={saveComponent}
+                    onClick={handleSave}
                 >
                     Save Component
                 </a>
