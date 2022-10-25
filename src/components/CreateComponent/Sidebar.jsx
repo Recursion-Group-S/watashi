@@ -1,4 +1,3 @@
-import { useAtom } from "jotai";
 import React from "react";
 import { useState } from "react";
 import { UploadImage } from "./UploadImage";
@@ -44,12 +43,12 @@ const SearchBar = (props) => {
 const IconList = (props) => {
     const [canvasAtom] = useAtom(canvasRefAtom);
     const { isValidDrop, addItem } = useNewItem();
-    const [shift, setShift] = useState({x: 0, y: 0});
+    const [shift, setShift] = useState({ x: 0, y: 0 });
 
     const handleShift = (e) => {
         setShift({
-          x: e.clientX - e.target.getBoundingClientRect().left, 
-          y: e.clientY - e.target.getBoundingClientRect().top
+            x: e.clientX - e.target.getBoundingClientRect().left,
+            y: e.clientY - e.target.getBoundingClientRect().top
         })
     }
 
@@ -118,70 +117,70 @@ const Sidebar = () => {
         const [fontFamily, setFontFamily] = useAtom(fontFamilyAtom);
         const [fontStyle, setFontStyle] = useAtom(fontStyleAtom);
         const [isUnderline, setIsUnderline] = useAtom(isUnderlineAtom);
-        const {addCanvasText} = useText();
+        const { addCanvasText } = useText();
 
         return (
             <>
-            <label className="block mb-1 text-sm font-medium text-gray-300">Select font-size</label>
+                <label className="block mb-1 text-sm font-medium text-gray-300">Select font-size</label>
                 <input className="mb-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full mb-3 p-2.5" type='number'
                     value={fontSize}
                     min="1" max='200'
                     onFocus={() => setSizeChanging(true)}
                     onBlur={() => setSizeChanging(false)}
                     onKeyDown={(e) => {
-                        if(e.key == "Enter"){
+                        if (e.key == "Enter") {
                             document.activeElement.blur();
                         }
                     }}
                     onChange={(e) => setFontSize(e.target.value)}
                 />
-            <label className="block mb-1 text-sm font-medium text-gray-300">Select font-style</label>
-            <select class="mb-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full mb-3 p-2.5"
+                <label className="block mb-1 text-sm font-medium text-gray-300">Select font-style</label>
+                <select class="mb-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full mb-3 p-2.5"
                     value={fontFamily}
-                    style={{fontFamily: fontFamily}}
+                    style={{ fontFamily: fontFamily }}
                     onChange={(e) => setFontFamily(e.target.value)}>
-                <option value="Potta One" style={{fontFamily: 'Potta One'}}>Potta One</option>
-                <option value="Hachi Maru Pop" style={{fontFamily: 'Hachi Maru Pop'}}>Hachi Maru Pop</option>
-                <option value="Yomogi" style={{fontFamily: 'Yomogi'}}>Yomogi</option>
-                <option value="Hina Mincho" style={{fontFamily: 'Hina Mincho'}}>Hina Mincho</option>
-                <option value="RocknRoll One" style={{fontFamily: 'RocknRoll One'}}>RocknRoll One</option>
-            </select>
-            <div className="mb-3">
-            <label className="block mb-1 text-sm font-medium text-gray-300">Select color</label>
-                <HexColorPicker color={color} onChange={setColor}
-                    style={{ width: "100%"}}    
-                />
-            </div>
-                <div className="flex justify-center">
-                {fontStyle.indexOf('bold') == -1 ? 
-                    <button className="border m-1" style={{width: 40, height: 40}}
-                    onClick={() => setFontStyle(fontStyle + 'bold ')}
-                    ><b>B</b></button>
-                :
-                <button className="border m-1 bg-gray-200 border-black" style={{width: 40, height: 40}}
-                    onClick={() => setFontStyle(fontStyle.replace('bold ', ''))}
-                ><b>B</b></button>
-                }
-                {fontStyle.indexOf('italic') == -1 ? 
-                    <button className="border m-1" style={{width: 40, height: 40}}
-                    onClick={() => setFontStyle(fontStyle + 'italic ')}
-                    ><i>I</i></button>
-                :
-                <button className="border m-1 bg-gray-200 border-black" style={{width: 40, height: 40}}
-                    onClick={() => setFontStyle(fontStyle.replace('italic ', ''))}
-                ><i>I</i></button>
-                }
-                {!isUnderline ? 
-                    <button className="border m-1" style={{width: 40, height: 40}}
-                        onClick={() => setIsUnderline(!isUnderline)}
-                    ><u>U</u></button>
-                :
-                <button className="border m-1 bg-gray-200 border-black" style={{width: 40, height: 40}}
-                        onClick={() => setIsUnderline(!isUnderline)}
-                    ><u>U</u></button>
-                }
+                    <option value="Potta One" style={{ fontFamily: 'Potta One' }}>Potta One</option>
+                    <option value="Hachi Maru Pop" style={{ fontFamily: 'Hachi Maru Pop' }}>Hachi Maru Pop</option>
+                    <option value="Yomogi" style={{ fontFamily: 'Yomogi' }}>Yomogi</option>
+                    <option value="Hina Mincho" style={{ fontFamily: 'Hina Mincho' }}>Hina Mincho</option>
+                    <option value="RocknRoll One" style={{ fontFamily: 'RocknRoll One' }}>RocknRoll One</option>
+                </select>
+                <div className="mb-3">
+                    <label className="block mb-1 text-sm font-medium text-gray-300">Select color</label>
+                    <HexColorPicker color={color} onChange={setColor}
+                        style={{ width: "100%" }}
+                    />
                 </div>
-                
+                <div className="flex justify-center">
+                    {fontStyle.indexOf('bold') == -1 ?
+                        <button className="border m-1" style={{ width: 40, height: 40 }}
+                            onClick={() => setFontStyle(fontStyle + 'bold ')}
+                        ><b>B</b></button>
+                        :
+                        <button className="border m-1 bg-gray-200 border-black" style={{ width: 40, height: 40 }}
+                            onClick={() => setFontStyle(fontStyle.replace('bold ', ''))}
+                        ><b>B</b></button>
+                    }
+                    {fontStyle.indexOf('italic') == -1 ?
+                        <button className="border m-1" style={{ width: 40, height: 40 }}
+                            onClick={() => setFontStyle(fontStyle + 'italic ')}
+                        ><i>I</i></button>
+                        :
+                        <button className="border m-1 bg-gray-200 border-black" style={{ width: 40, height: 40 }}
+                            onClick={() => setFontStyle(fontStyle.replace('italic ', ''))}
+                        ><i>I</i></button>
+                    }
+                    {!isUnderline ?
+                        <button className="border m-1" style={{ width: 40, height: 40 }}
+                            onClick={() => setIsUnderline(!isUnderline)}
+                        ><u>U</u></button>
+                        :
+                        <button className="border m-1 bg-gray-200 border-black" style={{ width: 40, height: 40 }}
+                            onClick={() => setIsUnderline(!isUnderline)}
+                        ><u>U</u></button>
+                    }
+                </div>
+
 
                 <button className={`bg-sky-600 text-white w-full border my-3 p-3 rounded`}
                     value="addText"
@@ -194,20 +193,20 @@ const Sidebar = () => {
                     }}>
                     Add Text
                 </button>
-                
+
             </>
         )
     }
-    
+
     const chooseUserAction = (e) => {
-      setUserAction(e.target.value);
+        setUserAction(e.target.value);
     };
 
     const DisplaySidebarContent = () => {
         const [paintMode, setPaintMode] = useAtom(paintModeAtom);
         const [paintWidth, setPaintWidth] = useAtom(paintWidthAtom);
         const [paintColor, setPaintColor] = useAtom(paintColorAtom);
-      
+
         if (userAction === "Text") {
             return (
                 <div>
@@ -222,7 +221,7 @@ const Sidebar = () => {
                 </div>
             );
         } else if (userAction === "Image") {
-           return <UploadImage />;
+            return <UploadImage />;
         } else if (userAction === 'drawing') {
             return (
                 <div>
@@ -231,14 +230,14 @@ const Sidebar = () => {
                             <option value="brush">brush</option>
                             <option value="eraser">erasor</option>
                         </select>
-                        <input type="range" min='1' max='10' 
-                                value={paintWidth} onChange={(e) => setPaintWidth(e.target.value)} />
+                        <input type="range" min='1' max='10'
+                            value={paintWidth} onChange={(e) => setPaintWidth(e.target.value)} />
                     </div>
-                    <HexColorPicker color={paintColor} onChange={setPaintColor} style={{width: '100%'}} />
+                    <HexColorPicker color={paintColor} onChange={setPaintColor} style={{ width: '100%' }} />
                 </div>
             );
         }
-  };
+    };
 
     return (
         <div style={{ width: 444 }}>
@@ -255,7 +254,7 @@ const Sidebar = () => {
                         <button onClick={chooseUserAction} value="Text">Text 💬</button>
                         <button onClick={chooseUserAction} value="Icon">Icon 😄</button>
                         <button onClick={chooseUserAction} value="Image">Image 🏞</button>
-                        <button onClick={chooseUserAction} value="Controller">Conroller</button>
+                        <button onClick={chooseUserAction} value="drawing">Drawing</button>
                     </div>
                 </div>
                 <DisplaySidebarContent />
