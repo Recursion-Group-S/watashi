@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { Image, Transformer } from 'react-konva';
 import useImage from 'use-image';
 
-const ImageComponent = ({imgProps, isSelected, onSelect, onChange, imageComponents, setImageComponents }) => {
+const ImageComponent = ({imgProps, isSelected, onSelect, onChange }) => {
     const [image] = useImage(imgProps.url);
     const componentRef = useRef();
     const trRef = useRef();

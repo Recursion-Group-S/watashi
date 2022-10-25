@@ -1,53 +1,33 @@
-
-import React, { forwardRef, useRef, useState,useEffect } from "react";
-import { useNavigate } from "react-router-dom/dist";
-import { useAuth } from "../../hooks/useAuth";
+import React, { forwardRef, useRef } from "react";
 import CanvasArea from "./CanvasArea";
 import Sidebar from "./Sidebar";
-import uuid from 'react-uuid'
+import { useNewItem } from "../../hooks/useNewItem";
+import { useAtom } from "jotai";
+import { imageComponentsAtom } from "../../atoms/MapAtom";
 
 const CreateMap = () => {
-    //Map内のコンポーネントの配列
-    const [imageComponents, setImageComponents] = useState([]);
-    const WrappedCanvasArea = forwardRef(CanvasArea);
-    const canvasRef = useRef();
-    const navigate = useNavigate();
-    const { userAuth } = useAuth();
+  //Map内のコンポーネントの配列
+  const [imageComponents, setImageComponents] = useAtom(imageComponentsAtom);
+  const WrappedCanvasArea = forwardRef(CanvasArea);
+  const canvasRef = useRef();
+  const { isValidDrop, addComponent } = useNewItem();
 
-    const addComponent = (e, item)=>{
-        // canvas外でドロップしてもcanvasComponentsには追加しない
-        let topOver = e.clientY < canvasRef.current.getBoundingClientRect().top;
-        let leftOver = e.clientX < canvasRef.current.getBoundingClientRect().left;
-        let bottomOver = e.clientY > canvasRef.current.getBoundingClientRect().bottom;
-        let rightOver = e.clientX > canvasRef.current.getBoundingClientRect().right;
-        if(topOver || leftOver || bottomOver || rightOver){
-            return;
-        }
-        let newComponent = {
-            x: item.x - canvasRef.current.getBoundingClientRect().left,
-            y: item.y - canvasRef.current.getBoundingClientRect().top,
-            width: 220,
-            height: 220,
-            rotation: 0,
-            url: item.url,
-            id: uuid(),
-        }
-        setImageComponents([...imageComponents, newComponent]);
+  const handleAdd = (e, item) => {
+    // canvas外でドロップしてもcanvasComponentsには追加しない
+    if(!isValidDrop(e, canvasRef)){
+      return;
     }
-      useEffect(() => {
-    if (!userAuth) navigate("/");
-  });
+    addComponent(item, canvasRef);
+  };
 
-    return (
-        <div className="flex gap-x-4">
-            <WrappedCanvasArea imageComponents={imageComponents} setImageComponents={setImageComponents}
-                                ref={canvasRef}  />
-            <Sidebar addComponent={addComponent} />
-        </div>
-    );
-}
- 
-
-
+  return (
+    <div className="flex gap-x-4">
+      <WrappedCanvasArea
+        ref={canvasRef}
+      />
+      <Sidebar handleAdd={handleAdd} />
+    </div>
+  );
+};
 
 export default CreateMap;

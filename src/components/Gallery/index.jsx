@@ -1,14 +1,7 @@
-import { React, useEffect } from "react";
+import { React } from "react";
 import MapList from "./MapList";
-import { useNavigate } from "react-router-dom/dist";
-import { useAuth } from "../../hooks/useAuth";
 
 const Gallery = () => {
-  const navigate = useNavigate();
-  const { userAuth } = useAuth();
-  useEffect(() => {
-    if (!userAuth) navigate("/");
-  });
   return (
     <div className="w-screen">
       <div className="w-2/3 mx-auto mb-6 flex">
