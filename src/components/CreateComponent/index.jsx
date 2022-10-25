@@ -6,6 +6,7 @@ import Sidebar from "./Sidebar";
 import { useAtom } from "jotai";
 import { canvasRefAtom } from "../../atoms/ComponentAtom";
 
+
 const CreateComponent = () => {
   const WrappedCanvasArea = forwardRef(CanvasArea);
   const canvasRef = useRef();

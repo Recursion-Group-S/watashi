@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* google font */
+@import url('https://fonts.googleapis.com/css?family=Potta+One');
+@import url('https://fonts.googleapis.com/css?family=Hachi+Maru+Pop');
+@import url('https://fonts.googleapis.com/css?family=Yomogi');
+@import url('https://fonts.googleapis.com/css?family=Hina+Mincho');
+@import url('https://fonts.googleapis.com/css?family=RocknRoll+One');

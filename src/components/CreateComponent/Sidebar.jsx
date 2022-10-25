@@ -1,3 +1,4 @@
+import { useAtom } from "jotai";
 import React from "react";
 import { useState } from "react";
 import { UploadImage } from "./UploadImage";
@@ -8,6 +9,8 @@ import { useAtom } from "jotai";
 import { useNewItem } from "../../hooks/useNewItem";
 import { userActionAtom } from "../../atoms/Atoms";
 import { HexColorPicker } from "react-colorful"
+import { fontFamilyAtom, fontSizeAtom, fontStyleAtom, isUnderlineAtom, sizeChangingAtom, textColorAtom } from "../../atoms/TextAtom";
+import { useText } from "../../hooks/useText";
 
 const SearchBar = (props) => {
     const [searchTerm, setSearchTerm] = useState("");
@@ -99,6 +102,7 @@ const IconList = (props) => {
 const Sidebar = () => {
     const [userAction, setUserAction] = useAtom(userActionAtom);
     const [icons, setIcons] = useState([]);
+    const [, setSizeChanging] = useAtom(sizeChangingAtom);
 
     const fetchIcons = async (searchTerm) => {
         const flatIcon = new FlaticonWrapper();
@@ -108,34 +112,116 @@ const Sidebar = () => {
         setIcons(icons.data);
     };
 
-  const chooseUserAction = (e) => {
-    setUserAction(e.target.value);
-  };
+    const SidebarActions = () => {
+        const [fontSize, setFontSize] = useAtom(fontSizeAtom);
+        const [color, setColor] = useAtom(textColorAtom);
+        const [fontFamily, setFontFamily] = useAtom(fontFamilyAtom);
+        const [fontStyle, setFontStyle] = useAtom(fontStyleAtom);
+        const [isUnderline, setIsUnderline] = useAtom(isUnderlineAtom);
+        const {addCanvasText} = useText();
+
+        return (
+            <>
+            <label className="block mb-1 text-sm font-medium text-gray-300">Select font-size</label>
+                <input className="mb-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full mb-3 p-2.5" type='number'
+                    value={fontSize}
+                    min="1" max='200'
+                    onFocus={() => setSizeChanging(true)}
+                    onBlur={() => setSizeChanging(false)}
+                    onKeyDown={(e) => {
+                        if(e.key == "Enter"){
+                            document.activeElement.blur();
+                        }
+                    }}
+                    onChange={(e) => setFontSize(e.target.value)}
+                />
+            <label className="block mb-1 text-sm font-medium text-gray-300">Select font-style</label>
+            <select class="mb-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full mb-3 p-2.5"
+                    value={fontFamily}
+                    style={{fontFamily: fontFamily}}
+                    onChange={(e) => setFontFamily(e.target.value)}>
+                <option value="Potta One" style={{fontFamily: 'Potta One'}}>Potta One</option>
+                <option value="Hachi Maru Pop" style={{fontFamily: 'Hachi Maru Pop'}}>Hachi Maru Pop</option>
+                <option value="Yomogi" style={{fontFamily: 'Yomogi'}}>Yomogi</option>
+                <option value="Hina Mincho" style={{fontFamily: 'Hina Mincho'}}>Hina Mincho</option>
+                <option value="RocknRoll One" style={{fontFamily: 'RocknRoll One'}}>RocknRoll One</option>
+            </select>
+            <div className="mb-3">
+            <label className="block mb-1 text-sm font-medium text-gray-300">Select color</label>
+                <HexColorPicker color={color} onChange={setColor}
+                    style={{ width: "100%"}}    
+                />
+            </div>
+                <div className="flex justify-center">
+                {fontStyle.indexOf('bold') == -1 ? 
+                    <button className="border m-1" style={{width: 40, height: 40}}
+                    onClick={() => setFontStyle(fontStyle + 'bold ')}
+                    ><b>B</b></button>
+                :
+                <button className="border m-1 bg-gray-200 border-black" style={{width: 40, height: 40}}
+                    onClick={() => setFontStyle(fontStyle.replace('bold ', ''))}
+                ><b>B</b></button>
+                }
+                {fontStyle.indexOf('italic') == -1 ? 
+                    <button className="border m-1" style={{width: 40, height: 40}}
+                    onClick={() => setFontStyle(fontStyle + 'italic ')}
+                    ><i>I</i></button>
+                :
+                <button className="border m-1 bg-gray-200 border-black" style={{width: 40, height: 40}}
+                    onClick={() => setFontStyle(fontStyle.replace('italic ', ''))}
+                ><i>I</i></button>
+                }
+                {!isUnderline ? 
+                    <button className="border m-1" style={{width: 40, height: 40}}
+                        onClick={() => setIsUnderline(!isUnderline)}
+                    ><u>U</u></button>
+                :
+                <button className="border m-1 bg-gray-200 border-black" style={{width: 40, height: 40}}
+                        onClick={() => setIsUnderline(!isUnderline)}
+                    ><u>U</u></button>
+                }
+                </div>
+                
+
+                <button className={`bg-sky-600 text-white w-full border my-3 p-3 rounded`}
+                    value="addText"
+                    onClick={(e) => {
+                        e.target.classList.add('bg-sky-800');
+                        setTimeout(() => {
+                            e.target.classList.remove('bg-sky-800');
+                        }, 200);
+                        addCanvasText();
+                    }}>
+                    Add Text
+                </button>
+                
+            </>
+        )
+    }
+    
+    const chooseUserAction = (e) => {
+      setUserAction(e.target.value);
+    };
 
     const DisplaySidebarContent = () => {
         const [paintMode, setPaintMode] = useAtom(paintModeAtom);
         const [paintWidth, setPaintWidth] = useAtom(paintWidthAtom);
         const [paintColor, setPaintColor] = useAtom(paintColorAtom);
-
-        if (userAction === "addText") {
+      
+        if (userAction === "Text") {
             return (
                 <div>
-                    <label className="block mb-1 text-sm font-medium text-gray-300">Select font-style</label>
-                    <select className="mb-2bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5">
-                        <option>font1</option>
-                        <option>font2</option>
-                        <option>font3</option>
-                    </select>
+                    <SidebarActions />
                 </div>
             );
-        } else if (userAction === "addIcon") {
+        } else if (userAction === "Icon") {
             return (
                 <div>
                     <SearchBar fetchIcons={fetchIcons} />
                     <IconList icons={icons} />
                 </div>
             );
-        } else if (userAction === "addImage") {
+        } else if (userAction === "Image") {
            return <UploadImage />;
         } else if (userAction === 'drawing') {
             return (
@@ -166,10 +252,10 @@ const Sidebar = () => {
             <div className="p-6 overflow-y-scroll bg-white rounded drop-shadow" style={{ height: 650 }}>
                 <div className="w-5/6 mx-auto mb-6">
                     <div className="flex justify-between">
-                        <button onClick={chooseUserAction} value="addText">Text 💬</button>
-                        <button onClick={chooseUserAction} value="addIcon">Icon 😄</button>
-                        <button onClick={chooseUserAction} value="addImage">Image 🏞</button>
-                        <button onClick={chooseUserAction} value="drawing">Drawing</button>
+                        <button onClick={chooseUserAction} value="Text">Text 💬</button>
+                        <button onClick={chooseUserAction} value="Icon">Icon 😄</button>
+                        <button onClick={chooseUserAction} value="Image">Image 🏞</button>
+                        <button onClick={chooseUserAction} value="Controller">Conroller</button>
                     </div>
                 </div>
                 <DisplaySidebarContent />
