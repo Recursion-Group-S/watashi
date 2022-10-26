@@ -1,3 +1,3 @@
 import { atom } from "jotai";
 
-export const userActionAtom = atom('addText');
+export const userActionAtom = atom('Text');
