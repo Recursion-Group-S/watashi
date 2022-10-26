@@ -2,11 +2,14 @@ import { useAtom } from "jotai";
 import uuid from "react-uuid";
 import { canvasItemsAtom } from "../atoms/ComponentAtom";
 import { imageComponentsAtom } from "../atoms/MapAtom";
+import { useSave } from "./useSave";
 
 
 export const useNewItem = () => {
     const [canvasItems, setCanvasItems] = useAtom(canvasItemsAtom);
     const [imageComponents, setImageComponents] = useAtom(imageComponentsAtom);
+
+
     const isValidDrop = (e, parentRef) => {
         let topOver = e.clientY < parentRef.current.getBoundingClientRect().top;
         let leftOver = e.clientX < parentRef.current.getBoundingClientRect().left;

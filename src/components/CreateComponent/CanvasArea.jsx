@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Buttons from "./Buttons";
 import { Stage, Layer, Line } from "react-konva";
 import { useAtom } from "jotai";
-import { canvasItemsAtom } from "../../atoms/ComponentAtom";
+import { canvasItemsAtom, stageRefAtom } from "../../atoms/ComponentAtom";
 import ImageComponent from "../CreateMap/ImageComponent";
 import { useNewItem } from "../../hooks/useNewItem";
 import { useDrawing } from "../../hooks/useDrawing";
@@ -15,6 +15,7 @@ const CanvasArea = ({ }, canvasRef) => {
     const [isTyping, setIsTyping] = useState(false);
     const [selectedText, setSelectedText] = useAtom(selectedTextAtom);
     const [, setTextContent] = useState(null);
+    const [, setStageRefAtom] = useAtom(stageRefAtom);
     const [hidingElement, setHidingElement] = useState([]);
     const [color, setColor] = useAtom(textColorAtom);
     const [fontFamily, setFontFamily] = useAtom(fontFamilyAtom);
@@ -147,6 +148,10 @@ const CanvasArea = ({ }, canvasRef) => {
             setCanvasItems(canvasItems.filter(item => item.id !== selectedId));
         }
     }
+
+    useEffect(() => {
+        setStageRefAtom(stageRef);
+    },[])
 
     useEffect(() => {
         window.addEventListener('keydown', deleteItem)

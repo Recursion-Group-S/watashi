@@ -18,7 +18,7 @@ export const useDrawing = () => {
             x: null,
             y: null,
             width: paintWidth,
-            height: null,
+            height: paintWidth,
             rotation: null,
             url: null,
             text: null,

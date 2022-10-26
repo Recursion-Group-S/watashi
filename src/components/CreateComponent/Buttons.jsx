@@ -1,24 +1,30 @@
 import { useAtom } from "jotai";
 import React from "react";
-import { canvasItemsAtom } from "../../atoms/ComponentAtom";
+import { canvasItemsAtom, componentSizeAtom, stageRefAtom } from "../../atoms/ComponentAtom";
 import { useSave } from "../../hooks/useSave";
 
 
 const Buttons = () => {
     const [canvasItems, setCanvasItems] = useAtom(canvasItemsAtom);
+    const [stageRef] = useAtom(stageRefAtom);
     const { saveComponent } = useSave();
+
+    const handleClear = () => {
+        setCanvasItems([]);
+        stageRef.current.children[0].children = [];
+    }
 
     const handleSave = () => {
         // backEndに渡すデータ
         console.log(canvasItems);
-        saveComponent({left: 0, top: 0, width: 650, height: 650});
+        saveComponent();
     }
     return (
         <div className="flex gap-4">
             <div className="basis-1/2">
                 <a
                     className="w-full text-center inline-block rounded border border-sky-600 px-12 py-2 text-sm font-medium text-sky-600 hover:bg-sky-600 hover:text-white focus:outline-none focus:ring active:bg-sky-600"
-                    onClick={() => setCanvasItems([])}
+                    onClick={handleClear}
                 >
                     Clear All
                 </a>
