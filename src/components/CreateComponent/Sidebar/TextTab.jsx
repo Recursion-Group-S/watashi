@@ -16,20 +16,53 @@ const TextTab = () => {
     return (
         <>
             <label className="block mb-1 text-sm font-medium text-gray-300">Select font-size</label>
-            <input className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full mb-3 p-2.5" type='number'
-                value={fontSize}
-                min="1" max='200'
-                onFocus={() => setSizeChanging(true)}
-                onBlur={() => setSizeChanging(false)}
-                onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                        document.activeElement.blur();
-                    }
-                }}
-                onChange={(e) => setFontSize(e.target.value)}
-            />
+            <div className="flex">
+                <input className="mr-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-zinc-500 focus:border-zinc-500 block w-full mb-3 p-2.5" type='number'
+                    value={fontSize}
+                    min="1" max='200'
+                    onFocus={() => setSizeChanging(true)}
+                    onBlur={() => setSizeChanging(false)}
+                    onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                            document.activeElement.blur();
+                        }
+                    }}
+                    onChange={(e) => setFontSize(e.target.value)}
+                />
+                <div>
+                    <div className="flex">
+                        {fontStyle.indexOf('bold') === -1 ?
+                            <button className="border m-1 w-10 h-10 rounded"
+                                onClick={() => setFontStyle(fontStyle + 'bold ')}
+                            ><b>B</b></button>
+                            :
+                            <button className="border m-1 w-10 h-10 rounded border-zinc-800" style={{ backgroundColor: "#f6e8aa" }}
+                                onClick={() => setFontStyle(fontStyle.replace('bold ', ''))}
+                            ><b>B</b></button>
+                        }
+                        {fontStyle.indexOf('italic') === -1 ?
+                            <button className="border m-1 w-10 h-10 rounded"
+                                onClick={() => setFontStyle(fontStyle + 'italic ')}
+                            ><i>I</i></button>
+                            :
+                            <button className="border m-1 w-10 h-10 rounded border-zinc-800" style={{ backgroundColor: "#f6e8aa" }}
+                                onClick={() => setFontStyle(fontStyle.replace('italic ', ''))}
+                            ><i>I</i></button>
+                        }
+                        {!isUnderline ?
+                            <button className="border m-1 w-10 h-10 rounded"
+                                onClick={() => setIsUnderline(!isUnderline)}
+                            ><u>U</u></button>
+                            :
+                            <button className="border m-1 w-10 h-10 rounded border-zinc-800" style={{ backgroundColor: "#f6e8aa" }}
+                                onClick={() => setIsUnderline(!isUnderline)}
+                            ><u>U</u></button>
+                        }
+                    </div>
+                </div>
+            </div>
             <label className="block mb-1 text-sm font-medium text-gray-300">Select font-style</label>
-            <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full mb-3 p-2.5"
+            <select className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-zinc-500 focus:border-zinc-500 block w-full mb-3 p-2.5"
                 value={fontFamily}
                 style={{ fontFamily: fontFamily }}
                 onChange={(e) => setFontFamily(e.target.value)}>
@@ -45,46 +78,11 @@ const TextTab = () => {
                     style={{ width: "100%" }}
                 />
             </div>
-            <div className="flex justify-center">
-                {fontStyle.indexOf('bold') === -1 ?
-                    <button className="border m-1" style={{ width: 40, height: 40 }}
-                        onClick={() => setFontStyle(fontStyle + 'bold ')}
-                    ><b>B</b></button>
-                    :
-                    <button className="border m-1 bg-gray-200 border-black" style={{ width: 40, height: 40 }}
-                        onClick={() => setFontStyle(fontStyle.replace('bold ', ''))}
-                    ><b>B</b></button>
-                }
-                {fontStyle.indexOf('italic') === -1 ?
-                    <button className="border m-1" style={{ width: 40, height: 40 }}
-                        onClick={() => setFontStyle(fontStyle + 'italic ')}
-                    ><i>I</i></button>
-                    :
-                    <button className="border m-1 bg-gray-200 border-black" style={{ width: 40, height: 40 }}
-                        onClick={() => setFontStyle(fontStyle.replace('italic ', ''))}
-                    ><i>I</i></button>
-                }
-                {!isUnderline ?
-                    <button className="border m-1" style={{ width: 40, height: 40 }}
-                        onClick={() => setIsUnderline(!isUnderline)}
-                    ><u>U</u></button>
-                    :
-                    <button className="border m-1 bg-gray-200 border-black" style={{ width: 40, height: 40 }}
-                        onClick={() => setIsUnderline(!isUnderline)}
-                    ><u>U</u></button>
-                }
-            </div>
 
-
-            <button className={`bg-sky-600 text-white w-full border my-3 p-3 rounded`}
+            <button className="bg-zinc-800 text-white w-full border border-zinc-800 mt-2 py-2 rounded-2xl hover:bg-white hover:text-zinc-800"
                 value="addText"
-                onClick={(e) => {
-                    e.target.classList.add('bg-sky-800');
-                    setTimeout(() => {
-                        e.target.classList.remove('bg-sky-800');
-                    }, 200);
-                    addCanvasText();
-                }}>
+                onClick={() => addCanvasText()}
+            >
                 Add Text
             </button>
 
