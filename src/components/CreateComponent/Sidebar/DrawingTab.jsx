@@ -12,9 +12,9 @@ const DrawingTab = () => {
     return (
         <div>
             <div className="mb-2">
-                <select className="border rounded mr-2" value={paintMode} onChange={(e) => setPaintMode(e.target.value)}>
-                    <option value="brush">brush</option>
-                    <option value="eraser">erasor</option>
+                <select className="border border-gray-300 rounded-lg px-2 py-1 mr-2" value={paintMode} onChange={(e) => setPaintMode(e.target.value)}>
+                    <option value="brush">Brush</option>
+                    <option value="eraser">Erasor</option>
                 </select>
                 <input type="range" min='1' max='10'
                     value={paintWidth} onChange={(e) => setPaintWidth(e.target.value)} />
