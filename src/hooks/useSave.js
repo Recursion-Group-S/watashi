@@ -52,27 +52,18 @@ export const useSave = () => {
     }
 
     const saveComponent = () => {
-        let componentSize = { left: 650, right: 0, top: 650, bottom: 0 };
         stageRef.current.children[0].children = [];
         for(let item of canvasItems) {
-            addItemOnCanvas(item);
-            if(item.type != 'line'){
-                componentSize = {
-                    left: Math.min(componentSize.left, item.x),
-                    right: Math.max(componentSize.right, item.x + item.width),
-                    top: Math.min(componentSize.top, item.y),
-                    bottom: Math.max(componentSize.bottom, item.y + item.height),
-                }
-            }
-            
+            addItemOnCanvas(item);   
         }
-    
-        // let data = stageRef.current.toDataURL();
-        // setCanvasItems([]);
-        // stageRef.current.children[0].children = [];
-        // console.log(data);
-        // console.log(componentSize);
-        console.log(stageRef.current)
+        
+        setTimeout(() => {
+            let data = stageRef.current.toDataURL();
+            setCanvasItems([]);
+            stageRef.current.children[0].children = [];
+            console.log(data);
+        }, 3000);
+        
    
         
     }
