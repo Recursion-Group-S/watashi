@@ -62,9 +62,7 @@ export const useSave = () => {
             setCanvasItems([]);
             stageRef.current.children[0].children = [];
             console.log(data);
-        }, 3000);
-        
-   
+        }, 2000);
         
     }
     return { saveComponent }
