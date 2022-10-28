@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Buttons from "./Buttons";
 import { Stage, Layer, Line } from "react-konva";
 import { useAtom } from "jotai";
-import { canvasItemsAtom, stageRefAtom } from "../../atoms/ComponentAtom";
+import { canvasItemsAtom, selectedIDAtom, stageRefAtom } from "../../atoms/ComponentAtom";
 import ImageComponent from "../CreateMap/ImageComponent";
 import { useNewItem } from "../../hooks/useNewItem";
 import { useDrawing } from "../../hooks/useDrawing";
@@ -25,7 +25,7 @@ const CanvasArea = ({ }, canvasRef) => {
     const [sizeChanging] = useAtom(sizeChangingAtom);
     const textAreaRef = useRef();
 
-    const [selectedId, selectImage] = useState(null);
+    const [selectedId, selectImage] = useAtom(selectedIDAtom);
     const [isDragging, setIsDragging] = useState(false);
     const [canvasItems, setCanvasItems] = useAtom(canvasItemsAtom);
     const [userAction] = useAtom(userActionAtom);
@@ -57,12 +57,6 @@ const CanvasArea = ({ }, canvasRef) => {
         }
     }
 
-    const deleteTextComponent = (e) => {
-        if (e.key == "Backspace" && selectedText && !isTyping && !sizeChanging) {
-            setCanvasItems(canvasItems.filter(item => item.id != selectedText.id))
-        }
-    }
-
     useEffect(() => {
         if (isTyping) {
             let end = textAreaRef.current.value.length;
@@ -76,10 +70,6 @@ const CanvasArea = ({ }, canvasRef) => {
             setFontStyle(selectedText.fontStyle);
             setIsUnderline(selectedText.isUnderline);
         }
-        window.addEventListener('keydown', deleteTextComponent)
-        return () => {
-            window.removeEventListener('keydown', deleteTextComponent);
-        };
     }, [isTyping, selectedText, sizeChanging])
 
     useEffect(() => {
@@ -144,8 +134,13 @@ const CanvasArea = ({ }, canvasRef) => {
     }
 
     const deleteItem = (e) => {
-        if (!isDragging && e.key == 'Backspace') {
-            setCanvasItems(canvasItems.filter(item => item.id !== selectedId));
+        if (!isDragging && e.key == 'Backspace' && selectedId) {
+            setCanvasItems(canvasItems.filter(item => item.id != selectedId));
+            selectImage(null)
+        }
+        if (e.key == "Backspace" && selectedText && !isTyping && !sizeChanging) {
+            setCanvasItems(canvasItems.filter(item => item.id != selectedText.id))
+            cancelSelectedText();
         }
     }
 
@@ -158,7 +153,7 @@ const CanvasArea = ({ }, canvasRef) => {
         return () => {
             window.removeEventListener('keydown', deleteItem);
         };
-    }, [selectedId, isDragging])
+    }, [selectedId, isDragging, isTyping, selectedText, sizeChanging])
 
 
     return (
@@ -213,6 +208,7 @@ const CanvasArea = ({ }, canvasRef) => {
                                     isSelected={item.id === selectedId}
                                     onSelect={() => {
                                         selectImage(item.id);
+                                        cancelSelectedText();
                                     }}
                                     onChange={(newAttrs) => {
                                         const images = canvasItems.slice();

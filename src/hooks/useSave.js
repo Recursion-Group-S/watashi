@@ -1,6 +1,8 @@
 import { useAtom } from "jotai"
 import { canvasItemsAtom, stageRefAtom } from "./../atoms/ComponentAtom";
 import Konva from "konva";
+import uuid from "react-uuid";
+import { auth } from "../client/firebase";
 
 export const useSave = () => {
     const [canvasItems, setCanvasItems] = useAtom(canvasItemsAtom);
@@ -59,11 +61,27 @@ export const useSave = () => {
         
         setTimeout(() => {
             let data = stageRef.current.toDataURL();
+            console.log(data);
+            saveNewMap(data);
             setCanvasItems([]);
             stageRef.current.children[0].children = [];
-            console.log(data);
         }, 2000);
         
+    }
+
+    const saveNewMap = (mapUrl) => {
+        // 現在のComponentをMapにした場合
+        let newMap = 
+        {
+            mapID: uuid(),
+            mapTitle: "",
+            author: auth.currentUser.uid,
+            url: mapUrl,
+            mapItems: canvasItems,
+            backgroundColor: "white",
+            createdAt: Date()
+        }
+        console.log(newMap)
     }
     return { saveComponent }
 }
