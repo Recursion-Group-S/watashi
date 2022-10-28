@@ -45,14 +45,14 @@ const CanvasArea = ({ }, canvasRef) => {
     }
 
     const handleClick = (e) => {
-        if (selectedText && stageRef.current == e.target) {
+        if (selectedText && stageRef.current === e.target) {
             cancelSelectedText();
         }
     }
 
 
     const handleTextKeyDown = (e) => {
-        if (e.key == 'Enter' && !e.shiftKey || e.key == 'Escape') {
+        if (e.key === 'Enter' && !e.shiftKey || e.key === 'Escape') {
             cancelSelectedText();
         }
     }
@@ -113,15 +113,15 @@ const CanvasArea = ({ }, canvasRef) => {
     };
 
     const handleMouseDown = (e) => {
-        if (userAction == 'drawing') {
+        if (userAction === 'drawing') {
             startDrawing(stageRef);
         }
         checkDeselect(e);
     }
 
     const handleMouseMove = (e) => {
-        if (userAction == 'drawing') {
-            let lines = stageRef.current.children[0].children.filter(child => child.attrs.id == 'line');
+        if (userAction === 'drawing') {
+            let lines = stageRef.current.children[0].children.filter(child => child.attrs.id === 'line');
             moveDrawing(e, stageRef, lines);
         }
     }
@@ -134,11 +134,11 @@ const CanvasArea = ({ }, canvasRef) => {
     }
 
     const deleteItem = (e) => {
-        if (!isDragging && e.key == 'Backspace' && selectedId) {
+        if (!isDragging && e.key === 'Backspace' && selectedId) {
             setCanvasItems(canvasItems.filter(item => item.id != selectedId));
             selectImage(null)
         }
-        if (e.key == "Backspace" && selectedText && !isTyping && !sizeChanging) {
+        if (e.key === "Backspace" && selectedText && !isTyping && !sizeChanging) {
             setCanvasItems(canvasItems.filter(item => item.id != selectedText.id))
             cancelSelectedText();
         }
@@ -174,7 +174,7 @@ const CanvasArea = ({ }, canvasRef) => {
                 >
                     <Layer>
                         {canvasItems.map((item, i) => (
-                            item.type == 'line' ?
+                            item.type === 'line' ?
                                 <Line
                                     key={item.id}
                                     id={item.type}
@@ -185,13 +185,13 @@ const CanvasArea = ({ }, canvasRef) => {
                                     lineJoin={'round'}
                                     points={item.points}
                                 />
-                                : item.type == 'text' ?
+                                : item.type === 'text' ?
                                 <TextComponent
                                     key={item.id}
                                     textProps={item}
                                     setIsTyping={setIsTyping}
                                     setHidingElement={setHidingElement}
-                                    isSelected={item == selectedText}
+                                    isSelected={item === selectedText}
                                     onChange={(newAttrs) => {
                                         const texts = canvasItems.slice();
                                         texts.splice(i, 1);

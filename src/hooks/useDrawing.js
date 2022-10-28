@@ -47,7 +47,7 @@ export const useDrawing = () => {
         const lastLineRef = lines[lines.length - 1];
         var newPoints = lastLineRef.points().concat([position.x, position.y]);
         lastLineRef.points(newPoints);
-        let lineItems = canvasItems.filter(item => item.type == 'line');
+        let lineItems = canvasItems.filter(item => item.type === 'line');
         const lastLine = lineItems[lineItems.length - 1];
         lastLine.points = lastLineRef.points();
     }

@@ -9,7 +9,7 @@ export const useSave = () => {
     const [stageRef] = useAtom(stageRefAtom);
 
     const addItemOnCanvas = (item) => {
-        if(item.type == 'line'){
+        if(item.type === 'line'){
             stageRef.current.children[0].add(new Konva.Line({
                 key: item.id,
                 id: item.type,
@@ -21,7 +21,7 @@ export const useSave = () => {
                 points: item.points,
             }))
         }
-        else if(item.type == 'icon' || item.type == 'image') {
+        else if(item.type === 'icon' || item.type === 'image') {
             let imgObj = new Image();
             
             imgObj.onload = function(){
@@ -38,7 +38,7 @@ export const useSave = () => {
             imgObj.src = item.url;
             
         }
-        else if(item.type == 'text') {
+        else if(item.type === 'text') {
             stageRef.current.children[0].add(new Konva.Text({
                 text: item.text,
                 x: item.x,

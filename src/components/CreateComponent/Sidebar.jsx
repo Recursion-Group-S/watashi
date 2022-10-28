@@ -128,7 +128,7 @@ const Sidebar = () => {
                     onFocus={() => setSizeChanging(true)}
                     onBlur={() => setSizeChanging(false)}
                     onKeyDown={(e) => {
-                        if (e.key == "Enter") {
+                        if (e.key === "Enter") {
                             document.activeElement.blur();
                         }
                     }}
@@ -152,7 +152,7 @@ const Sidebar = () => {
                     />
                 </div>
                 <div className="flex justify-center">
-                    {fontStyle.indexOf('bold') == -1 ?
+                    {fontStyle.indexOf('bold') === -1 ?
                         <button className="border m-1" style={{ width: 40, height: 40 }}
                             onClick={() => setFontStyle(fontStyle + 'bold ')}
                         ><b>B</b></button>
@@ -161,7 +161,7 @@ const Sidebar = () => {
                             onClick={() => setFontStyle(fontStyle.replace('bold ', ''))}
                         ><b>B</b></button>
                     }
-                    {fontStyle.indexOf('italic') == -1 ?
+                    {fontStyle.indexOf('italic') === -1 ?
                         <button className="border m-1" style={{ width: 40, height: 40 }}
                             onClick={() => setFontStyle(fontStyle + 'italic ')}
                         ><i>I</i></button>

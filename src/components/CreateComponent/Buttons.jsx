@@ -15,7 +15,7 @@ const Buttons = () => {
     }
 
     const handleSave = (e) => {
-        if(canvasItems.length == 0) return;
+        if(canvasItems.length === 0) return;
         e.target.disabled = true;
         saveComponent();
         // Galleryに飛ばす
