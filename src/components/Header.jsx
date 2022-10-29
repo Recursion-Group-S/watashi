@@ -14,16 +14,16 @@ const Header = () => {
               Watashi
             </h1>
           </div>
-          <div className="mt-4 flex flex-col gap-4 sm:mt-0 sm:flex-row sm:items-center">
-            <a href="/gallery">Gallery</a>
-            {userAuth ? (
+          {userAuth ? (
+            <div className="mt-4 flex flex-col gap-4 sm:mt-0 sm:flex-row sm:items-center">
+              <a href="/gallery">Gallery</a>
               <img
                 className="w-10 h-10 rounded-full"
                 src={userAuth.photoURL}
                 alt="Rounded avatar"
               />
-            ) : null}
-          </div>
+            </div>
+          ) : null}
         </div>
       </div>
     </header>

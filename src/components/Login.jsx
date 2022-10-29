@@ -20,7 +20,7 @@ const Login = () => {
         result.user.email,
         result.user.photoURL
       );
-      navigate("/createMap");
+      navigate("/gallery");
     });
   };
 
