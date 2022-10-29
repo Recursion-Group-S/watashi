@@ -1,7 +1,16 @@
-import { React } from "react";
+import { useAtomValue } from "jotai";
+import { React, useEffect, useState } from "react";
+import { authUserAtom } from "../../atoms/authUser";
+import { getMaps } from "../../db/map";
 import MapList from "./MapList";
 
 const Gallery = () => {
+  const userAuth = useAtomValue(authUserAtom);
+  const [galleryList, setGalleryList] = useState([]);
+  useEffect(() => {
+    if (userAuth) setGalleryList(getMaps(userAuth.uid));
+  }, []);
+  
   return (
     <div className="w-screen">
       <div className="w-2/3 mx-auto mb-6 flex">

@@ -9,3 +9,4 @@ export const postUser = (uid, name, email, iconUrl) => {
     iconUrl: iconUrl
   });
 }
+
