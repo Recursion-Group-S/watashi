@@ -10,4 +10,3 @@ export const sizeChangingAtom = atom(false);
 export const selectedTextAtom = atom(null);
 
 export const inputPositionAtom = atom(null);
-export const textComponentsAtom = atom([]);

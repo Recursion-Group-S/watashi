@@ -15,15 +15,21 @@ export const useDrawing = () => {
         let newLine = {
             id: uuid(),
             type: 'line',
-            stroke: paintColor,
-            strokeWidth: paintWidth,
-            globalCompositeOperation:
-                paintMode === 'brush' ? 'source-over' : 'destination-out',
-            lineCap: 'round',
-            lineJoin: 'round',
-            // add point twice, so we have some drawings even on a simple click
-            points: [position.x, position.y, position.x, position.y],
-        };
+            x: null,
+            y: null,
+            width: paintWidth,
+            height: paintWidth,
+            rotation: null,
+            url: null,
+            text: null,
+            fontSize: null,
+            fontFamily: null,
+            color: paintColor,
+            fontStyle: null,
+            isUnderline: null,
+            globalCompositeOperation: paintMode === 'brush' ? 'source-over' : 'destination-out',
+            points: [position.x, position.y, position.x, position.y]
+        }
         setCanvasItems([...canvasItems, newLine]);
     }
 
@@ -36,13 +42,12 @@ export const useDrawing = () => {
             return;
         }
   
-        // prevent scrolling on touch devices
         e.evt.preventDefault();
         const position = stageRef.current.getPointerPosition();
         const lastLineRef = lines[lines.length - 1];
         var newPoints = lastLineRef.points().concat([position.x, position.y]);
         lastLineRef.points(newPoints);
-        let lineItems = canvasItems.filter(item => item.type == 'line');
+        let lineItems = canvasItems.filter(item => item.type === 'line');
         const lastLine = lineItems[lineItems.length - 1];
         lastLine.points = lastLineRef.points();
     }
