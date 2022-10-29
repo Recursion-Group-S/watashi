@@ -6,11 +6,16 @@ import MapList from "./MapList";
 
 const Gallery = () => {
   const userAuth = useAtomValue(authUserAtom);
-  const [galleryList, setGalleryList] = useState([]);
+  const [mapList, setMapList] = useState([]);
   useEffect(() => {
-    if (userAuth) setGalleryList(getMaps(userAuth.uid));
-  }, []);
-  
+    if (userAuth) {
+      getMaps(userAuth.uid).then((res) => {
+        setMapList(res);
+      });
+    }
+  },[userAuth,setMapList]);
+
+  if (!mapList) return <div>loading...</div>;
   return (
     <div className="w-screen">
       <div className="w-2/3 mx-auto mb-6 flex">
@@ -24,7 +29,7 @@ const Gallery = () => {
         className="mx-auto flex flex-wrap gap-4 mb-4"
         style={{ width: 1048 }}
       >
-        <MapList />
+        <MapList mapList={mapList} />
       </div>
       <div className="flex justify-center gap-1">
         <a

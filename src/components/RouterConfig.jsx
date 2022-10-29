@@ -16,7 +16,7 @@ export const RouterConfig = () => {
           <Container>
             <Routes>
               <Route path="/" element={<Login />} />
-              <Route path="/createComponent" element={<CreateComponent />} />
+              <Route path="/map/:mapID" element={<CreateComponent />} />
               <Route path="/gallery" element={<Gallery />} />
             </Routes>
           </Container>
