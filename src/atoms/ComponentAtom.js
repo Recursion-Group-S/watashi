@@ -2,6 +2,9 @@ import { atom } from "jotai";
 
 export const canvasRefAtom = atom(null);
 export const canvasItemsAtom = atom([]);
+export const stageRefAtom = atom(null);
+
+export const selectedIDAtom = atom(null);
 
 export const isPaintAtom = atom(false);
 export const paintModeAtom = atom('brush');

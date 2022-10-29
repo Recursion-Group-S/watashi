@@ -1,11 +1,14 @@
+import { useAtom } from 'jotai';
 import React, { useEffect, useRef } from 'react';
 import { Image, Transformer } from 'react-konva';
 import useImage from 'use-image';
+import { userActionAtom } from '../../atoms/Atoms';
 
 const ImageComponent = ({imgProps, isSelected, onSelect, onChange }) => {
     const [image] = useImage(imgProps.url);
     const componentRef = useRef();
     const trRef = useRef();
+    const [userAction] = useAtom(userActionAtom)
   
     useEffect(() => {
         if (isSelected) {
@@ -22,7 +25,7 @@ const ImageComponent = ({imgProps, isSelected, onSelect, onChange }) => {
             onTap={onSelect}
             ref={componentRef}
             {...imgProps}
-            draggable
+            draggable={userAction == 'drawing' ? false: true}
             rotation={imgProps.rotation}
             onDragEnd={(e) => {
                 onChange({

@@ -14,7 +14,6 @@ const Header = () => {
               Watashi
             </h1>
           </div>
-
           <div className="mt-4 flex flex-col gap-4 sm:mt-0 sm:flex-row sm:items-center">
             <a href="/gallery">Gallery</a>
             {userAuth ? (

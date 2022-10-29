@@ -1,11 +1,15 @@
 import { useAtom } from "jotai";
 import React, { useRef, useEffect } from "react";
 import { Text, Transformer } from "react-konva";
+import { userActionAtom } from "../../atoms/Atoms";
+import { selectedIDAtom } from "../../atoms/ComponentAtom";
 import { inputPositionAtom, selectedTextAtom } from "../../atoms/TextAtom";
 
-const TextComponent = ({ textProps, setIsTyping, setHidingElement, isSelected }) => {
+const TextComponent = ({ textProps, setIsTyping, setHidingElement, isSelected, onChange }) => {
     const componentRef = useRef();
     const trRef = useRef();
+    const [userAction] = useAtom(userActionAtom);
+    const [, selectImage] = useAtom(selectedIDAtom);
     const [, setInputPosition] = useAtom(inputPositionAtom);
     const [, setSelectedText] = useAtom(selectedTextAtom);
 
@@ -23,6 +27,12 @@ const TextComponent = ({ textProps, setIsTyping, setHidingElement, isSelected })
         const node = componentRef.current;
         textProps.x = node.attrs.x;
         textProps.y = node.attrs.y;
+        onChange(textProps);
+    }
+
+    const handleClick = () => {
+        selectImage(null);
+        setSelectedText(textProps)
     }
 
     const handleTransform = () => {
@@ -34,6 +44,7 @@ const TextComponent = ({ textProps, setIsTyping, setHidingElement, isSelected })
         textProps.rotation = node.attrs.rotation;
         textProps.width = node.attrs.width;
         textProps.height = node.attrs.height;
+        onChange(textProps);
     }
 
     useEffect(() => {
@@ -54,12 +65,12 @@ const TextComponent = ({ textProps, setIsTyping, setHidingElement, isSelected })
                 width={textProps.width}
                 fontStyle={textProps.fontStyle}
                 textDecoration={textProps.isUnderline ? 'underline' : ''}
-                draggable
+                draggable={userAction === 'drawing' ? false : true}
                 fill={textProps.color}
                 onDblClick={handleDblClick}
                 onDblTap={handleDblClick}
-                onClick={() => setSelectedText(textProps)}
-                onTap={() => setSelectedText(textProps)}
+                onClick={handleClick}
+                onTap={handleClick}
                 onDragEnd={handleDragEnd}
                 onTransform={handleTransform}
                 ref={componentRef}

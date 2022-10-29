@@ -26,10 +26,12 @@ const Login = () => {
 
   return (
     <div>
-      <div className="text-6xl text-center mb-8">LOGO</div>
+      <div className="mb-12">
+        <img className="w-96" src="/images/watashi_logo.png" alt="watashi_logo" />
+      </div>
       <button
         onClick={clickLogin}
-        className="inline-block rounded border border-sky-600 bg-sky-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-sky-600 focus:outline-none focus:ring active:text-sky-500"
+        className="m-auto block rounded-2xl border border-zinc-800 bg-zinc-800 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-zinc-800 focus:outline-none focus:ring active:text-zinc-500"
       >
         GET STARTED
       </button>
