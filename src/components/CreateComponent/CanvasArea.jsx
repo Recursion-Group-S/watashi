@@ -3,7 +3,7 @@ import Buttons from "./Buttons";
 import { Stage, Layer, Line } from "react-konva";
 import { useAtom } from "jotai";
 import { canvasItemsAtom, selectedIDAtom, stageRefAtom } from "../../atoms/ComponentAtom";
-import ImageComponent from "../CreateMap/ImageComponent";
+import ImageComponent from "./ImageComponent";
 import { useNewItem } from "../../hooks/useNewItem";
 import { useDrawing } from "../../hooks/useDrawing";
 import { userActionAtom } from "../../atoms/Atoms";

@@ -7,7 +7,7 @@ import { useSave } from "../../hooks/useSave";
 const Buttons = () => {
     const [canvasItems, setCanvasItems] = useAtom(canvasItemsAtom);
     const [stageRef] = useAtom(stageRefAtom);
-    const { saveComponent } = useSave();
+    const { saveMap } = useSave();
 
     const handleClear = () => {
         setCanvasItems([]);
@@ -17,7 +17,7 @@ const Buttons = () => {
     const handleSave = (e) => {
         if(canvasItems.length === 0) return;
         e.target.disabled = true;
-        saveComponent();
+        saveMap();
         // Galleryに飛ばす
         setTimeout(() => {
             e.target.disabled = false;

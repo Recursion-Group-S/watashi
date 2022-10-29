@@ -1,7 +1,45 @@
-import { React } from "react";
+import { useAtomValue } from "jotai";
+import { React, useEffect, useState } from "react";
+import { authUserAtom } from "../../atoms/authUser";
+import { getMaps } from "../../db/map";
 import MapList from "./MapList";
+import { useNavigate } from 'react-router-dom';
+import { useSetAtom } from "jotai";
+import { currentMapAtom } from "../../atoms/CurrentMapAtom";
+import { canvasItemsAtom } from "../../atoms/ComponentAtom";
+import uuid from "react-uuid";
 
 const Gallery = () => {
+  const userAuth = useAtomValue(authUserAtom);
+  const [mapList, setMapList] = useState([]);
+  const navigate = useNavigate();
+  const setCanvasItems = useSetAtom(canvasItemsAtom)
+  const setCurrentMap = useSetAtom(currentMapAtom)
+
+  const handleNewMap = () => {
+    const newMap = {
+      mapID: uuid(),
+      mapTitle: "",
+      author: userAuth.uid,
+      url: "",
+      mapItems: [],
+      backgroundColor: "white",
+      createdAt: Date()
+    }
+    
+    navigate(`/map/${newMap.mapID}`);
+    setCurrentMap(newMap)
+    setCanvasItems(newMap.mapItems)
+  }
+  useEffect(() => {
+    if (userAuth) {
+      getMaps(userAuth.uid).then((res) => {
+        setMapList(res);
+      });
+    }
+  },[userAuth,setMapList]);
+
+  if (!mapList) return <div>loading...</div>;
   return (
     <div className="w-screen">
       <div className="w-2/3 mx-auto mb-6 flex">
@@ -15,8 +53,9 @@ const Gallery = () => {
         className="mx-auto flex flex-wrap gap-4 mb-4"
         style={{ width: 1048 }}
       >
-        <MapList />
+        <MapList mapList={mapList} />
       </div>
+      <button onClick={handleNewMap}>New Map</button>
       <div className="flex justify-center gap-1">
         <a
           href="/?page=1"

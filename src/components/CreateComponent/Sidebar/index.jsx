@@ -17,10 +17,10 @@ const Sidebar = () => {
         <div style={{ width: 444 }}>
             <a
                 className="w-full text-center inline-block rounded-2xl border border-zinc-800 bg-zinc-800 py-2 mb-2 text-sm font-medium text-white hover:bg-white hover:text-zinc-800 focus:outline-none focus:ring active:text-zinc-800"
-                href="/createMap"
+                href="/gallery"
                 style={{ width: 444 }}
             >
-                Back to CreateMap
+                Back to Gallery
             </a>
             <div className="p-6 overflow-y-scroll bg-white rounded drop-shadow" style={{ height: 650 }}>
                 <div className="w-5/6 mx-auto mb-6">

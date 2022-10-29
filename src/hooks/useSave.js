@@ -1,13 +1,13 @@
-import { useAtom } from "jotai"
+import { useAtom, useAtomValue } from "jotai"
 import { canvasItemsAtom, stageRefAtom } from "./../atoms/ComponentAtom";
+import { currentMapAtom } from "../atoms/CurrentMapAtom";
 import Konva from "konva";
-import uuid from "react-uuid";
-import { auth } from "../client/firebase";
 import { postMap } from "../db/map";
 
 export const useSave = () => {
     const [canvasItems, setCanvasItems] = useAtom(canvasItemsAtom);
     const [stageRef] = useAtom(stageRefAtom);
+    const currentMap = useAtomValue(currentMapAtom)
 
     const addItemOnCanvas = (item) => {
         if(item.type === 'line'){
@@ -54,7 +54,8 @@ export const useSave = () => {
         }
     }
 
-    const saveComponent = () => {
+    const saveMap = () => {
+        // 画像urlを取得してdatabaseのMapを新規追加/書き換え
         stageRef.current.children[0].children = [];
         for(let item of canvasItems) {
             addItemOnCanvas(item);   
@@ -62,26 +63,25 @@ export const useSave = () => {
         
         setTimeout(() => {
             let data = stageRef.current.toDataURL();
-            saveNewMap(data);
+            updateMap(data);
             setCanvasItems([]);
             stageRef.current.children[0].children = [];
         }, 2000);
-        
     }
 
-    const saveNewMap = (mapUrl) => {
-        // 現在のComponentをMapにした場合
+
+    const updateMap = (mapUrl) => {
         const newMap = 
         {
-            mapID: uuid(),
-            mapTitle: "New Map",
-            author: auth.currentUser.uid,
+            mapID: currentMap.mapID,
+            mapTitle: currentMap.mapTitle,
+            author: currentMap.author,
             url: mapUrl,
             mapItems: canvasItems,
-            backgroundColor: "white",
-            createdAt: Date()
+            backgroundColor: currentMap.backgroundColor,
+            createdAt: currentMap.createdAt
         }
         postMap(newMap);
     }
-    return { saveComponent }
+    return { saveMap }
 }

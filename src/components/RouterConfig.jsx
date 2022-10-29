@@ -3,7 +3,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Container from "./Container";
 
 export const RouterConfig = () => {
-  const CreateMap = lazy(() => import("./CreateMap"));
   const Login = lazy(() => import("./Login"));
   const Gallery = lazy(() => import("./Gallery"));
   const CreateComponent = lazy(() => import("./CreateComponent"));
@@ -17,8 +16,7 @@ export const RouterConfig = () => {
           <Container>
             <Routes>
               <Route path="/" element={<Login />} />
-              <Route path="/createMap" element={<CreateMap />} />
-              <Route path="/createComponent" element={<CreateComponent />} />
+              <Route path="/map/:mapID" element={<CreateComponent />} />
               <Route path="/gallery" element={<Gallery />} />
             </Routes>
           </Container>
