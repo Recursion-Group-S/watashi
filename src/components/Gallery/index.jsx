@@ -3,10 +3,34 @@ import { React, useEffect, useState } from "react";
 import { authUserAtom } from "../../atoms/authUser";
 import { getMaps } from "../../db/map";
 import MapList from "./MapList";
+import { useNavigate } from 'react-router-dom';
+import { useSetAtom } from "jotai";
+import { currentMapAtom } from "../../atoms/CurrentMapAtom";
+import { canvasItemsAtom } from "../../atoms/ComponentAtom";
+import uuid from "react-uuid";
 
 const Gallery = () => {
   const userAuth = useAtomValue(authUserAtom);
   const [mapList, setMapList] = useState([]);
+  const navigate = useNavigate();
+  const setCanvasItems = useSetAtom(canvasItemsAtom)
+  const setCurrentMap = useSetAtom(currentMapAtom)
+
+  const handleNewMap = () => {
+    const newMap = {
+      mapID: uuid(),
+      mapTitle: "",
+      author: userAuth.uid,
+      url: "",
+      mapItems: [],
+      backgroundColor: "white",
+      createdAt: Date()
+    }
+    
+    navigate(`/map/${newMap.mapID}`);
+    setCurrentMap(newMap)
+    setCanvasItems(newMap.mapItems)
+  }
   useEffect(() => {
     if (userAuth) {
       getMaps(userAuth.uid).then((res) => {
@@ -31,6 +55,7 @@ const Gallery = () => {
       >
         <MapList mapList={mapList} />
       </div>
+      <button onClick={handleNewMap}>New Map</button>
       <div className="flex justify-center gap-1">
         <a
           href="/?page=1"
