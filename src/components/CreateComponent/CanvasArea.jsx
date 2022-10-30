@@ -9,6 +9,7 @@ import { useDrawing } from "../../hooks/useDrawing";
 import { userActionAtom } from "../../atoms/Atoms";
 import TextComponent from "./TextComponent";
 import { fontFamilyAtom, fontSizeAtom, fontStyleAtom, inputPositionAtom, isUnderlineAtom, selectedTextAtom, sizeChangingAtom, textColorAtom, textComponentsAtom } from "../../atoms/TextAtom";
+import { currentMapAtom } from "../../atoms/CurrentMapAtom";
 
 const CanvasArea = ({ }, canvasRef) => {
     const [inputPosition] = useAtom(inputPositionAtom);
@@ -29,6 +30,7 @@ const CanvasArea = ({ }, canvasRef) => {
     const [isDragging, setIsDragging] = useState(false);
     const [canvasItems, setCanvasItems] = useAtom(canvasItemsAtom);
     const [userAction] = useAtom(userActionAtom);
+    const [currentMap] = useAtom(currentMapAtom)
     const stageRef = useRef(null);
     const { isValidDrop } = useNewItem();
     const { startDrawing, endDrawing, moveDrawing } = useDrawing();
@@ -146,6 +148,8 @@ const CanvasArea = ({ }, canvasRef) => {
 
     useEffect(() => {
         setStageRefAtom(stageRef);
+        console.log("container")
+        stageRef.current.container().style.backgroundColor = currentMap.backgroundColor;
     },[])
 
     useEffect(() => {
