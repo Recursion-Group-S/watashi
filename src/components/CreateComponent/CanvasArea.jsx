@@ -146,7 +146,7 @@ const CanvasArea = ({ }, canvasRef) => {
 
     useEffect(() => {
         setStageRefAtom(stageRef);
-    },[])
+    }, [])
 
     useEffect(() => {
         window.addEventListener('keydown', deleteItem)
@@ -154,7 +154,6 @@ const CanvasArea = ({ }, canvasRef) => {
             window.removeEventListener('keydown', deleteItem);
         };
     }, [selectedId, isDragging, isTyping, selectedText, sizeChanging])
-
 
     return (
         <div ref={canvasRef}>
@@ -186,38 +185,38 @@ const CanvasArea = ({ }, canvasRef) => {
                                     points={item.points}
                                 />
                                 : item.type === 'text' ?
-                                <TextComponent
-                                    key={item.id}
-                                    textProps={item}
-                                    setIsTyping={setIsTyping}
-                                    setHidingElement={setHidingElement}
-                                    isSelected={item === selectedText}
-                                    onChange={(newAttrs) => {
-                                        const texts = canvasItems.slice();
-                                        texts.splice(i, 1);
-                                        const text = newAttrs;
-                                        texts.push(text);
-                                        setCanvasItems(texts);
-                                    }}
-                                />
-                                :
-                                <ImageComponent
-                                    key={item.id}
-                                    id={item.type}
-                                    imgProps={item}
-                                    isSelected={item.id === selectedId}
-                                    onSelect={() => {
-                                        selectImage(item.id);
-                                        cancelSelectedText();
-                                    }}
-                                    onChange={(newAttrs) => {
-                                        const images = canvasItems.slice();
-                                        images.splice(i, 1);
-                                        const image = newAttrs;
-                                        images.push(image);
-                                        setCanvasItems(images);
-                                    }}
-                                />
+                                    <TextComponent
+                                        key={item.id}
+                                        textProps={item}
+                                        setIsTyping={setIsTyping}
+                                        setHidingElement={setHidingElement}
+                                        isSelected={item === selectedText}
+                                        onChange={(newAttrs) => {
+                                            const texts = canvasItems.slice();
+                                            texts.splice(i, 1);
+                                            const text = newAttrs;
+                                            texts.push(text);
+                                            setCanvasItems(texts);
+                                        }}
+                                    />
+                                    :
+                                    <ImageComponent
+                                        key={item.id}
+                                        id={item.type}
+                                        imgProps={item}
+                                        isSelected={item.id === selectedId}
+                                        onSelect={() => {
+                                            selectImage(item.id);
+                                            cancelSelectedText();
+                                        }}
+                                        onChange={(newAttrs) => {
+                                            const images = canvasItems.slice();
+                                            images.splice(i, 1);
+                                            const image = newAttrs;
+                                            images.push(image);
+                                            setCanvasItems(images);
+                                        }}
+                                    />
                         ))}
                     </Layer>
                 </Stage>

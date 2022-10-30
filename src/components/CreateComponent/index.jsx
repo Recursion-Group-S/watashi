@@ -3,6 +3,7 @@ import { useRef } from "react";
 import { forwardRef } from "react";
 import CanvasArea from "./CanvasArea";
 import Sidebar from "./Sidebar";
+import SaveMapModal from "../../modals/SaveMapModal";
 import { useAtom } from "jotai";
 import { canvasRefAtom } from "../../atoms/ComponentAtom";
 
@@ -19,6 +20,7 @@ const CreateComponent = () => {
     <div className="flex gap-x-4">
       <WrappedCanvasArea ref={canvasRef} />
       <Sidebar />
+      <SaveMapModal />
     </div>
   );
 };
