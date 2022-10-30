@@ -1,5 +1,5 @@
 import { useAtom, useAtomValue } from "jotai"
-import { canvasItemsAtom, stageRefAtom } from "./../atoms/ComponentAtom";
+import { backgroundImageAtom, canvasItemsAtom, stageRefAtom } from "./../atoms/ComponentAtom";
 import { currentMapAtom } from "../atoms/CurrentMapAtom";
 import Konva from "konva";
 import { postMap } from "../db/map";
@@ -8,6 +8,7 @@ export const useSave = () => {
     const [canvasItems, setCanvasItems] = useAtom(canvasItemsAtom);
     const [stageRef] = useAtom(stageRefAtom);
     const currentMap = useAtomValue(currentMapAtom)
+    const backgroundImage = useAtomValue(backgroundImageAtom)
 
     const addItemOnCanvas = (item) => {
         if(item.type === 'line'){
@@ -54,12 +55,36 @@ export const useSave = () => {
         }
     }
 
+    const setBackground = () => {
+        stageRef.current.children[0].add(new Konva.Rect({
+            x: 0,
+            y: 0,
+            width: 650,
+            height: 650,
+            fill: currentMap.backgroundColor,
+        }))
+        let imgObj = new Image();
+            
+        imgObj.onload = function(){
+            stageRef.current.children[0].add(new Konva.Image({
+                image: imgObj,
+                x: 0,
+                y: 0,
+                width: 650,
+                height: 650,
+            }))
+            for(let item of canvasItems) {
+                addItemOnCanvas(item);   
+            }
+        }
+        imgObj.crossOrigin = "Anonymous";
+        imgObj.src = backgroundImage.src;
+    }
+
     const saveMap = () => {
         // 画像urlを取得してdatabaseのMapを新規追加/書き換え
         stageRef.current.children[0].children = [];
-        for(let item of canvasItems) {
-            addItemOnCanvas(item);   
-        }
+        setBackground();
         
         setTimeout(() => {
             let data = stageRef.current.toDataURL();

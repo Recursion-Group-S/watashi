@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import Buttons from "./Buttons";
-import { Stage, Layer, Line } from "react-konva";
-import { useAtom } from "jotai";
-import { canvasItemsAtom, selectedIDAtom, stageRefAtom } from "../../atoms/ComponentAtom";
+import { Stage, Layer, Line, Image } from "react-konva";
+import { useAtom, useAtomValue } from "jotai";
+import { backgroundImageAtom, backgroundRefAtom, canvasItemsAtom, selectedIDAtom, stageRefAtom } from "../../atoms/ComponentAtom";
 import ImageComponent from "./ImageComponent";
 import { useNewItem } from "../../hooks/useNewItem";
 import { useDrawing } from "../../hooks/useDrawing";
@@ -32,6 +32,8 @@ const CanvasArea = ({ }, canvasRef) => {
     const [userAction] = useAtom(userActionAtom);
     const [currentMap] = useAtom(currentMapAtom)
     const stageRef = useRef(null);
+    const backgroundRef = useRef(null)
+    const backgroundImage = useAtomValue(backgroundImageAtom)
     const { isValidDrop } = useNewItem();
     const { startDrawing, endDrawing, moveDrawing } = useDrawing();
 
@@ -46,15 +48,15 @@ const CanvasArea = ({ }, canvasRef) => {
         setHidingElement([]);
     }
 
-    const handleClick = (e) => {
-        if (selectedText && stageRef.current === e.target) {
+
+    const handleTextKeyDown = (e) => {
+        if (e.key === 'Enter' && !e.shiftKey || e.key === 'Escape') {
             cancelSelectedText();
         }
     }
 
-
-    const handleTextKeyDown = (e) => {
-        if (e.key === 'Enter' && !e.shiftKey || e.key === 'Escape') {
+    const handleClick = (e) => {
+        if (selectedText && (e.target == stageRef.current || e.target === backgroundRef.current)){
             cancelSelectedText();
         }
     }
@@ -108,7 +110,8 @@ const CanvasArea = ({ }, canvasRef) => {
     }, [isUnderline])
 
     const checkDeselect = (e) => {
-        const clickedOnEmpty = e.target === e.target.getStage();
+        // const clickedOnEmpty = e.target === e.target.getStage();
+        const clickedOnEmpty = e.target === backgroundRef.current;
         if (clickedOnEmpty) {
             selectImage(null);
         }
@@ -148,7 +151,6 @@ const CanvasArea = ({ }, canvasRef) => {
 
     useEffect(() => {
         setStageRefAtom(stageRef);
-        console.log("container")
         stageRef.current.container().style.backgroundColor = currentMap.backgroundColor;
     },[])
 
@@ -173,10 +175,16 @@ const CanvasArea = ({ }, canvasRef) => {
                     onTouchMove={handleMouseMove}
                     onDragStart={() => setIsDragging(true)}
                     onDragEnd={removeOut}
-                    ref={stageRef}
                     onClick={handleClick}
+                    ref={stageRef}
                 >
                     <Layer>
+                        <Image
+                            width={650}
+                            height={650}
+                            image={backgroundImage}
+                            ref={backgroundRef}
+                        />
                         {canvasItems.map((item, i) => (
                             item.type === 'line' ?
                                 <Line
