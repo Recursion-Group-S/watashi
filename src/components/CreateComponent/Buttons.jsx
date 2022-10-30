@@ -1,17 +1,15 @@
 import { useAtom } from "jotai";
 import React from "react";
-import { canvasItemsAtom, stageRefAtom } from "../../atoms/ComponentAtom";
+import { canvasItemsAtom } from "../../atoms/ComponentAtom";
 import { useSave } from "../../hooks/useSave";
 
 
 const Buttons = () => {
     const [canvasItems, setCanvasItems] = useAtom(canvasItemsAtom);
-    const [stageRef] = useAtom(stageRefAtom);
     const { saveMap } = useSave();
 
     const handleClear = () => {
         setCanvasItems([]);
-        stageRef.current.children[0].children = [];
     }
 
     const handleSave = (e) => {

@@ -83,6 +83,7 @@ export const useSave = () => {
 
     const saveMap = () => {
         // 画像urlを取得してdatabaseのMapを新規追加/書き換え
+        // 非同期で画像が前に来てしまう
         stageRef.current.children[0].children = [];
         setBackground();
         
@@ -91,7 +92,7 @@ export const useSave = () => {
             updateMap(data);
             setCanvasItems([]);
             stageRef.current.children[0].children = [];
-        }, 2000);
+        }, 3000);
     }
 
 
