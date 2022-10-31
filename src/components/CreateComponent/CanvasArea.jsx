@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import Buttons from "./Buttons";
-import { Stage, Layer, Line, Image } from "react-konva";
+import { Stage, Layer, Line, Image, Rect } from "react-konva";
 import { useAtom, useAtomValue } from "jotai";
 import { backgroundImageAtom, backgroundRefAtom, canvasItemsAtom, selectedIDAtom, stageRefAtom } from "../../atoms/ComponentAtom";
 import ImageComponent from "./ImageComponent";
@@ -179,6 +179,13 @@ const CanvasArea = ({ }, canvasRef) => {
                     ref={stageRef}
                 >
                     <Layer>
+                        <Rect
+                            x={0}
+                            y={0}
+                            width={650}
+                            height={650}
+                            fill={currentMap.backgroundColor}
+                        />
                         <Image
                             width={650}
                             height={650}

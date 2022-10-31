@@ -5,7 +5,7 @@ import useImage from 'use-image';
 import { userActionAtom } from '../../atoms/Atoms';
 
 const ImageComponent = ({imgProps, isSelected, onSelect, onChange }) => {
-    const [image] = useImage(imgProps.url);
+    const [image] = useImage(imgProps.url, 'anonymous');
     const componentRef = useRef();
     const trRef = useRef();
     const [userAction] = useAtom(userActionAtom)
@@ -16,6 +16,7 @@ const ImageComponent = ({imgProps, isSelected, onSelect, onChange }) => {
             trRef.current.getLayer().batchDraw();
         }
     }, [isSelected]);
+
   
     return (
     <React.Fragment>

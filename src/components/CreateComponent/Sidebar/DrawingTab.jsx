@@ -1,6 +1,6 @@
 import React from "react";
 import { useAtom } from "jotai";
-import { backgroundImageAtom, paintColorAtom, paintModeAtom, paintWidthAtom, stageRefAtom } from "../../../atoms/ComponentAtom";
+import { backgroundImageAtom, paintColorAtom, paintModeAtom, paintWidthAtom } from "../../../atoms/ComponentAtom";
 import { HexColorPicker } from "react-colorful"
 import { currentMapAtom } from "../../../atoms/CurrentMapAtom";
 
@@ -10,22 +10,20 @@ const DrawingTab = () => {
     const [paintWidth, setPaintWidth] = useAtom(paintWidthAtom);
     const [paintColor, setPaintColor] = useAtom(paintColorAtom);
     const [currentMap] = useAtom(currentMapAtom);
-    const [stageRef] = useAtom(stageRefAtom);
     const [backgroundImage, setBgImg] = useAtom(backgroundImageAtom)
 
     const handleBackground = (e) => {
         setBgImg(new Image())
         const value = e.target.style.backgroundColor;
         currentMap.backgroundColor = value;
-        stageRef.current.container().style.backgroundColor = value;
     }
 
     const handleBgStyle = (e) => {
         let newImg = new Image();
+        newImg.crossOrigin = 'Anonymous';
         newImg.src = e.target.value;
         setBgImg(newImg)
         currentMap.backgroundColor = 'white';
-        stageRef.current.container().style.backgroundColor = 'white'
     }
 
     return (
