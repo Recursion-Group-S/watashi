@@ -1,4 +1,5 @@
-import { collection, doc, getDocs, query, setDoc, where } from "firebase/firestore";
+import { async } from "@firebase/util";
+import { collection, deleteDoc, doc, getDocs, query, setDoc, where } from "firebase/firestore";
 import { db } from "../client/firebase";
 
 export const postMap = (map) => {
@@ -19,4 +20,8 @@ export const getMaps = async (uid) => {
   return await Promise.all(querySnapshot.docs.map((doc) => {
     return doc.data();
   }));
+}
+
+export const deleteMap = async (mapID) => {
+  await deleteDoc(doc(db, "maps", mapID));
 }

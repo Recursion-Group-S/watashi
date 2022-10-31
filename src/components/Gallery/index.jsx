@@ -53,7 +53,7 @@ const Gallery = () => {
         className="mx-auto flex flex-wrap gap-4 mb-4"
         style={{ width: 1048 }}
       >
-        <MapList mapList={mapList} />
+        <MapList mapList={mapList} setMapList={setMapList} />
       </div>
       <button onClick={handleNewMap}>New Map</button>
       <div className="flex justify-center gap-1">
