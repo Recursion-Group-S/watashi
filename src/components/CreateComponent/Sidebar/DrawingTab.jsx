@@ -46,19 +46,6 @@ const DrawingTab = () => {
                 <div className="m-1 border" style={{backgroundColor: '#D8BFD8', width: '15%', height: 55}} onClick={handleBackground} />
                 <div className="m-1 border" style={{backgroundColor: '#E0FFFF', width: '15%', height: 55}} onClick={handleBackground} />
             </div>
-            <label className="block mt-3 mb-2 text-sm font-medium text-gray-300">Background Style</label>
-            <div className="flex">
-                <select className="border border-gray-300 rounded-lg px-2 py-1 mr-2" onChange={handleBgStyle}>
-                    <option value=""
-                        >normal</option>          
-                    <option value="https://firebasestorage.googleapis.com/v0/b/watashi-1d6aa.appspot.com/o/images%2FH1fCgz3jWpgOn4nugDkJF6Dqq0D3%2Ffg9elbeh.webp?alt=media&token=dafaa98e-6bc8-4dc6-b5ad-dcac831b3cba"
-                        >paper</option>
-                    <option value="https://firebasestorage.googleapis.com/v0/b/watashi-1d6aa.appspot.com/o/images%2FH1fCgz3jWpgOn4nugDkJF6Dqq0D3%2Focqolnic.jpg?alt=media&token=b2e6dcc4-8394-4f72-89fd-5107dc39a7b4"
-                        >wood</option>
-                    <option value="https://firebasestorage.googleapis.com/v0/b/watashi-1d6aa.appspot.com/o/images%2FH1fCgz3jWpgOn4nugDkJF6Dqq0D3%2Flywwmck8.jpg?alt=media&token=8651f699-e012-46d1-a16b-c39f7eefabce"
-                        >brick</option>
-                </select>
-            </div>
             
         </div>
     );
