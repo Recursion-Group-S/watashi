@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Buttons from "./Buttons";
 import { Stage, Layer, Line, Image, Rect } from "react-konva";
 import { useAtom, useAtomValue } from "jotai";
-import { backgroundImageAtom, backgroundRefAtom, canvasItemsAtom, selectedIDAtom, stageRefAtom } from "../../atoms/ComponentAtom";
+import { backgroundImageAtom, bgColorSettingAtom, canvasItemsAtom, selectedIDAtom, stageRefAtom } from "../../atoms/ComponentAtom";
 import ImageComponent from "./ImageComponent";
 import { useNewItem } from "../../hooks/useNewItem";
 import { useDrawing } from "../../hooks/useDrawing";
@@ -10,6 +10,8 @@ import { userActionAtom } from "../../atoms/Atoms";
 import TextComponent from "./TextComponent";
 import { fontFamilyAtom, fontSizeAtom, fontStyleAtom, inputPositionAtom, isUnderlineAtom, selectedTextAtom, sizeChangingAtom, textColorAtom, textComponentsAtom } from "../../atoms/TextAtom";
 import { currentMapAtom } from "../../atoms/CurrentMapAtom";
+import { HexColorPicker } from "react-colorful"
+
 
 const CanvasArea = ({ }, canvasRef) => {
     const [inputPosition] = useAtom(inputPositionAtom);
@@ -36,6 +38,9 @@ const CanvasArea = ({ }, canvasRef) => {
     const backgroundImage = useAtomValue(backgroundImageAtom)
     const { isValidDrop } = useNewItem();
     const { startDrawing, endDrawing, moveDrawing } = useDrawing();
+    const [bgColor, setBgColor] = useState('#FFFFFF');
+    const [isBgColorSetting] = useAtom(bgColorSettingAtom)
+ 
 
     function cancelSelectedText() {
         if (hidingElement) {
@@ -161,6 +166,10 @@ const CanvasArea = ({ }, canvasRef) => {
         };
     }, [selectedId, isDragging, isTyping, selectedText, sizeChanging])
 
+    useEffect(() => {
+        currentMap.backgroundColor = bgColor;
+    },[bgColor])
+
 
     return (
         <div ref={canvasRef}>
@@ -265,6 +274,17 @@ const CanvasArea = ({ }, canvasRef) => {
                         onKeyDown={handleTextKeyDown}
                     />
                 }
+                {isBgColorSetting &&
+                    <div id="" className="fixed"
+                        style={{
+                            top: stageRef.current.attrs.container.getBoundingClientRect().top + 650 - 200,
+                            left: stageRef.current.attrs.container.getBoundingClientRect().left + 650 -200
+                        }}>
+                        <div className="flex justify-end m-0 p-0">
+                            <HexColorPicker color={bgColor} onChange={setBgColor} />
+                        </div>
+                    </div>
+                    }
                 <Buttons />
             </div>
         </div >

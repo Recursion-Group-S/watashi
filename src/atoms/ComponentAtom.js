@@ -4,6 +4,7 @@ export const canvasRefAtom = atom(null);
 export const canvasItemsAtom = atom([]);
 export const stageRefAtom = atom(null);
 export const backgroundImageAtom = atom(new Image());
+export const bgColorSettingAtom = atom(false);
 
 export const selectedIDAtom = atom(null);
 
