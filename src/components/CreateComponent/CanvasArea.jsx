@@ -39,7 +39,7 @@ const CanvasArea = ({ }, canvasRef) => {
     const { isValidDrop } = useNewItem();
     const { startDrawing, endDrawing, moveDrawing } = useDrawing();
     const [bgColor, setBgColor] = useState('#FFFFFF');
-    const [isBgColorSetting] = useAtom(bgColorSettingAtom)
+    const [isBgColorSetting, setIsBgColorSetting] = useAtom(bgColorSettingAtom)
  
 
     function cancelSelectedText() {
@@ -61,6 +61,7 @@ const CanvasArea = ({ }, canvasRef) => {
     }
 
     const handleClick = (e) => {
+        setIsBgColorSetting(false);
         if (selectedText && (e.target == stageRef.current || e.target === backgroundRef.current)){
             cancelSelectedText();
         }
