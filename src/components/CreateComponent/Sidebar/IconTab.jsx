@@ -107,10 +107,10 @@ const IconList = () => {
 
 const IconTab = () => {
     return (
-        <>
+        <div className="bg-white px-8 pt-2 pb-4 rounded-xl">
             <SearchBar />
             <IconList />
-        </>
+        </div>
     );
 };
 
