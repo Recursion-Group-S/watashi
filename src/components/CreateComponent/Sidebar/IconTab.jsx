@@ -1,15 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 
 import { canvasRefAtom } from "../../../atoms/ComponentAtom";
 import { useAtom, useSetAtom, useAtomValue } from "jotai";
 import { iconsAtom } from "../../../atoms/IconAtom";
+import { searchTermAtom } from "../../../atoms/IconAtom";
 import { useNewItem } from "../../../hooks/useNewItem";
 
 import FlaticonWrapper from "../../../apis/flaticon.js";
 
 const SearchBar = () => {
-    const [searchTerm, setSearchTerm] = useState("");
+    const [searchTerm, setSearchTerm] = useAtom(searchTermAtom);
     const setIcons = useSetAtom(iconsAtom);
 
     const fetchIcons = async (searchTerm) => {
@@ -28,6 +29,11 @@ const SearchBar = () => {
         e.preventDefault();
         fetchIcons(searchTerm);
     };
+
+    // レンダリング時にデフォルトIcon取得
+    useEffect(() => {
+        fetchIcons(searchTerm);
+    }, []);
 
     return (
         <>
