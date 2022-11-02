@@ -29,7 +29,6 @@ export const deleteMap = async (mapID) => {
 export const fetchCurrentMap = async (mapID) => {
   const docRef = doc(db, "maps", mapID);
   const docSnap = await getDoc(docRef);
-
   if (docSnap.exists()) {
     return docSnap.data();
   } else {
