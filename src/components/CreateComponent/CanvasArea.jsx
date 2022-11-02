@@ -38,7 +38,7 @@ const CanvasArea = ({ }, canvasRef) => {
     const backgroundImage = useAtomValue(backgroundImageAtom)
     const { isValidDrop } = useNewItem();
     const { startDrawing, endDrawing, moveDrawing } = useDrawing();
-    const [bgColor, setBgColor] = useState('#FFFFFF');
+    const [bgColor, setBgColor] = useState(currentMap.backgroundColor);
     const [isBgColorSetting, setIsBgColorSetting] = useAtom(bgColorSettingAtom)
  
 

@@ -60,8 +60,8 @@ const SaveMapModal = () => {
                                         name="map-name"
                                         onChange={onInputChange}
                                         value={mapTitle}
-                                        min="1"
-                                        max="30"
+                                        minlength="1"
+                                        maxlength="30"
                                         id="map-name"
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-zinc-500 focus:border-zinc-500 block w-full p-2.5"
                                         placeholder="My awesome map"

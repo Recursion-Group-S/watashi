@@ -4,7 +4,6 @@ import { forwardRef } from "react";
 import CanvasArea from "./CanvasArea";
 import Sidebar from "./Sidebar";
 import SaveMapModal from "../../modals/SaveMapModal";
-import { canvasRefAtom } from "../../atoms/ComponentAtom";
 import { useAtom, useAtomValue } from "jotai";
 import { canvasItemsAtom, canvasRefAtom } from "../../atoms/ComponentAtom";
 import { useParams } from "react-router-dom";
@@ -37,13 +36,17 @@ const CreateComponent = () => {
     setCanvasAtom(canvasRef);
     fetchCurrentMap(params.mapID).then(res => {
       if(res === null){
-        setCanvasAtom(createNewMap());
+        setCurrentMap(createNewMap());
       } else{
         setCurrentMap(res);
         setCanvasItems(res.mapItems);
       }
     })
   }, [])
+
+  if(!currentMap){
+    return <div>loading</div>
+  }
 
   return (
     <div className="flex gap-x-4">

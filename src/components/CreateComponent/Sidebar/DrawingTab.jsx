@@ -30,8 +30,8 @@ const DrawingTab = () => {
 
     
     return (
-        <div>
-            <div className="mb-2 flex">
+        <div className="px-8">
+            <div className="mb-4 flex">
                 <select className="border border-gray-300 rounded-lg px-2 py-1 mr-2" value={paintMode} onChange={(e) => setPaintMode(e.target.value)}>
                     <option value="brush">Brush</option>
                     <option value="eraser">Erasor</option>
@@ -51,7 +51,7 @@ const DrawingTab = () => {
                     </button>
                 </div>
             </div>
-            <HexColorPicker color={paintColor} onChange={setPaintColor} style={{ width: '100%' }} />
+            <HexColorPicker className="mt-5" color={paintColor} onChange={setPaintColor} style={{ width: '100%' }} />
         </div>
     );
 }
