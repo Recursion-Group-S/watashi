@@ -22,22 +22,22 @@ const Sidebar = () => {
             >
                 Back to Gallery
             </a>
-            <div className="mt-0 bg-gray-300 overflow-y-scroll rounded drop-shadow" style={{ height: 650 }}>
+            <div className="mt-0 bg-white overflow-y-scroll rounded drop-shadow" style={{ height: 650 }}>
                 <div className="mx-auto pt-3 rounded flex justify-center">
                     <div className="flex justify-between w-5/6">
-                        <button className={`w-1/4 flex justify-center pt-4 pb-4 rounded-t-xl ${userAction === 'Text' ? 'bg-white' : ''}`}
+                        <button className={`w-1/4 flex justify-center pt-4 pb-4 ${userAction === 'Text' ? 'border-b-4' : ''}`} style={{ borderColor: "#f6e8aa" }}
                              onClick={() => chooseUserAction("Text")}>
-                            <img className="w-6" src="https://cdn-icons-png.flaticon.com/512/3721/3721901.png" alt="text-button" />
+                            <img className="w-6" src="https://cdn-icons-png.flaticon.com/512/3721/3721901.png" alt="border" />
                         </button>
-                        <button className={`w-1/4 flex justify-center pt-4 pb-4 rounded-t-xl ${userAction === 'Icon' ? 'bg-white' : ''}`}
+                        <button className={`w-1/4 flex justify-center pt-4 pb-4 ${userAction === 'Icon' ? 'border-b-4' : ''}`} style={{ borderColor: "#f6e8aa" }}
                             onClick={() => chooseUserAction("Icon")} >
                             <img className="w-6" src="https://cdn-icons-png.flaticon.com/512/3260/3260867.png" alt="icon-button" />
                         </button>
-                        <button className={`w-1/4 flex justify-center pt-4 pb-4 rounded-t-xl ${userAction === 'Image' ? 'bg-white' : ''}`}
+                        <button className={`w-1/4 flex justify-center pt-4 pb-4 ${userAction === 'Image' ? 'border-b-4' : ''}`} style={{ borderColor: "#f6e8aa" }}
                             onClick={() => chooseUserAction("Image")} >
                             <img className="w-6" src="https://cdn-icons-png.flaticon.com/512/4211/4211549.png" alt="image-button" />
                         </button>
-                        <button className={`w-1/4 flex justify-center pt-4 pb-4 rounded-t-xl ${userAction === 'drawing' ? 'bg-white' : ''}`}
+                        <button className={`w-1/4 flex justify-center pt-4 pb-4 ${userAction === 'drawing' ? 'border-b-4' : ''}`} style={{ borderColor: "#f6e8aa" }}
                             onClick={() => chooseUserAction("drawing")} >
                             <img className="w-6" src="https://cdn-icons-png.flaticon.com/512/1250/1250615.png" alt="image-button" />
                         </button>
