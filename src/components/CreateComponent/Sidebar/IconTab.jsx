@@ -83,7 +83,7 @@ const IconList = () => {
                 <img
                     alt={icon.name}
                     src={icon.images[256]}
-                    className="mx-auto"
+                    className="mx-auto cursor-grab"
                     id={icon.id}
                     draggable
                     onDragEnd={addIcon}

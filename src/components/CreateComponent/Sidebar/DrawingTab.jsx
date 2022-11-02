@@ -12,11 +12,14 @@ const DrawingTab = () => {
     return (
         <div>
             <div className="mb-2">
-                <select className="border border-gray-300 rounded-lg px-2 py-1 mr-2" value={paintMode} onChange={(e) => setPaintMode(e.target.value)}>
+                <select className="border border-gray-300 rounded-lg px-2 py-1 mr-2" value={paintMode} onChange={(e) => {
+                    setPaintMode(e.target.value);
+                    if(e.target.value === 'brush') setPaintWidth(paintWidth > 10 ? 10: paintWidth)
+                }}>
                     <option value="brush">Brush</option>
                     <option value="eraser">Erasor</option>
                 </select>
-                <input type="range" min='1' max='10'
+                <input type="range" min='1' max={paintMode === 'brush' ? '10' : '20'}
                     value={paintWidth} onChange={(e) => setPaintWidth(e.target.value)} />
             </div>
             <HexColorPicker color={paintColor} onChange={setPaintColor} style={{ width: '100%' }} />
