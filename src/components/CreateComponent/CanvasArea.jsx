@@ -1,14 +1,17 @@
 import React, { useState, useEffect, useRef } from "react";
 import Buttons from "./Buttons";
-import { Stage, Layer, Line } from "react-konva";
-import { useAtom } from "jotai";
-import { canvasItemsAtom, selectedIDAtom, stageRefAtom } from "../../atoms/ComponentAtom";
+import { Stage, Layer, Line, Image, Rect } from "react-konva";
+import { useAtom, useAtomValue } from "jotai";
+import { backgroundImageAtom, bgColorSettingAtom, canvasItemsAtom, selectedIDAtom, stageRefAtom } from "../../atoms/ComponentAtom";
 import ImageComponent from "./ImageComponent";
 import { useNewItem } from "../../hooks/useNewItem";
 import { useDrawing } from "../../hooks/useDrawing";
 import { userActionAtom } from "../../atoms/Atoms";
 import TextComponent from "./TextComponent";
 import { fontFamilyAtom, fontSizeAtom, fontStyleAtom, inputPositionAtom, isUnderlineAtom, selectedTextAtom, sizeChangingAtom, textColorAtom, textComponentsAtom } from "../../atoms/TextAtom";
+import { currentMapAtom } from "../../atoms/CurrentMapAtom";
+import { HexColorPicker } from "react-colorful"
+
 
 const CanvasArea = ({ }, canvasRef) => {
     const [inputPosition] = useAtom(inputPositionAtom);
@@ -29,9 +32,15 @@ const CanvasArea = ({ }, canvasRef) => {
     const [isDragging, setIsDragging] = useState(false);
     const [canvasItems, setCanvasItems] = useAtom(canvasItemsAtom);
     const [userAction] = useAtom(userActionAtom);
+    const [currentMap] = useAtom(currentMapAtom)
     const stageRef = useRef(null);
+    const backgroundRef = useRef(null)
+    const backgroundImage = useAtomValue(backgroundImageAtom)
     const { isValidDrop } = useNewItem();
     const { startDrawing, endDrawing, moveDrawing } = useDrawing();
+    const [bgColor, setBgColor] = useState('#FFFFFF');
+    const [isBgColorSetting, setIsBgColorSetting] = useAtom(bgColorSettingAtom)
+ 
 
     function cancelSelectedText() {
         if (hidingElement) {
@@ -44,15 +53,16 @@ const CanvasArea = ({ }, canvasRef) => {
         setHidingElement([]);
     }
 
-    const handleClick = (e) => {
-        if (selectedText && stageRef.current === e.target) {
+
+    const handleTextKeyDown = (e) => {
+        if (e.key === 'Enter' && !e.shiftKey || e.key === 'Escape') {
             cancelSelectedText();
         }
     }
 
-
-    const handleTextKeyDown = (e) => {
-        if (e.key === 'Enter' && !e.shiftKey || e.key === 'Escape') {
+    const handleClick = (e) => {
+        setIsBgColorSetting(false);
+        if (selectedText && (e.target == stageRef.current || e.target === backgroundRef.current)){
             cancelSelectedText();
         }
     }
@@ -106,7 +116,8 @@ const CanvasArea = ({ }, canvasRef) => {
     }, [isUnderline])
 
     const checkDeselect = (e) => {
-        const clickedOnEmpty = e.target === e.target.getStage();
+        // const clickedOnEmpty = e.target === e.target.getStage();
+        const clickedOnEmpty = e.target === backgroundRef.current;
         if (clickedOnEmpty) {
             selectImage(null);
         }
@@ -146,6 +157,7 @@ const CanvasArea = ({ }, canvasRef) => {
 
     useEffect(() => {
         setStageRefAtom(stageRef);
+        stageRef.current.container().style.backgroundColor = currentMap.backgroundColor;
     },[])
 
     useEffect(() => {
@@ -154,6 +166,10 @@ const CanvasArea = ({ }, canvasRef) => {
             window.removeEventListener('keydown', deleteItem);
         };
     }, [selectedId, isDragging, isTyping, selectedText, sizeChanging])
+
+    useEffect(() => {
+        currentMap.backgroundColor = bgColor;
+    },[bgColor])
 
 
     return (
@@ -169,10 +185,23 @@ const CanvasArea = ({ }, canvasRef) => {
                     onTouchMove={handleMouseMove}
                     onDragStart={() => setIsDragging(true)}
                     onDragEnd={removeOut}
-                    ref={stageRef}
                     onClick={handleClick}
+                    ref={stageRef}
                 >
                     <Layer>
+                        <Rect
+                            x={0}
+                            y={0}
+                            width={650}
+                            height={650}
+                            fill={currentMap.backgroundColor}
+                        />
+                        <Image
+                            width={650}
+                            height={650}
+                            image={backgroundImage}
+                            ref={backgroundRef}
+                        />
                         {canvasItems.map((item, i) => (
                             item.type === 'line' ?
                                 <Line
@@ -246,6 +275,17 @@ const CanvasArea = ({ }, canvasRef) => {
                         onKeyDown={handleTextKeyDown}
                     />
                 }
+                {isBgColorSetting &&
+                    <div id="" className="fixed"
+                        style={{
+                            top: stageRef.current.attrs.container.getBoundingClientRect().top + 650 - 200,
+                            left: stageRef.current.attrs.container.getBoundingClientRect().left + 650 -200
+                        }}>
+                        <div className="flex justify-end m-0 p-0">
+                            <HexColorPicker color={bgColor} onChange={setBgColor} />
+                        </div>
+                    </div>
+                    }
                 <Buttons />
             </div>
         </div >
