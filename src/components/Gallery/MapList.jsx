@@ -19,13 +19,12 @@ const MapList = ({ mapList, setMapList }) => {
     <>
       {mapList.map((map) => (
         <div
-          className="bg-white rounded drop-shadow cursor-pointer group"
+          className="bg-white rounded drop-shadow cursor-pointer group mb-11"
           style={{ height: 250, width: 250 }}
           key={map.mapID}
         >
-          <a href={`map/${map.mapID}`}>
-            <img src={map.url} alt={map.title} />
-          </a>
+          <img src={map.url} alt={map.mapTitle} />
+          <p className="mt-1 text-center">{map.mapTitle}</p>
           <div
             className="hidden group-hover:block fixed top-0 left-0 z-100 bg-slate-300/50 rounded"
             style={{ height: 250, width: 250 }}>

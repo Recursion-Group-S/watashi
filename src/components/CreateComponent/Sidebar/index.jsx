@@ -1,5 +1,5 @@
 import React from "react";
-import { useSetAtom, useAtomValue } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 import { userActionAtom } from "../../../atoms/Atoms";
 import IconTab from "./IconTab";
 import TextTab from "./TextTab";
@@ -7,10 +7,10 @@ import ImageTab from "./ImageTab";
 import DrawingTab from "./DrawingTab";
 
 const Sidebar = () => {
-    const setUserAction = useSetAtom(userActionAtom);
+    const [userAction, setUserAction] = useAtom(userActionAtom);
 
-    const chooseUserAction = (userAction) => {
-        setUserAction(userAction);
+    const chooseUserAction = (action) => {
+        setUserAction(action);
     };
 
     return (
@@ -22,20 +22,24 @@ const Sidebar = () => {
             >
                 Back to Gallery
             </a>
-            <div className="p-6 overflow-y-scroll bg-white rounded drop-shadow" style={{ height: 650 }}>
-                <div className="w-5/6 mx-auto mb-6">
-                    <div className="flex justify-between">
-                        <button>
-                            <img onClick={() => chooseUserAction("Text")} className="w-6" src="https://cdn-icons-png.flaticon.com/512/3721/3721901.png" alt="text-button" />
+            <div className="mt-0 bg-white overflow-y-scroll rounded drop-shadow" style={{ height: 650 }}>
+                <div className="mx-auto pt-3 rounded flex justify-center">
+                    <div className="flex justify-between w-5/6">
+                        <button className={`w-1/4 flex justify-center pt-4 pb-4 ${userAction === 'Text' ? 'border-b-4' : ''}`} style={{ borderColor: "#f6e8aa" }}
+                             onClick={() => chooseUserAction("Text")}>
+                            <img className="w-6" src="https://cdn-icons-png.flaticon.com/512/3721/3721901.png" alt="border" />
                         </button>
-                        <button>
-                            <img onClick={() => chooseUserAction("Icon")} className="w-6" src="https://cdn-icons-png.flaticon.com/512/3260/3260867.png" alt="icon-button" />
+                        <button className={`w-1/4 flex justify-center pt-4 pb-4 ${userAction === 'Icon' ? 'border-b-4' : ''}`} style={{ borderColor: "#f6e8aa" }}
+                            onClick={() => chooseUserAction("Icon")} >
+                            <img className="w-6" src="https://cdn-icons-png.flaticon.com/512/3260/3260867.png" alt="icon-button" />
                         </button>
-                        <button>
-                            <img onClick={() => chooseUserAction("Image")} className="w-6" src="https://cdn-icons-png.flaticon.com/512/4211/4211549.png" alt="image-button" />
+                        <button className={`w-1/4 flex justify-center pt-4 pb-4 ${userAction === 'Image' ? 'border-b-4' : ''}`} style={{ borderColor: "#f6e8aa" }}
+                            onClick={() => chooseUserAction("Image")} >
+                            <img className="w-6" src="https://cdn-icons-png.flaticon.com/512/4211/4211549.png" alt="image-button" />
                         </button>
-                        <button>
-                            <img onClick={() => chooseUserAction("drawing")} className="w-6" src="https://cdn-icons-png.flaticon.com/512/1250/1250615.png" alt="image-button" />
+                        <button className={`w-1/4 flex justify-center pt-4 pb-4 ${userAction === 'drawing' ? 'border-b-4' : ''}`} style={{ borderColor: "#f6e8aa" }}
+                            onClick={() => chooseUserAction("drawing")} >
+                            <img className="w-6" src="https://cdn-icons-png.flaticon.com/512/1250/1250615.png" alt="image-button" />
                         </button>
                     </div>
                 </div>

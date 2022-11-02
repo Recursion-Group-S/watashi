@@ -25,7 +25,7 @@ const Container = ({ children }) => {
   }, []);
 
   return (
-    <div className="h-screen" style={{ backgroundColor: "#f6e8aa" }}>
+    <div className="h-screen" style={{ backgroundColor: "#f6e8aa", height: '100%' }}>
       <Header />
       <div
         className="grid p-0 place-items-center"
