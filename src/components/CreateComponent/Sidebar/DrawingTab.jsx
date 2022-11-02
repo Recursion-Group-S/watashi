@@ -10,7 +10,7 @@ const DrawingTab = () => {
     const [paintColor, setPaintColor] = useAtom(paintColorAtom);
 
     return (
-        <div>
+        <div className="bg-white px-8 pt-2 rounded-xl" style={{height: 577}}>
             <div className="mb-2">
                 <select className="border border-gray-300 rounded-lg px-2 py-1 mr-2" value={paintMode} onChange={(e) => setPaintMode(e.target.value)}>
                     <option value="brush">Brush</option>
