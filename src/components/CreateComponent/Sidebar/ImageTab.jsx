@@ -67,7 +67,7 @@ const ImageTab = () => {
                                 {/* UIの変更 */}
                                 <div className="relative mb-5" key={uploadedPath.path}>
                                     <img
-                                        className="object-contain"
+                                        className="object-contain cursor-grab"
                                         width={100}
                                         height={80}
                                         key={uploadedPath.path}

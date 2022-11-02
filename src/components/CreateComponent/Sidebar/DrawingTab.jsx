@@ -32,11 +32,14 @@ const DrawingTab = () => {
     return (
         <div className="px-8">
             <div className="mb-4 flex">
-                <select className="border border-gray-300 rounded-lg px-2 py-1 mr-2" value={paintMode} onChange={(e) => setPaintMode(e.target.value)}>
+                <select className="border border-gray-300 rounded-lg px-2 py-1 mr-2" value={paintMode} onChange={(e) => {
+                    setPaintMode(e.target.value);
+                    if(e.target.value === 'brush') setPaintWidth(paintWidth > 10 ? 10: paintWidth)
+                }}>
                     <option value="brush">Brush</option>
                     <option value="eraser">Erasor</option>
                 </select>
-                <input type="range" min='1' max='10'
+                <input type="range" min='1' max={paintMode === 'brush' ? '10' : '20'}
                     value={paintWidth} onChange={(e) => setPaintWidth(e.target.value)} />
                 <div className="flex ml-2">
                     <button className="m-1" disabled={!canvasItems.filter(item => item.type === 'line').length} onClick={undoLine}>

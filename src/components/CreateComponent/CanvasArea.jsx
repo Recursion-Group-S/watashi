@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Buttons from "./Buttons";
 import { Stage, Layer, Line, Image, Rect } from "react-konva";
 import { useAtom, useAtomValue } from "jotai";
-import { backgroundImageAtom, bgColorSettingAtom, canvasItemsAtom, selectedIDAtom, stageRefAtom } from "../../atoms/ComponentAtom";
+import { backgroundImageAtom, bgColorSettingAtom, canvasItemsAtom, selectedIDAtom, stageRefAtom, paintModeAtom } from "../../atoms/ComponentAtom";
 import ImageComponent from "./ImageComponent";
 import { useNewItem } from "../../hooks/useNewItem";
 import { useDrawing } from "../../hooks/useDrawing";
@@ -32,6 +32,9 @@ const CanvasArea = ({ }, canvasRef) => {
     const [isDragging, setIsDragging] = useState(false);
     const [canvasItems, setCanvasItems] = useAtom(canvasItemsAtom);
     const [userAction] = useAtom(userActionAtom);
+
+    const paintMode = useAtomValue(paintModeAtom);
+    
     const [currentMap] = useAtom(currentMapAtom)
     const stageRef = useRef(null);
     const backgroundRef = useRef(null)
@@ -161,6 +164,18 @@ const CanvasArea = ({ }, canvasRef) => {
     },[])
 
     useEffect(() => {
+        if(isDragging && userAction !== 'drawing'){
+            stageRef.current.container().style.cursor = 'grabbing';
+        } else if(userAction != 'drawing'){
+            stageRef.current.container().style.cursor = 'grab';
+        } else{
+            stageRef.current.container().style.cursor = paintMode === 'brush' ? 
+            `url('https://icons.iconarchive.com/icons/iconsmind/outline/16/Pen-4-icon.png') 0 14, auto` :
+            `url('https://icons.iconarchive.com/icons/icons8/windows-8/16/Editing-Eraser-icon.png') 0 14, auto`
+        }
+    }, [isDragging, userAction, paintMode])
+
+    useEffect(() => {
         window.addEventListener('keydown', deleteItem)
         return () => {
             window.removeEventListener('keydown', deleteItem);
@@ -173,7 +188,7 @@ const CanvasArea = ({ }, canvasRef) => {
     
     return (
         <div ref={canvasRef}>
-            <div className="mx-auto" style={{ width: 650 }} onDragOver={(e) => e.preventDefault()}>
+            <div className="mx-auto" style={{width: 650}} onDragOver={(e) => e.preventDefault()}>
                 <Stage width={650} height={650}
                     className="bg-white w-full mb-2 rounded drop-shadow relative overflow-hidden"
                     onMouseDown={handleMouseDown}
