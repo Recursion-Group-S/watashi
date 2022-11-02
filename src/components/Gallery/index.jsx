@@ -26,7 +26,7 @@ const Gallery = () => {
       backgroundColor: "white",
       createdAt: Date()
     }
-    
+
     navigate(`/map/${newMap.mapID}`);
     setCurrentMap(newMap)
     setCanvasItems(newMap.mapItems)
@@ -37,7 +37,7 @@ const Gallery = () => {
         setMapList(res);
       });
     }
-  },[userAuth,setMapList]);
+  }, [userAuth, setMapList]);
 
   if (!mapList) return <div>loading...</div>;
   return (
@@ -53,10 +53,11 @@ const Gallery = () => {
         className="mx-auto flex flex-wrap gap-4 mb-4"
         style={{ width: 1048 }}
       >
-        <MapList mapList={mapList} />
+        <MapList mapList={mapList} setMapList={setMapList} />
       </div>
-      <button onClick={handleNewMap}>New Map</button>
-      <div className="flex justify-center gap-1">
+
+      {/* pagination */}
+      <div className="flex justify-center gap-1 mb-4">
         <a
           href="/?page=1"
           className="inline-flex h-8 w-8 items-center justify-center rounded border border-gray-100"
@@ -99,6 +100,14 @@ const Gallery = () => {
             />
           </svg>
         </a>
+      </div>
+
+      <div className="flex justify-center">
+        <button
+          className="w-60 inline-block rounded-2xl border border-zinc-800 bg-zinc-800 px-12 py-3 text-sm font-medium text-white hover:bg-white hover:text-zinc-800 focus:outline-none focus:ring active:text-zinc-800"
+          onClick={handleNewMap}>
+          Create New Map
+        </button>
       </div>
     </div>
   );

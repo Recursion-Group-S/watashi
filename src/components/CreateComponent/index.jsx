@@ -3,17 +3,44 @@ import { useRef } from "react";
 import { forwardRef } from "react";
 import CanvasArea from "./CanvasArea";
 import Sidebar from "./Sidebar";
-import { useAtom } from "jotai";
-import { canvasRefAtom } from "../../atoms/ComponentAtom";
+import { useAtom, useAtomValue } from "jotai";
+import { canvasItemsAtom, canvasRefAtom } from "../../atoms/ComponentAtom";
+import { useParams } from "react-router-dom";
+import { fetchCurrentMap } from "../../db/map";
+import { currentMapAtom } from "../../atoms/CurrentMapAtom";
+import { auth } from "../../client/firebase";
 
 const CreateComponent = () => {
   const WrappedCanvasArea = forwardRef(CanvasArea);
   const canvasRef = useRef();
   const [, setCanvasAtom] = useAtom(canvasRefAtom);
+  const params = useParams();
+  const [currentMap, setCurrentMap] = useAtom(currentMapAtom);
+  const [canvasItems, setCanvasItems] = useAtom(canvasItemsAtom);
+
+  const createNewMap = () => {
+    const newMap = {
+      mapID: params.mapID,
+      mapTitle: "title",
+      author: auth.currentUser.uid,
+      url: '',
+      mapItems: [],
+      backgroundColor: 'white',
+      createdAt: Date(),
+    }
+    return newMap;
+  }
 
   useEffect(() => {
     setCanvasAtom(canvasRef);
-    // currentMapをfetch
+    fetchCurrentMap(params.mapID).then(res => {
+      if(res === null){
+        setCanvasAtom(createNewMap());
+      } else{
+        setCurrentMap(res);
+        setCanvasItems(res.mapItems);
+      }
+    })
   }, [])
 
   return (

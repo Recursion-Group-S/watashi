@@ -47,7 +47,7 @@ const ImageTab = () => {
 
 
     return (
-        <>
+        <div className="bg-white px-8 pt-2 pb-4 rounded-xl">
             <div className="mb-2">
                 <label className="block mb-1 text-sm font-medium text-gray-300">
                     Upload images
@@ -113,7 +113,7 @@ const ImageTab = () => {
                     }
                 </div>
             </div>
-        </>
+        </div>
     );
 };
 
