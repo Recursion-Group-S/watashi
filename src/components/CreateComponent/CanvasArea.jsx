@@ -150,9 +150,16 @@ const CanvasArea = ({ }, canvasRef) => {
     },[])
 
     useEffect(() => {
-        isDragging ? stageRef.current.container().style.cursor = 'grabbing' : stageRef.current.container().style.cursor = 'grab';
-        console.log(isDragging)
-    }, [isDragging])
+        if(isDragging && userAction !== 'drawing'){
+            stageRef.current.container().style.cursor = 'grabbing';
+        } else if(userAction != 'drawing'){
+            stageRef.current.container().style.cursor = 'grab';
+        } else{
+            stageRef.current.container().style.cursor = paintMode === 'brush' ? 
+            `url('https://icons.iconarchive.com/icons/iconsmind/outline/16/Pen-4-icon.png') 0 14, auto` :
+            `url('https://icons.iconarchive.com/icons/icons8/windows-8/16/Editing-Eraser-icon.png') 0 14, auto`
+        }
+    }, [isDragging, userAction, paintMode])
 
     useEffect(() => {
         window.addEventListener('keydown', deleteItem)
@@ -164,13 +171,7 @@ const CanvasArea = ({ }, canvasRef) => {
 
     return (
         <div ref={canvasRef}>
-            <div className="mx-auto" onDragOver={(e) => e.preventDefault()}
-            style={{
-                width: 650,
-                cursor: userAction === 'drawing' ? paintMode === 'brush' ? `url('https://icons.iconarchive.com/icons/iconsmind/outline/16/Pen-4-icon.png') 0 14, auto`
-            : `url('https://icons.iconarchive.com/icons/icons8/windows-8/16/Editing-Eraser-icon.png') 0 14, auto`
-            : ''
-            }}>
+            <div className="mx-auto" style={{width: 650}} onDragOver={(e) => e.preventDefault()}>
                 <Stage width={650} height={650}
                     className="bg-white w-full mb-2 rounded drop-shadow relative overflow-hidden"
                     onMouseDown={handleMouseDown}
