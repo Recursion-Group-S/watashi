@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import Buttons from "./Buttons";
 import { Stage, Layer, Line } from "react-konva";
-import { useAtom } from "jotai";
-import { canvasItemsAtom, selectedIDAtom, stageRefAtom } from "../../atoms/ComponentAtom";
+import { useAtom, useAtomValue } from "jotai";
+import { canvasItemsAtom, paintModeAtom, selectedIDAtom, stageRefAtom } from "../../atoms/ComponentAtom";
 import ImageComponent from "./ImageComponent";
 import { useNewItem } from "../../hooks/useNewItem";
 import { useDrawing } from "../../hooks/useDrawing";
@@ -29,6 +29,7 @@ const CanvasArea = ({ }, canvasRef) => {
     const [isDragging, setIsDragging] = useState(false);
     const [canvasItems, setCanvasItems] = useAtom(canvasItemsAtom);
     const [userAction] = useAtom(userActionAtom);
+    const paintMode = useAtomValue(paintModeAtom);
     const stageRef = useRef(null);
     const { isValidDrop } = useNewItem();
     const { startDrawing, endDrawing, moveDrawing } = useDrawing();
@@ -158,7 +159,13 @@ const CanvasArea = ({ }, canvasRef) => {
 
     return (
         <div ref={canvasRef}>
-            <div className="mx-auto" style={{ width: 650 }} onDragOver={(e) => e.preventDefault()}>
+            <div className="mx-auto" onDragOver={(e) => e.preventDefault()}
+            style={{
+                width: 650,
+                cursor: userAction === 'drawing' ? paintMode === 'brush' ? `url('https://icons.iconarchive.com/icons/iconsmind/outline/16/Pen-4-icon.png') 0 14, auto`
+            : `url('https://icons.iconarchive.com/icons/icons8/windows-8/16/Editing-Eraser-icon.png') 0 14, auto`
+            : 'grab'
+            }}>
                 <Stage width={650} height={650}
                     className="bg-white w-full mb-2 rounded drop-shadow relative overflow-hidden"
                     onMouseDown={handleMouseDown}
