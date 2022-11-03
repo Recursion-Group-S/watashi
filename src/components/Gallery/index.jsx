@@ -38,7 +38,8 @@ const Gallery = () => {
     if(userAuth) {
       getMaps(userAuth.uid, 'user').then((res) => {
         setMapList(res);
-        setGalleryType('user')
+        setGalleryType('user');
+        setCurrentPage(1);
       });
     }
   }
@@ -47,7 +48,8 @@ const Gallery = () => {
     if(userAuth){
       getMaps(userAuth.uid, 'friends').then((res) => {
         setMapList(res);
-        setGalleryType('friends')
+        setGalleryType('friends');
+        setCurrentPage(1);
       });
     }
   }
@@ -69,14 +71,14 @@ const Gallery = () => {
         </div>
       </div>
       <div
-        className="mx-auto flex flex-wrap gap-4 mb-4"
+        className="mx-auto flex flex-wrap gap-4 mb-2"
         style={{ width: 1048 }}
       >
         <MapList maps={mapList.slice(8 *(currentPage - 1), 8*currentPage)} galleryType={galleryType} /> 
       </div>
 
       {/* pagination */}
-      <div className="flex justify-center gap-1 mb-4">
+      <div className="flex justify-center gap-1 mb-2">
         {currentPage > 1 &&
         <button
           onClick={() => setCurrentPage(currentPage-1)}

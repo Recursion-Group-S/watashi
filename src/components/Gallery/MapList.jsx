@@ -17,10 +17,11 @@ const MapList = ({maps, galleryType}) => {
   };
 
   return (
-    <>
+    <div className="flex flex-wrap mt-4" style={{height: maps.length > 0 ? 600 : 0}}>
+
       {maps.map((map) => (
         <div
-          className="bg-white rounded drop-shadow cursor-pointer group mb-11"
+          className="bg-white rounded drop-shadow cursor-pointer group m-1 mb-10"
           style={{ height: 250, width: 250 }}
           key={map.mapID}
         >
@@ -60,7 +61,7 @@ const MapList = ({maps, galleryType}) => {
           </div>
         </div>
       ))}
-    </>
+    </div>
   );
 };
 
