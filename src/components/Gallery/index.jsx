@@ -7,6 +7,7 @@ import { currentMapAtom } from "../../atoms/CurrentMapAtom";
 import { canvasItemsAtom } from "../../atoms/ComponentAtom";
 import uuid from "react-uuid";
 import { useAuthUser } from "../../hooks/useAuthUser";
+import ReactLoading from "react-loading";
 
 const Gallery = () => {
   const userAuth = useAuthUser();
@@ -38,7 +39,6 @@ const Gallery = () => {
     }
   }, [userAuth, setMapList]);
 
-  if (!mapList) return <div>loading...</div>;
   return (
     <div className="w-screen">
       <div className="w-2/3 mx-auto mb-6 flex">
@@ -52,7 +52,11 @@ const Gallery = () => {
         className="mx-auto flex flex-wrap gap-4 mb-4"
         style={{ width: 1048 }}
       >
-        <MapList mapList={mapList} setMapList={setMapList} />
+        {mapList.length !== 0? (
+          <MapList mapList={mapList} setMapList={setMapList} />
+        ) : (
+          <ReactLoading type="spin" />
+        )}
       </div>
 
       {/* pagination */}
@@ -104,7 +108,8 @@ const Gallery = () => {
       <div className="flex justify-center">
         <button
           className="w-60 inline-block rounded-2xl border border-zinc-800 bg-zinc-800 px-12 py-3 text-sm font-medium text-white hover:bg-white hover:text-zinc-800 focus:outline-none focus:ring active:text-zinc-800"
-          onClick={handleNewMap}>
+          onClick={handleNewMap}
+        >
           Create New Map
         </button>
       </div>
