@@ -14,7 +14,7 @@ const TextTab = () => {
     const setSizeChanging = useSetAtom(sizeChangingAtom);
 
     return (
-        <>
+        <div className="bg-white px-8 pt-2 pb-0 rounded-xl" style={{height: 577}}>
             <label className="block mb-1 text-sm font-medium text-gray-300">Select font-size</label>
             <div className="flex">
                 <input className="mr-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-zinc-500 focus:border-zinc-500 block w-full mb-3 p-2.5" type='number'
@@ -86,7 +86,7 @@ const TextTab = () => {
                 Add Text
             </button>
 
-        </>
+        </div>
     )
 };
 
