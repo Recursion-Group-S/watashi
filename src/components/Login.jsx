@@ -2,18 +2,14 @@ import React from "react";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "../client/firebase";
 import { useNavigate } from "react-router-dom/dist";
-import { authUserAtom } from "../atoms/authUser";
-import { useSetAtom } from "jotai";
 import { postUser } from "../db/user";
 
 const Login = () => {
   // const { setUserAuth } = useAuth();
   const provider = new GoogleAuthProvider();
   const navigate = useNavigate();
-  const setUserAuth = useSetAtom(authUserAtom);
   const clickLogin = async () => {
     await signInWithPopup(auth, provider).then((result) => {
-      setUserAuth(result.user);
       postUser(
         result.user.uid,
         result.user.displayName,

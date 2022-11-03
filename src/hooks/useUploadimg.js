@@ -1,12 +1,11 @@
 import { deleteObject, getDownloadURL, listAll, ref, uploadBytes } from "firebase/storage";
-import { useAtomValue } from "jotai";
 import { useEffect, useState } from "react";
-import { authUserAtom } from "../atoms/authUser";
 import { storage } from "../client/firebase";
+import { useAuthUser } from "./useAuthUser";
 
 export const useUploadImg = () => {
   const [uploadedImages, setUploadedImages] = useState([]);
-  const userAuth = useAtomValue(authUserAtom);
+  const userAuth = useAuthUser();
 
   const postImage = async (image = null) => {
     let uploadResult = "";

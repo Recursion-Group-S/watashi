@@ -1,6 +1,4 @@
-import { useAtomValue } from "jotai";
 import { React, useEffect, useState } from "react";
-import { authUserAtom } from "../../atoms/authUser";
 import { getMaps } from "../../db/map";
 import MapList from "./MapList";
 import { useNavigate } from 'react-router-dom';
@@ -8,9 +6,10 @@ import { useSetAtom } from "jotai";
 import { currentMapAtom } from "../../atoms/CurrentMapAtom";
 import { canvasItemsAtom } from "../../atoms/ComponentAtom";
 import uuid from "react-uuid";
+import { useAuthUser } from "../../hooks/useAuthUser";
 
 const Gallery = () => {
-  const userAuth = useAtomValue(authUserAtom);
+  const userAuth = useAuthUser();
   const [mapList, setMapList] = useState([]);
   const navigate = useNavigate();
   const setCanvasItems = useSetAtom(canvasItemsAtom)
