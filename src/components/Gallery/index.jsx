@@ -16,6 +16,7 @@ const Gallery = () => {
   const setCanvasItems = useSetAtom(canvasItemsAtom)
   const setCurrentMap = useSetAtom(currentMapAtom)
   const [currentPage, setCurrentPage] = useAtom(currentPageAtom)
+  const [galleryType, setGalleryType] = useState('user');
 
   const handleNewMap = () => {
     const newMap = {
@@ -32,21 +33,38 @@ const Gallery = () => {
     setCurrentMap(newMap)
     setCanvasItems(newMap.mapItems)
   }
-  useEffect(() => {
-    if (userAuth) {
-      getMaps(userAuth.uid).then((res) => {
+
+  const getUserMaps = () => {
+    if(userAuth) {
+      getMaps(userAuth.uid, 'user').then((res) => {
         setMapList(res);
+        setGalleryType('user')
       });
     }
+  }
+
+  const getFriendsMaps = () => {
+    if(userAuth){
+      getMaps(userAuth.uid, 'friends').then((res) => {
+        setMapList(res);
+        setGalleryType('friends')
+      });
+    }
+  }
+
+  useEffect(() => {
+    getUserMaps();
   }, [userAuth, setMapList]);
 
   if (!mapList) return <div>loading...</div>;
   return (
     <div className="w-screen">
-      <div className="w-2/3 mx-auto mb-6 flex">
-        <div className="basis-1/3 text-center cursor-pointer">My Gallery</div>
-        <div className="basis-1/3 text-center">|</div>
-        <div className="basis-1/3 text-center cursor-pointer">
+      <div className="mx-auto mb-6 flex" style={{width: 1048}}>
+        <div className={`basis-1/2 m-0 text-center text-xl cursor-pointer ${galleryType === 'user' ? 'font-bold':''}`} onClick={() => getUserMaps()}>
+          My Gallery
+        </div>
+        <span>|</span>
+        <div className={`basis-1/2 m-0 text-center text-xl cursor-pointer ${galleryType === 'friends' ? 'font-bold':''}`} onClick={() => getFriendsMaps()}>
           Friends' Gallery
         </div>
       </div>
@@ -54,7 +72,7 @@ const Gallery = () => {
         className="mx-auto flex flex-wrap gap-4 mb-4"
         style={{ width: 1048 }}
       >
-        <MapList maps={mapList.slice(8 *(currentPage - 1), 8*currentPage)} />
+        <MapList maps={mapList.slice(8 *(currentPage - 1), 8*currentPage)} galleryType={galleryType} /> 
       </div>
 
       {/* pagination */}

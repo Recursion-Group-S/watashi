@@ -5,7 +5,7 @@ import { currentMapAtom, mapListAtom } from "../../atoms/CurrentMapAtom";
 import { canvasItemsAtom } from "../../atoms/ComponentAtom";
 import { deleteMap } from "../../db/map";
 
-const MapList = ({maps}) => {
+const MapList = ({maps, galleryType}) => {
   const navigate = useNavigate();
   const setCanvasItems = useSetAtom(canvasItemsAtom);
   const setCurrentMap = useSetAtom(currentMapAtom);
@@ -34,12 +34,15 @@ const MapList = ({maps}) => {
                 <button className="mx-auto my-1 shadow text-center block rounded-2xl border-2 border-white bg-zinc-800 px-4 py-1 text-sm font-medium text-white hover:bg-white hover:text-zinc-800 focus:ring active:text-zinc-800">
                   View
                 </button>
+                {galleryType === 'user' && 
                 <button
                   onClick={() => handleEdit(map)}
                   className="mx-auto my-1 shadow text-center block rounded-2xl border-2 border-white bg-zinc-800 px-4 py-1 text-sm font-medium text-white hover:bg-white hover:text-zinc-800 focus:ring active:text-zinc-800"
                 >
                   Edit
                 </button>
+                }
+                {galleryType === 'user' && 
                 <button
                   onClick={() => {
                     deleteMap(map.mapID);
@@ -51,6 +54,7 @@ const MapList = ({maps}) => {
                 >
                   Delete
                 </button>
+                }
               </div>
             </div>
           </div>
