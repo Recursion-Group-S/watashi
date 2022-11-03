@@ -1,20 +1,21 @@
-import { useAtomValue } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 import { React, useEffect, useState } from "react";
 import { authUserAtom } from "../../atoms/authUser";
 import { getMaps } from "../../db/map";
 import MapList from "./MapList";
 import { useNavigate } from 'react-router-dom';
 import { useSetAtom } from "jotai";
-import { currentMapAtom } from "../../atoms/CurrentMapAtom";
+import { currentMapAtom, currentPageAtom, mapListAtom } from "../../atoms/CurrentMapAtom";
 import { canvasItemsAtom } from "../../atoms/ComponentAtom";
 import uuid from "react-uuid";
 
 const Gallery = () => {
   const userAuth = useAtomValue(authUserAtom);
-  const [mapList, setMapList] = useState([]);
+  const [mapList, setMapList] = useAtom(mapListAtom);
   const navigate = useNavigate();
   const setCanvasItems = useSetAtom(canvasItemsAtom)
   const setCurrentMap = useSetAtom(currentMapAtom)
+  const [currentPage, setCurrentPage] = useAtom(currentPageAtom)
 
   const handleNewMap = () => {
     const newMap = {
@@ -53,13 +54,14 @@ const Gallery = () => {
         className="mx-auto flex flex-wrap gap-4 mb-4"
         style={{ width: 1048 }}
       >
-        <MapList mapList={mapList} setMapList={setMapList} />
+        <MapList maps={mapList.slice(8 *(currentPage - 1), 8*currentPage)} />
       </div>
 
       {/* pagination */}
       <div className="flex justify-center gap-1 mb-4">
-        <a
-          href="/?page=1"
+        {currentPage > 1 &&
+        <button
+          onClick={() => setCurrentPage(currentPage-1)}
           className="inline-flex h-8 w-8 items-center justify-center rounded border border-gray-100"
         >
           <svg
@@ -74,17 +76,18 @@ const Gallery = () => {
               clip-rule="evenodd"
             />
           </svg>
-        </a>
+        </button>}
+        {currentPage <= 1 && <div style={{width: 32, height:32}}></div>}
 
         <input
           type="number"
           className="w-12 rounded border border-gray-100 p-0 text-center text-xs font-medium [-moz-appearance:_textfield] [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none"
-          min="1"
-          value="2"
+          value={currentPage}
         />
 
-        <a
-          href="/?page=3"
+        {mapList.length > currentPage * 8 &&
+        <button
+          onClick={() => setCurrentPage(currentPage+1)}
           className="inline-flex h-8 w-8 items-center justify-center rounded border border-gray-100"
         >
           <svg
@@ -99,7 +102,8 @@ const Gallery = () => {
               clip-rule="evenodd"
             />
           </svg>
-        </a>
+        </button>}
+        {mapList.length <= currentPage * 8 && <div style={{width: 32, height:32}}></div>}
       </div>
 
       <div className="flex justify-center">
