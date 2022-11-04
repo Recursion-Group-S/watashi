@@ -4,15 +4,23 @@ import { useSetAtom } from "jotai";
 import { currentMapAtom } from "../../atoms/CurrentMapAtom";
 import { canvasItemsAtom } from "../../atoms/ComponentAtom";
 import { deleteMap } from "../../db/map";
+import { modalDispStatusAtom } from "../../atoms/GalleryAtom";
 
 const MapList = ({ mapList, setMapList }) => {
   const navigate = useNavigate();
   const setCanvasItems = useSetAtom(canvasItemsAtom);
   const setCurrentMap = useSetAtom(currentMapAtom);
+  const setModalDispStatus = useSetAtom(modalDispStatusAtom);
+
   const handleEdit = (map) => {
     navigate(`/map/${map.mapID}`);
     setCurrentMap(map);
     setCanvasItems(map.mapItems);
+  };
+
+  const handleView = (map) => {
+    setCurrentMap(map);
+    setModalDispStatus("");
   };
 
   return (
@@ -30,7 +38,10 @@ const MapList = ({ mapList, setMapList }) => {
             style={{ height: 250, width: 250 }}>
             <div className="flex justify-center items-center" style={{ height: 250 }}>
               <div>
-                <button className="mx-auto my-1 shadow text-center block rounded-2xl border-2 border-white bg-zinc-800 px-4 py-1 text-sm font-medium text-white hover:bg-white hover:text-zinc-800 focus:ring active:text-zinc-800">
+                <button
+                  onClick={() => handleView(map)}
+                  className="mx-auto my-1 shadow text-center block rounded-2xl border-2 border-white bg-zinc-800 px-4 py-1 text-sm font-medium text-white hover:bg-white hover:text-zinc-800 focus:ring active:text-zinc-800"
+                >
                   View
                 </button>
                 <button
