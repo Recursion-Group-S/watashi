@@ -32,11 +32,10 @@ const ViewMap = () => {
                 className={`${modalDispStatus} bg-slate-900/70 h-screen w-screen fixed top-0 left-0 flex justify-center items-center`}>
                 <div>
                     <div id="modal" className="rounded relative" style={{ width: 650, height: 650 }}>
-                        <div
-                            className="flex justify-center items-center border-2 border-white rounded-full w-6 h-6 absolute -top-7 right-0">
+                        <div>
                             <button
                                 onClick={handleClickCloseButton}
-                                className="text-white">&#10005;</button>
+                                className="text-white flex justify-center items-center bg-slate-700/50 rounded-full w-9 h-9 absolute top-3 right-3">&#10005;</button>
                         </div>
                         <img className="rounded" src={currentMap.url} alt={currentMap.mapTitle} />
                     </div>
