@@ -11,6 +11,8 @@ import { fetchCurrentMap } from "../../db/map";
 import { currentMapAtom } from "../../atoms/CurrentMapAtom";
 import { auth } from "../../client/firebase";
 
+import { modalDispStatusAtom } from "../../atoms/ComponentAtom";
+
 const CreateComponent = () => {
   const WrappedCanvasArea = forwardRef(CanvasArea);
   const canvasRef = useRef();
@@ -18,6 +20,7 @@ const CreateComponent = () => {
   const params = useParams();
   const [currentMap, setCurrentMap] = useAtom(currentMapAtom);
   const [canvasItems, setCanvasItems] = useAtom(canvasItemsAtom);
+  const modalDisplay = useAtomValue(modalDispStatusAtom);
 
   const createNewMap = () => {
     const newMap = {
@@ -35,16 +38,16 @@ const CreateComponent = () => {
   useEffect(() => {
     setCanvasAtom(canvasRef);
     fetchCurrentMap(params.mapID).then(res => {
-      if(res === null){
+      if (res === null) {
         setCurrentMap(createNewMap());
-      } else{
+      } else {
         setCurrentMap(res);
         setCanvasItems(res.mapItems);
       }
     })
   }, [])
 
-  if(!currentMap){
+  if (!currentMap) {
     return <div>loading</div>
   }
 
@@ -52,7 +55,7 @@ const CreateComponent = () => {
     <div className="flex gap-x-4">
       <WrappedCanvasArea ref={canvasRef} />
       <Sidebar />
-      <SaveMapModal />
+      {modalDisplay !== "hidden" && <SaveMapModal />}
     </div>
   );
 };

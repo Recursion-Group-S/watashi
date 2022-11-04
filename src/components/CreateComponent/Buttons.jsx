@@ -1,5 +1,5 @@
 import { useAtom, useSetAtom } from "jotai";
-import React, { useState, useEffect } from "react";
+import React, { useState, useLayoutEffect } from "react";
 import { modalDispStatusAtom } from "../../atoms/ComponentAtom";
 import { bgColorSettingAtom, canvasItemsAtom } from "../../atoms/ComponentAtom";
 
@@ -25,13 +25,13 @@ const Buttons = () => {
         }
     }
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         controlSaveButtonClass();
     }, [canvasItems]);
 
     return (
         <div className="m-0 p-0 h-12">
-             
+
             <div className="flex gap-4">
                 <div className="w-5/12">
                     <button
@@ -56,7 +56,7 @@ const Buttons = () => {
                         onClick={() => {
                             setIsColorSetting(!isColorSetting)
                         }}
-                        style={{background: "linear-gradient(60deg,#ffa07a, #ee82ee, #add8e6, #00ffff, #7fffd4,#ffff00, #ffa500)"}}
+                        style={{ background: "linear-gradient(60deg,#ffa07a, #ee82ee, #add8e6, #00ffff, #7fffd4,#ffff00, #ffa500)" }}
                     >
                     </button>
                 </div>
