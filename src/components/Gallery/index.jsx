@@ -8,6 +8,7 @@ import { useSetAtom } from "jotai";
 import { currentMapAtom, currentPageAtom, mapListAtom } from "../../atoms/CurrentMapAtom";
 import { canvasItemsAtom } from "../../atoms/ComponentAtom";
 import uuid from "react-uuid";
+import ViewMap from "./ViewMap";
 
 const Gallery = () => {
   const userAuth = useAtomValue(authUserAtom);
@@ -133,6 +134,8 @@ const Gallery = () => {
           Create New Map
         </button>
       </div>
+
+      <ViewMap />
     </div>
   );
 };

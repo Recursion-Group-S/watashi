@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { useAtom } from "jotai";
+import { useAtom, useSetAtom } from "jotai";
 import { modalDispStatusAtom } from "../atoms/ComponentAtom";
 import { currentMapAtom } from "../atoms/CurrentMapAtom";
 import { useSave } from "../hooks/useSave";
 
 const SaveMapModal = () => {
-    const [modalDisplay, setModalDisplay] = useAtom(modalDispStatusAtom);
+    const setModalDisplay = useSetAtom(modalDispStatusAtom);
     const [currentMap, setCurrentMap] = useAtom(currentMapAtom);
     const [mapTitle, setMapTitle] = useState(currentMap.mapTitle);
     const { saveMap } = useSave();
@@ -28,7 +28,7 @@ const SaveMapModal = () => {
     }
 
     return (
-        <div id="model-wrapper" className={`${modalDisplay} h-screen w-screen bg-slate-700/50 fixed left-0 top-0 flex justify-center items-center`}>
+        <div id="model-wrapper" className="h-screen w-screen bg-slate-700/50 fixed left-0 top-0 flex justify-center items-center">
             <div id="save-map-modal" tabindex="-1" aria-hidden="true"
                 className="w-1/3"
             >
@@ -58,6 +58,7 @@ const SaveMapModal = () => {
                                     <input
                                         type="text"
                                         name="map-name"
+                                        autoFocus={true}
                                         onChange={onInputChange}
                                         value={mapTitle}
                                         minlength="1"
