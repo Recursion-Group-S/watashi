@@ -1,17 +1,17 @@
 import React from "react";
 import { useNavigate } from 'react-router-dom';
-import { useSetAtom } from "jotai";
-import { currentMapAtom } from "../../atoms/CurrentMapAtom";
+import { useAtom, useSetAtom } from "jotai";
+import { currentMapAtom, mapListAtom } from "../../atoms/CurrentMapAtom";
 import { canvasItemsAtom } from "../../atoms/ComponentAtom";
 import { deleteMap } from "../../db/map";
 import { modalDispStatusAtom } from "../../atoms/GalleryAtom";
 
-const MapList = ({ mapList, setMapList }) => {
+const MapList = ({maps, galleryType}) => {
   const navigate = useNavigate();
   const setCanvasItems = useSetAtom(canvasItemsAtom);
   const setCurrentMap = useSetAtom(currentMapAtom);
+  const [mapList, setMapList] = useAtom(mapListAtom)
   const setModalDispStatus = useSetAtom(modalDispStatusAtom);
-
   const handleEdit = (map) => {
     navigate(`/map/${map.mapID}`);
     setCurrentMap(map);
@@ -24,10 +24,11 @@ const MapList = ({ mapList, setMapList }) => {
   };
 
   return (
-    <>
-      {mapList.map((map) => (
+    <div className="flex flex-wrap mt-4" style={{height: maps.length > 0 ? 600 : 0}}>
+
+      {maps.map((map) => (
         <div
-          className="bg-white rounded drop-shadow cursor-pointer group mb-11"
+          className="bg-white rounded drop-shadow cursor-pointer group m-1 mb-10"
           style={{ height: 250, width: 250 }}
           key={map.mapID}
         >
@@ -44,12 +45,15 @@ const MapList = ({ mapList, setMapList }) => {
                 >
                   View
                 </button>
+                {galleryType === 'authUser' && 
                 <button
                   onClick={() => handleEdit(map)}
                   className="mx-auto my-1 shadow text-center block rounded-2xl border-2 border-white bg-zinc-800 px-4 py-1 text-sm font-medium text-white hover:bg-white hover:text-zinc-800 focus:ring active:text-zinc-800"
                 >
                   Edit
                 </button>
+                }
+                {galleryType === 'authUser' && 
                 <a
                   href={map.url}
                   download={`${map.mapTitle}.jpg`}
@@ -68,12 +72,13 @@ const MapList = ({ mapList, setMapList }) => {
                 >
                   Delete
                 </button>
+                }
               </div>
             </div>
           </div>
         </div>
       ))}
-    </>
+    </div>
   );
 };
 
