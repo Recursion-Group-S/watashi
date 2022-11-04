@@ -16,7 +16,7 @@ const Gallery = () => {
   const setCanvasItems = useSetAtom(canvasItemsAtom)
   const setCurrentMap = useSetAtom(currentMapAtom)
   const [currentPage, setCurrentPage] = useAtom(currentPageAtom)
-  const [galleryType, setGalleryType] = useState('user');
+  const [galleryType, setGalleryType] = useState('authUser');
 
   const handleNewMap = () => {
     const newMap = {
@@ -36,9 +36,9 @@ const Gallery = () => {
 
   const getUserMaps = () => {
     if(userAuth) {
-      getMaps(userAuth.uid, 'user').then((res) => {
+      getMaps(userAuth.uid, 'authUser').then((res) => {
         setMapList(res);
-        setGalleryType('user');
+        setGalleryType('authUser');
         setCurrentPage(1);
       });
     }
@@ -62,7 +62,7 @@ const Gallery = () => {
   return (
     <div className="w-screen">
       <div className="mx-auto mb-6 flex" style={{width: 1048}}>
-        <div className={`basis-1/2 m-0 text-center text-xl cursor-pointer ${galleryType === 'user' ? 'font-bold':''}`} onClick={() => getUserMaps()}>
+        <div className={`basis-1/2 m-0 text-center text-xl cursor-pointer ${galleryType === 'authUser' ? 'font-bold':''}`} onClick={() => getUserMaps()}>
           My Gallery
         </div>
         <span>|</span>

@@ -15,7 +15,7 @@ export const postMap = (map) => {
   });
 }
 export const getMaps = async (uid, type) => {
-  const q = type === 'user' ? query(collection(db, "maps"), where("author", "==", uid)) 
+  const q = type === 'authUser' ? query(collection(db, "maps"), where("author", "==", uid)) 
                             : query(collection(db, "maps"), where("author", "!=", uid));
   const querySnapshot = await getDocs(q);
   return await Promise.all(querySnapshot.docs.map((doc) => {
