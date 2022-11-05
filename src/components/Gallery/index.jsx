@@ -1,21 +1,29 @@
+import { useAtom, useAtomValue } from "jotai";
 import { React, useEffect, useState } from "react";
 import { getMaps } from "../../db/map";
 import MapList from "./MapList";
 import { useNavigate } from "react-router-dom";
 import { useSetAtom } from "jotai";
-import { currentMapAtom } from "../../atoms/CurrentMapAtom";
+import {
+  currentMapAtom,
+  currentPageAtom,
+  mapListAtom,
+} from "../../atoms/CurrentMapAtom";
 import { canvasItemsAtom } from "../../atoms/ComponentAtom";
 import uuid from "react-uuid";
 import { useAuthUser } from "../../hooks/useAuthUser";
 import ReactLoading from "react-loading";
+import ViewMap from "./ViewMap";
 
 const Gallery = () => {
   const userAuth = useAuthUser();
-  const [mapList, setMapList] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const setCanvasItems = useSetAtom(canvasItemsAtom);
   const setCurrentMap = useSetAtom(currentMapAtom);
+  const [mapList, setMapList] = useAtom(mapListAtom);
+  const [currentPage, setCurrentPage] = useAtom(currentPageAtom);
+  const [galleryType, setGalleryType] = useState("authUser");
 
   const handleNewMap = () => {
     const newMap = {
@@ -32,26 +40,65 @@ const Gallery = () => {
     setCurrentMap(newMap);
     setCanvasItems(newMap.mapItems);
   };
-  useEffect(() => {
+
+  const getUserMaps = () => {
     if (userAuth) {
-      getMaps(userAuth.uid).then((res) => {
-        setMapList(res);
-        setLoading(false);
-      });
+      setLoading(true)
+      getMaps(userAuth.uid, "authUser")
+        .then((res) => {
+          setMapList(res);
+          setGalleryType("authUser");
+          setCurrentPage(1);
+          setLoading(false);
+        })
+        .finally(() => {
+          setLoading(false);
+        });;
     }
+  };
+
+  const getFriendsMaps = () => {
+    if (userAuth) {
+      setLoading(true)
+      getMaps(userAuth.uid, "friends")
+        .then((res) => {
+          setMapList(res);
+          setGalleryType("friends");
+          setCurrentPage(1);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }
+  };
+
+  useEffect(() => {
+    getUserMaps();
   }, [userAuth, setMapList]);
 
   return (
     <div className="w-screen">
-      <div className="w-2/3 mx-auto mb-6 flex">
-        <div className="basis-1/3 text-center cursor-pointer">My Gallery</div>
-        <div className="basis-1/3 text-center">|</div>
-        <div className="basis-1/3 text-center cursor-pointer">
+      <div className="mx-auto mb-6 flex" style={{ width: 1048 }}>
+        <div
+          className={`basis-1/2 m-0 text-center text-xl cursor-pointer ${
+            galleryType === "authUser" ? "font-bold" : ""
+          }`}
+          onClick={() => getUserMaps()}
+        >
+          My Gallery
+        </div>
+        <span>|</span>
+        <div
+          className={`basis-1/2 m-0 text-center text-xl cursor-pointer ${
+            galleryType === "friends" ? "font-bold" : ""
+          }`}
+          onClick={() => getFriendsMaps()}
+        >
           Friends' Gallery
         </div>
       </div>
       <div
-        className="mx-auto flex flex-wrap gap-4 mb-4"
+        className="mx-auto flex flex-wrap gap-4 mb-2"
         style={{ width: 1048 }}
       >
         {loading ? (
@@ -59,54 +106,64 @@ const Gallery = () => {
             <ReactLoading type="spin" />
           </div>
         ) : (
-          <MapList mapList={mapList} setMapList={setMapList} />
+          <MapList
+            maps={mapList.slice(8 * (currentPage - 1), 8 * currentPage)}
+            galleryType={galleryType}
+          />
         )}
       </div>
 
       {/* pagination */}
-      <div className="flex justify-center gap-1 mb-4">
-        <a
-          href="/?page=1"
-          className="inline-flex h-8 w-8 items-center justify-center rounded border border-gray-100"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-3 w-3"
-            viewBox="0 0 20 20"
-            fill="currentColor"
+      <div className="flex justify-center gap-1 mb-2">
+        {currentPage > 1 && (
+          <button
+            onClick={() => setCurrentPage(currentPage - 1)}
+            className="inline-flex h-8 w-8 items-center justify-center rounded border border-gray-100"
           >
-            <path
-              fill-rule="evenodd"
-              d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-              clip-rule="evenodd"
-            />
-          </svg>
-        </a>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-3 w-3"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </button>
+        )}
+        {currentPage <= 1 && <div style={{ width: 32, height: 32 }}></div>}
 
         <input
           type="number"
           className="w-12 rounded border border-gray-100 p-0 text-center text-xs font-medium [-moz-appearance:_textfield] [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none"
-          min="1"
-          value="2"
+          value={currentPage}
         />
 
-        <a
-          href="/?page=3"
-          className="inline-flex h-8 w-8 items-center justify-center rounded border border-gray-100"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-3 w-3"
-            viewBox="0 0 20 20"
-            fill="currentColor"
+        {mapList.length > currentPage * 8 && (
+          <button
+            onClick={() => setCurrentPage(currentPage + 1)}
+            className="inline-flex h-8 w-8 items-center justify-center rounded border border-gray-100"
           >
-            <path
-              fill-rule="evenodd"
-              d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-              clip-rule="evenodd"
-            />
-          </svg>
-        </a>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-3 w-3"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </button>
+        )}
+        {mapList.length <= currentPage * 8 && (
+          <div style={{ width: 32, height: 32 }}></div>
+        )}
       </div>
 
       <div className="flex justify-center">
@@ -117,6 +174,8 @@ const Gallery = () => {
           Create New Map
         </button>
       </div>
+
+      <ViewMap />
     </div>
   );
 };

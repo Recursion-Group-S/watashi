@@ -1,25 +1,34 @@
 import React from "react";
 import { useNavigate } from 'react-router-dom';
-import { useSetAtom } from "jotai";
-import { currentMapAtom } from "../../atoms/CurrentMapAtom";
+import { useAtom, useSetAtom } from "jotai";
+import { currentMapAtom, mapListAtom } from "../../atoms/CurrentMapAtom";
 import { canvasItemsAtom } from "../../atoms/ComponentAtom";
 import { deleteMap } from "../../db/map";
+import { modalDispStatusAtom } from "../../atoms/GalleryAtom";
 
-const MapList = ({ mapList, setMapList }) => {
+const MapList = ({maps, galleryType}) => {
   const navigate = useNavigate();
   const setCanvasItems = useSetAtom(canvasItemsAtom);
   const setCurrentMap = useSetAtom(currentMapAtom);
+  const [mapList, setMapList] = useAtom(mapListAtom)
+  const setModalDispStatus = useSetAtom(modalDispStatusAtom);
   const handleEdit = (map) => {
     navigate(`/map/${map.mapID}`);
     setCurrentMap(map);
     setCanvasItems(map.mapItems);
   };
 
+  const handleView = (map) => {
+    setCurrentMap(map);
+    setModalDispStatus("");
+  };
+
   return (
-    <>
-      {mapList.map((map) => (
+    <div className="flex flex-wrap mt-4" style={{height: maps.length > 0 ? 600 : 0}}>
+
+      {maps.map((map) => (
         <div
-          className="bg-white rounded drop-shadow cursor-pointer group mb-11"
+          className="bg-white rounded drop-shadow cursor-pointer group m-1 mb-10"
           style={{ height: 250, width: 250 }}
           key={map.mapID}
         >
@@ -30,32 +39,46 @@ const MapList = ({ mapList, setMapList }) => {
             style={{ height: 250, width: 250 }}>
             <div className="flex justify-center items-center" style={{ height: 250 }}>
               <div>
-                <button className="mx-auto my-1 shadow text-center block rounded-2xl border-2 border-white bg-zinc-800 px-4 py-1 text-sm font-medium text-white hover:bg-white hover:text-zinc-800 focus:ring active:text-zinc-800">
-                  View
-                </button>
                 <button
-                  onClick={() => handleEdit(map)}
+                  onClick={() => handleView(map)}
                   className="mx-auto my-1 shadow text-center block rounded-2xl border-2 border-white bg-zinc-800 px-4 py-1 text-sm font-medium text-white hover:bg-white hover:text-zinc-800 focus:ring active:text-zinc-800"
                 >
-                  Edit
+                  View
                 </button>
-                <button
-                  onClick={() => {
-                    deleteMap(map.mapID);
-                    setMapList(
-                      mapList.filter((mapItem) => mapItem.mapID !== map.mapID)
-                    );
-                  }}
-                  className="mx-auto my-1 shadow text-center block rounded-2xl border-2 border-white bg-red-400 px-4 py-1 text-sm font-medium text-white hover:bg-white hover:text-red-400 focus:ring active:text-red-400"
-                >
-                  Delete
-                </button>
+                {galleryType === 'authUser' && 
+                <div>
+                  <button
+                    onClick={() => handleEdit(map)}
+                    className="mx-auto my-1 shadow text-center block rounded-2xl border-2 border-white bg-zinc-800 px-4 py-1 text-sm font-medium text-white hover:bg-white hover:text-zinc-800 focus:ring active:text-zinc-800"
+                  >
+                    Edit
+                  </button>
+                  <a
+                    href={map.url}
+                    download={`${map.mapTitle}.jpg`}
+                    className="mx-auto my-1 shadow text-center block rounded-2xl border-2 border-white bg-green-500 px-4 py-1 text-sm font-medium text-white hover:bg-white hover:text-red-400 focus:ring active:text-red-400"
+                  >
+                    Export
+                  </a>
+                  <button
+                    onClick={() => {
+                      deleteMap(map.mapID);
+                      setMapList(
+                        mapList.filter((mapItem) => mapItem.mapID !== map.mapID)
+                      );
+                    }}
+                    className="mx-auto my-1 shadow text-center block rounded-2xl border-2 border-white bg-red-400 px-4 py-1 text-sm font-medium text-white hover:bg-white hover:text-red-400 focus:ring active:text-red-400"
+                  >
+                    Delete
+                  </button>
+                </div>
+                }
               </div>
             </div>
           </div>
         </div>
       ))}
-    </>
+    </div>
   );
 };
 
