@@ -3,12 +3,14 @@ import { useAtom, useSetAtom } from "jotai";
 import { modalDispStatusAtom } from "../atoms/ComponentAtom";
 import { currentMapAtom } from "../atoms/CurrentMapAtom";
 import { useSave } from "../hooks/useSave";
+import { useNavigate } from "react-router-dom";
 
 const SaveMapModal = () => {
     const setModalDisplay = useSetAtom(modalDispStatusAtom);
     const [currentMap, setCurrentMap] = useAtom(currentMapAtom);
     const [mapTitle, setMapTitle] = useState(currentMap.mapTitle);
     const { saveMap } = useSave();
+    const navigate = useNavigate();
 
     const hideModal = () => {
         setModalDisplay("hidden");
@@ -25,6 +27,7 @@ const SaveMapModal = () => {
         setCurrentMap(editingCurrentMap);
         hideModal();
         saveMap();
+        navigate("/gallery")
     }
 
     return (
