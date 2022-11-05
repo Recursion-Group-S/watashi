@@ -3,7 +3,7 @@ import { useRef } from "react";
 import { forwardRef } from "react";
 import CanvasArea from "./CanvasArea";
 import Sidebar from "./Sidebar";
-import SaveMapModal from "../../modals/SaveMapModal";
+import SaveMapModal from "../modals/SaveMapModal";
 import { useAtom, useAtomValue } from "jotai";
 import { backgroundImageAtom, canvasItemsAtom, canvasRefAtom } from "../../atoms/ComponentAtom";
 import { useParams } from "react-router-dom";
