@@ -11,6 +11,7 @@ export const postMap = (map) => {
     url: map.url,
     mapItems: map.mapItems,
     backgroundColor: map.backgroundColor,
+    backgroundImage: map.backgroundImage,
     createdAt: map.createdAt
   });
 }

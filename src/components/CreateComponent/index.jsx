@@ -5,7 +5,7 @@ import CanvasArea from "./CanvasArea";
 import Sidebar from "./Sidebar";
 import SaveMapModal from "../../modals/SaveMapModal";
 import { useAtom, useAtomValue } from "jotai";
-import { canvasItemsAtom, canvasRefAtom } from "../../atoms/ComponentAtom";
+import { backgroundImageAtom, canvasItemsAtom, canvasRefAtom } from "../../atoms/ComponentAtom";
 import { useParams } from "react-router-dom";
 import { fetchCurrentMap } from "../../db/map";
 import { currentMapAtom } from "../../atoms/CurrentMapAtom";
@@ -21,6 +21,7 @@ const CreateComponent = () => {
   const [currentMap, setCurrentMap] = useAtom(currentMapAtom);
   const [canvasItems, setCanvasItems] = useAtom(canvasItemsAtom);
   const modalDisplay = useAtomValue(modalDispStatusAtom);
+  const [backgroundImage, setBackgroundImage] = useAtom(backgroundImageAtom)
 
   const createNewMap = () => {
     const newMap = {
@@ -30,6 +31,7 @@ const CreateComponent = () => {
       url: '',
       mapItems: [],
       backgroundColor: 'white',
+      backgroundImage: new Image(),
       createdAt: Date(),
     }
     return newMap;
@@ -42,6 +44,9 @@ const CreateComponent = () => {
         setCurrentMap(createNewMap());
       } else {
         setCurrentMap(res);
+        let bgImage = new Image();
+        bgImage.src = res.backgroundImage;
+        setBackgroundImage(bgImage);
         setCanvasItems(res.mapItems);
       }
     })
