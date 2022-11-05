@@ -1,14 +1,16 @@
 import React from "react";
-import { useAtom, useAtomValue } from "jotai";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { userActionAtom } from "../../../atoms/Atoms";
 import IconTab from "./IconTab";
 import TextTab from "./TextTab";
 import ImageTab from "./ImageTab";
 import DrawingTab from "./DrawingTab";
 import { useNavigate } from "react-router-dom/dist";
+import { backgroundImageAtom } from "../../../atoms/ComponentAtom";
 
 const Sidebar = () => {
     const [userAction, setUserAction] = useAtom(userActionAtom);
+    const setBackgroundImage = useSetAtom(backgroundImageAtom)
 
     const chooseUserAction = (action) => {
         setUserAction(action);
@@ -19,7 +21,10 @@ const Sidebar = () => {
         <div style={{ width: 444 }}>
             <button
                 className="w-full text-center inline-block rounded-2xl border border-zinc-800 bg-zinc-800 py-2 mb-2 text-sm font-medium text-white hover:bg-white hover:text-zinc-800 focus:outline-none focus:ring active:text-zinc-800"
-                onClick={()=>navigate("/gallery")}
+                onClick={()=> {
+                    navigate("/gallery");
+                    setBackgroundImage(new Image());
+                }}
                 style={{ width: 444 }}
             >
                 Back to Gallery

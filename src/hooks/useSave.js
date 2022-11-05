@@ -7,7 +7,7 @@ export const useSave = () => {
     const [canvasItems, setCanvasItems] = useAtom(canvasItemsAtom);
     const [stageRef] = useAtom(stageRefAtom);
     const currentMap = useAtomValue(currentMapAtom)
-    const backgroundImage = useAtomValue(backgroundImageAtom)
+    const [backgroundImage, setBackgroundImage] = useAtom(backgroundImageAtom)
 
     const saveMap = () => {
         let data = stageRef.current.toDataURL();
@@ -28,6 +28,7 @@ export const useSave = () => {
             createdAt: currentMap.createdAt
         }
         postMap(newMap);
+        setBackgroundImage(new Image());
     }
     return { saveMap }
 }

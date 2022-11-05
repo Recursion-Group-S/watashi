@@ -185,6 +185,10 @@ const CanvasArea = ({ }, canvasRef) => {
     useEffect(() => {
         currentMap.backgroundColor = bgColor;
     },[bgColor])
+
+    useEffect(() => {
+        console.log('bg')
+    }, [backgroundImage])
     
     return (
         <div ref={canvasRef}>
@@ -210,12 +214,14 @@ const CanvasArea = ({ }, canvasRef) => {
                             height={650}
                             fill={currentMap.backgroundColor}
                         />
+                        {backgroundImage.src &&
                         <Image
                             width={650}
                             height={650}
                             image={backgroundImage}
                             ref={backgroundRef}
                         />
+                        }
                         {canvasItems.map((item, i) => (
                             item.type === 'line' ?
                                 <Line

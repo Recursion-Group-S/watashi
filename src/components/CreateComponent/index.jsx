@@ -45,8 +45,11 @@ const CreateComponent = () => {
       } else {
         setCurrentMap(res);
         let bgImage = new Image();
+        bgImage.crossOrigin = 'anonymous'
+        bgImage.onload = () => {
+          setBackgroundImage(bgImage)
+        }
         bgImage.src = res.backgroundImage;
-        setBackgroundImage(bgImage);
         setCanvasItems(res.mapItems);
       }
     })
