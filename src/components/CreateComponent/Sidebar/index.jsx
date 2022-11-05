@@ -5,6 +5,7 @@ import IconTab from "./IconTab";
 import TextTab from "./TextTab";
 import ImageTab from "./ImageTab";
 import DrawingTab from "./DrawingTab";
+import { useNavigate } from "react-router-dom/dist";
 
 const Sidebar = () => {
     const [userAction, setUserAction] = useAtom(userActionAtom);
@@ -12,16 +13,17 @@ const Sidebar = () => {
     const chooseUserAction = (action) => {
         setUserAction(action);
     };
+    const navigate = useNavigate();
 
     return (
         <div style={{ width: 444 }}>
-            <a
+            <button
                 className="w-full text-center inline-block rounded-2xl border border-zinc-800 bg-zinc-800 py-2 mb-2 text-sm font-medium text-white hover:bg-white hover:text-zinc-800 focus:outline-none focus:ring active:text-zinc-800"
-                href="/gallery"
+                onClick={()=>navigate("/gallery")}
                 style={{ width: 444 }}
             >
                 Back to Gallery
-            </a>
+            </button>
             <div className="mt-0 bg-white overflow-y-scroll rounded drop-shadow" style={{ height: 650 }}>
                 <div className="mx-auto pt-3 rounded flex justify-center">
                     <div className="flex justify-between w-5/6">
