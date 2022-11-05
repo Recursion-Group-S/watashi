@@ -11,7 +11,7 @@ const Container = ({ children }) => {
 
   useEffect(() => {
     if (!userAuth) navigate("/");
-  });
+  },[]);
 
   return (
     <div

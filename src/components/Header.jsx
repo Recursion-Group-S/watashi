@@ -9,8 +9,7 @@ const Header = () => {
   const navigate = useNavigate()
 
   const logout = async () => {
-    await signOut(auth);
-    navigate('');
+    signOut(auth).then(() => navigate('/'))
   }
 
   return (
