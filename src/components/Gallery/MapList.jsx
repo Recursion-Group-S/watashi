@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from 'react-router-dom';
 import { useAtom, useSetAtom } from "jotai";
 import { currentMapAtom, mapListAtom } from "../../atoms/CurrentMapAtom";
-import { canvasItemsAtom } from "../../atoms/ComponentAtom";
+import { backgroundImageAtom, canvasItemsAtom } from "../../atoms/ComponentAtom";
 import { deleteMap } from "../../db/map";
 import { modalDispStatusAtom } from "../../atoms/GalleryAtom";
 
@@ -12,10 +12,17 @@ const MapList = ({maps, galleryType}) => {
   const setCurrentMap = useSetAtom(currentMapAtom);
   const [mapList, setMapList] = useAtom(mapListAtom)
   const setModalDispStatus = useSetAtom(modalDispStatusAtom);
+  const [backgroundImage, setBackgroundImage] = useAtom(backgroundImageAtom)
   const handleEdit = (map) => {
-    navigate(`/map/${map.mapID}`);
     setCurrentMap(map);
     setCanvasItems(map.mapItems);
+    let bgImage = new Image();
+    bgImage.crossOrigin = 'anonymous'
+    bgImage.onload = () => {
+      setBackgroundImage(bgImage);
+    }
+    bgImage.src = map.backgroundImage;
+    navigate(`/map/${map.mapID}`);
   };
 
   const handleView = (map) => {
