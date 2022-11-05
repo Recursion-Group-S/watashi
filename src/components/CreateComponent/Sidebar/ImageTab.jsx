@@ -1,8 +1,9 @@
-import { useAtom } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 import { useUploadImg } from "../../../hooks/useUploadimg";
 import { backgroundImageAtom, canvasRefAtom } from "../../../atoms/ComponentAtom";
 import { useNewItem } from "../../../hooks/useNewItem";
 import { useState, useRef } from "react";
+import { currentMapAtom } from "../../../atoms/CurrentMapAtom";
 
 const ImageTab = () => {
     const { uploadedImages, uploadToServer, deleteUploadedImage } = useUploadImg();
@@ -11,6 +12,7 @@ const ImageTab = () => {
     const { isValidDrop, addItem } = useNewItem();
     const setBgRef = useRef(null);
     const [backgroundImage, setBackgroundImage] = useAtom(backgroundImageAtom);
+    const currentMap = useAtomValue(currentMapAtom);
 
     const handleShift = (e) => {
         setShift({
