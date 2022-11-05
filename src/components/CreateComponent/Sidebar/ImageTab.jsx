@@ -9,7 +9,7 @@ import { useState, useRef } from "react";
 import ReactLoading from "react-loading";
 
 const ImageTab = () => {
-  const { uploadedImages, uploadToServer, deleteUploadedImage } =
+  const { uploadedImages, uploadToServer, deleteUploadedImage,loading } =
     useUploadImg();
   const [canvasAtom] = useAtom(canvasRefAtom);
   const [shift, setShift] = useState({ x: 0, y: 0 });
@@ -67,8 +67,12 @@ const ImageTab = () => {
         className="overflow-y-scroll border rounded-lg p-3"
         style={{ height: 360 }}
       >
-        <div className="flex flex-wrap justify-between">
-          {uploadedImages.length !== 0 ? (
+        <div className="flex flex-wrap gap-5">
+          {loading ? (
+            <div className="flex justify-center w-screen items-center mt-32">
+              <ReactLoading type="spin" color="#f6e8aa" />
+            </div>
+          ) : (
             uploadedImages.map((uploadedPath) => {
               return (
                 <>
@@ -97,8 +101,6 @@ const ImageTab = () => {
                 </>
               );
             })
-          ) : (
-            <ReactLoading type="spin" color="#f6e8aa" />
           )}
         </div>
       </div>

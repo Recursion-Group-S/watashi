@@ -100,17 +100,17 @@ const IconList = () => {
         );
       })
     ) : (
-      <ReactLoading type="spin" color="#f6e8aa" />
+      <div className="flex justify-center w-screen items-center mt-32">
+        <ReactLoading type="spin" color="#f6e8aa" />
+      </div>
     );
 
   return (
     <div
-      className="border rounded-lg p-3 overflow-y-scroll"
+      className="border rounded-lg p-3 overflow-y-scroll ml-auto mr-auto"
       style={{ height: 480 }}
     >
-      <div className="flex flex-wrap">
-        {renderedItem}
-      </div>
+      <div className="flex flex-wrap ">{renderedItem}</div>
     </div>
   );
 };

@@ -5,6 +5,7 @@ import { useAuthUser } from "./useAuthUser";
 
 export const useUploadImg = () => {
   const [uploadedImages, setUploadedImages] = useState([]);
+  const [loading, setLoading] = useState(true)
   const userAuth = useAuthUser();
 
   const postImage = async (image = null) => {
@@ -29,9 +30,9 @@ export const useUploadImg = () => {
   const getUploadedImages = async (reference) => {
     const storageRef = ref(storage);
     //listAllでアップロードした画像のfullPathを入手
-    await listAll(reference).then(async (result) => {
+    return await listAll(reference).then(async (result) => {
       //入手したパスを用いて画像URLを取得。
-      await Promise.all(
+      return await Promise.all(
         result.items.map(async (reference) => {
           const uploadRef = ref(storageRef, reference.fullPath);
           const res = {
@@ -43,6 +44,7 @@ export const useUploadImg = () => {
         //Promise.Allで解決したgetDownloadURLの戻り値をまとめて配列として返す。
       ).then((uploadedImageURLs) => {
         setUploadedImages(uploadedImageURLs);
+        setLoading(false);
       });
     });
   };
@@ -57,5 +59,5 @@ export const useUploadImg = () => {
     getUploadedImages(ref(storage, `/images/${userAuth.uid}/`));
   }, []);
 
-  return { uploadedImages, uploadToServer, deleteUploadedImage }
+  return { uploadedImages, uploadToServer, deleteUploadedImage, loading }
 }

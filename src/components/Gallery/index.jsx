@@ -1,7 +1,7 @@
 import { React, useEffect, useState } from "react";
 import { getMaps } from "../../db/map";
 import MapList from "./MapList";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import { useSetAtom } from "jotai";
 import { currentMapAtom } from "../../atoms/CurrentMapAtom";
 import { canvasItemsAtom } from "../../atoms/ComponentAtom";
@@ -12,9 +12,10 @@ import ReactLoading from "react-loading";
 const Gallery = () => {
   const userAuth = useAuthUser();
   const [mapList, setMapList] = useState([]);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-  const setCanvasItems = useSetAtom(canvasItemsAtom)
-  const setCurrentMap = useSetAtom(currentMapAtom)
+  const setCanvasItems = useSetAtom(canvasItemsAtom);
+  const setCurrentMap = useSetAtom(currentMapAtom);
 
   const handleNewMap = () => {
     const newMap = {
@@ -24,17 +25,18 @@ const Gallery = () => {
       url: "",
       mapItems: [],
       backgroundColor: "white",
-      createdAt: Date()
-    }
+      createdAt: Date(),
+    };
 
     navigate(`/map/${newMap.mapID}`);
-    setCurrentMap(newMap)
-    setCanvasItems(newMap.mapItems)
-  }
+    setCurrentMap(newMap);
+    setCanvasItems(newMap.mapItems);
+  };
   useEffect(() => {
     if (userAuth) {
       getMaps(userAuth.uid).then((res) => {
         setMapList(res);
+        setLoading(false);
       });
     }
   }, [userAuth, setMapList]);
@@ -52,10 +54,12 @@ const Gallery = () => {
         className="mx-auto flex flex-wrap gap-4 mb-4"
         style={{ width: 1048 }}
       >
-        {mapList.length !== 0? (
-          <MapList mapList={mapList} setMapList={setMapList} />
+        {loading ? (
+          <div className="flex justify-center w-screen my-10">
+            <ReactLoading type="spin" />
+          </div>
         ) : (
-          <ReactLoading type="spin" />
+          <MapList mapList={mapList} setMapList={setMapList} />
         )}
       </div>
 
