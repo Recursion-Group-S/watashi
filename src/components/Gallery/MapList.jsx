@@ -80,6 +80,15 @@ const MapList = ({maps, galleryType}) => {
                   </button>
                 </div>
                 }
+                {galleryType === 'friends' && 
+                <a
+                  href={map.url}
+                  download={`${map.mapTitle}.jpg`}
+                  className="mx-auto my-1 shadow text-center block rounded-2xl border-2 border-white bg-green-500 px-4 py-1 text-sm font-medium text-white hover:bg-white hover:text-red-400 focus:ring active:text-red-400"
+                >
+                  Export
+                </a>
+                }
               </div>
             </div>
           </div>
