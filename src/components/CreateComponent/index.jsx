@@ -28,12 +28,12 @@ const CreateComponent = () => {
       mapID: params.mapID,
       mapTitle: "title",
       author: auth.currentUser.uid,
-      url: '',
+      url: "",
       mapItems: [],
-      backgroundColor: 'white',
+      backgroundColor: "white",
       backgroundImage: new Image(),
-      createdAt: Date(),
-    }
+      createdAt: new Date().getTime(),
+    };
     return newMap;
   }
 

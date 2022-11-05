@@ -33,7 +33,7 @@ const Gallery = () => {
       url: "",
       mapItems: [],
       backgroundColor: "white",
-      createdAt: Date(),
+      createdAt: new Date().toLocaleString("ja-JP"),
     };
 
     navigate(`/map/${newMap.mapID}`);
@@ -43,26 +43,26 @@ const Gallery = () => {
 
   const getUserMaps = () => {
     if (userAuth) {
-      setLoading(true)
+      setLoading(true);
       getMaps(userAuth.uid, "authUser")
         .then((res) => {
-          setMapList(res);
+          setMapList(sortMapList(res));
           setGalleryType("authUser");
           setCurrentPage(1);
           setLoading(false);
         })
         .finally(() => {
           setLoading(false);
-        });;
+        });
     }
   };
 
   const getFriendsMaps = () => {
     if (userAuth) {
-      setLoading(true)
+      setLoading(true);
       getMaps(userAuth.uid, "friends")
         .then((res) => {
-          setMapList(res);
+          setMapList(sortMapList(res));
           setGalleryType("friends");
           setCurrentPage(1);
         })
@@ -70,6 +70,9 @@ const Gallery = () => {
           setLoading(false);
         });
     }
+  };
+  const sortMapList = (maps) => {
+    return maps.sort((mapA, mapB) => mapB.createdAt - mapA.createdAt);
   };
 
   useEffect(() => {
