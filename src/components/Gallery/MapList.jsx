@@ -46,32 +46,32 @@ const MapList = ({maps, galleryType}) => {
                   View
                 </button>
                 {galleryType === 'authUser' && 
-                <button
-                  onClick={() => handleEdit(map)}
-                  className="mx-auto my-1 shadow text-center block rounded-2xl border-2 border-white bg-zinc-800 px-4 py-1 text-sm font-medium text-white hover:bg-white hover:text-zinc-800 focus:ring active:text-zinc-800"
-                >
-                  Edit
-                </button>
-                }
-                {galleryType === 'authUser' && 
-                <a
-                  href={map.url}
-                  download={`${map.mapTitle}.jpg`}
-                  className="mx-auto my-1 shadow text-center block rounded-2xl border-2 border-white bg-green-500 px-4 py-1 text-sm font-medium text-white hover:bg-white hover:text-red-400 focus:ring active:text-red-400"
-                >
-                  Export
-                </a>
-                <button
-                  onClick={() => {
-                    deleteMap(map.mapID);
-                    setMapList(
-                      mapList.filter((mapItem) => mapItem.mapID !== map.mapID)
-                    );
-                  }}
-                  className="mx-auto my-1 shadow text-center block rounded-2xl border-2 border-white bg-red-400 px-4 py-1 text-sm font-medium text-white hover:bg-white hover:text-red-400 focus:ring active:text-red-400"
-                >
-                  Delete
-                </button>
+                <div>
+                  <button
+                    onClick={() => handleEdit(map)}
+                    className="mx-auto my-1 shadow text-center block rounded-2xl border-2 border-white bg-zinc-800 px-4 py-1 text-sm font-medium text-white hover:bg-white hover:text-zinc-800 focus:ring active:text-zinc-800"
+                  >
+                    Edit
+                  </button>
+                  <a
+                    href={map.url}
+                    download={`${map.mapTitle}.jpg`}
+                    className="mx-auto my-1 shadow text-center block rounded-2xl border-2 border-white bg-green-500 px-4 py-1 text-sm font-medium text-white hover:bg-white hover:text-red-400 focus:ring active:text-red-400"
+                  >
+                    Export
+                  </a>
+                  <button
+                    onClick={() => {
+                      deleteMap(map.mapID);
+                      setMapList(
+                        mapList.filter((mapItem) => mapItem.mapID !== map.mapID)
+                      );
+                    }}
+                    className="mx-auto my-1 shadow text-center block rounded-2xl border-2 border-white bg-red-400 px-4 py-1 text-sm font-medium text-white hover:bg-white hover:text-red-400 focus:ring active:text-red-400"
+                  >
+                    Delete
+                  </button>
+                </div>
                 }
               </div>
             </div>
