@@ -4,7 +4,7 @@ import { db } from "../client/firebase";
 
 export const postMap = (map) => {
   const mapCollectionRef = doc(db, "maps", map.mapID);
-  setDoc(mapCollectionRef, {
+  return setDoc(mapCollectionRef, {
     mapID: map.mapID,
     mapTitle: map.mapTitle,
     author: map.author,

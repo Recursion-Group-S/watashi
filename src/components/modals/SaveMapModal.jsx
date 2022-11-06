@@ -22,12 +22,9 @@ const SaveMapModal = () => {
 
     const onFormSubmit = (e) => {
         e.preventDefault();
-        const editingCurrentMap = currentMap;
-        editingCurrentMap.mapTitle = mapTitle;
-        setCurrentMap(editingCurrentMap);
+        currentMap.mapTitle = mapTitle
         hideModal();
         saveMap();
-        navigate("/gallery")
     }
 
     return (
