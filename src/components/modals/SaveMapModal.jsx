@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useAtom, useSetAtom } from "jotai";
-import { modalDispStatusAtom } from "../atoms/ComponentAtom";
-import { currentMapAtom } from "../atoms/CurrentMapAtom";
-import { useSave } from "../hooks/useSave";
+import { modalDispStatusAtom } from "../../atoms/ComponentAtom";
+import { currentMapAtom } from "../../atoms/CurrentMapAtom";
+import { useSave } from "../../hooks/useSave";
 import { useNavigate } from "react-router-dom";
 
 const SaveMapModal = () => {

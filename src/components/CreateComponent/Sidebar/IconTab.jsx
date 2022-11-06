@@ -108,7 +108,7 @@ const IconList = () => {
   return (
     <div
       className="border rounded-lg p-3 overflow-y-scroll ml-auto mr-auto"
-      style={{ height: 480 }}
+      style={{ height: 470 }}
     >
       <div className="flex flex-wrap ">{renderedItem}</div>
     </div>

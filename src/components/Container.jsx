@@ -11,7 +11,7 @@ const Container = ({ children }) => {
 
   useEffect(() => {
     if (!userAuth) navigate("/");
-  });
+  },[]);
 
   return (
     <div
@@ -21,7 +21,7 @@ const Container = ({ children }) => {
       <Header />
       <div
         className="grid p-0 place-items-center"
-        style={{ height: "calc(100vh - 72px)" }}
+        style={{ height: "calc(100vh - 64px)" }}
       >
         <div style={{ Width: 1110, Height: 696 }}>{children}</div>
       </div>
