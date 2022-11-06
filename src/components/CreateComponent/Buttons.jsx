@@ -45,7 +45,7 @@ const Buttons = () => {
                     <button
                         className={`${saveButtonClass} w-full text-center inline-block rounded-2xl border border-zinc-800 bg-zinc-800 px-12 py-2 text-sm font-medium text-white hover:bg-white hover:text-zinc-800 focus:outline-none focus:ring active:text-zinc-800`}
                         onClick={displayModal}
-                        disabled={canvasItems.length === 0}
+                    // disabled={canvasItems.length === 0}
                     >
                         Save
                     </button>

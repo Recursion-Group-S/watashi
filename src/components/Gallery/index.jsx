@@ -81,39 +81,40 @@ const Gallery = () => {
 
   return (
     <div className="w-screen">
-      <div className="mx-auto mb-6 flex" style={{ width: 1048 }}>
+      <div className="mx-auto mb-2 flex" style={{ width: 1048 }}>
         <div
-          className={`basis-1/2 m-0 text-center text-xl cursor-pointer ${
-            galleryType === "authUser" ? "font-bold" : ""
-          }`}
+          className={`basis-1/2 m-0 text-center cursor-pointer tracking-wide ${galleryType === "authUser" ? "font-bold" : "font-light"
+            }`}
           onClick={() => getUserMaps()}
         >
           My Gallery
         </div>
-        <span>|</span>
+        <span className="font-light">|</span>
         <div
-          className={`basis-1/2 m-0 text-center text-xl cursor-pointer ${
-            galleryType === "friends" ? "font-bold" : ""
-          }`}
+          className={`basis-1/2 m-0 text-center cursor-pointer tracking-wide ${galleryType === "friends" ? "font-bold" : "font-light"
+            }`}
           onClick={() => getFriendsMaps()}
         >
           Friends' Gallery
         </div>
       </div>
       <div
-        className="mx-auto flex flex-wrap gap-4 mb-2"
+        className="mx-auto flex flex-wrap mb-2"
         style={{ width: 1048 }}
       >
-        {loading ? (
-          <div className="flex justify-center w-screen my-10">
-            <ReactLoading type="spin" />
-          </div>
-        ) : (
-          <MapList
-            maps={mapList.slice(8 * (currentPage - 1), 8 * currentPage)}
-            galleryType={galleryType}
-          />
-        )}
+        <div className="flex flex-wrap bg-white rounded-2xl p-2 shadow w-full" style={{ height: 600 }}>
+          {loading ? (
+            <div className="flex justify-center items-center w-screen my-10">
+              <ReactLoading type="spin" color="#f6e8aa" />
+            </div>
+          ) : (
+            <MapList
+              maps={mapList.slice(8 * (currentPage - 1), 8 * currentPage)}
+              galleryType={galleryType}
+            />
+          )
+          }
+        </div>
       </div>
 
       {/* pagination */}
@@ -171,7 +172,7 @@ const Gallery = () => {
 
       <div className="flex justify-center">
         <button
-          className="w-60 inline-block rounded-2xl border border-zinc-800 bg-zinc-800 px-12 py-3 text-sm font-medium text-white hover:bg-white hover:text-zinc-800 focus:outline-none focus:ring active:text-zinc-800"
+          className="w-60 inline-block rounded-2xl border border-zinc-800 bg-zinc-800 py-2 px-12 text-sm text-white hover:bg-white hover:text-zinc-800 focus:outline-none focus:ring active:text-zinc-800"
           onClick={handleNewMap}
         >
           Create New Map
