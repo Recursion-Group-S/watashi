@@ -102,16 +102,19 @@ const Gallery = () => {
         className="mx-auto flex flex-wrap mb-2"
         style={{ width: 1048 }}
       >
-        {loading ? (
-          <div className="flex justify-center w-screen my-10">
-            <ReactLoading type="spin" />
-          </div>
-        ) : (
-          <MapList
-            maps={mapList.slice(8 * (currentPage - 1), 8 * currentPage)}
-            galleryType={galleryType}
-          />
-        )}
+        <div className="flex flex-wrap bg-white rounded-2xl p-2 shadow w-full" style={{ height: 600 }}>
+          {loading ? (
+            <div className="flex justify-center items-center w-screen my-10">
+              <ReactLoading type="spin" color="#f6e8aa" />
+            </div>
+          ) : (
+            <MapList
+              maps={mapList.slice(8 * (currentPage - 1), 8 * currentPage)}
+              galleryType={galleryType}
+            />
+          )
+          }
+        </div>
       </div>
 
       {/* pagination */}
