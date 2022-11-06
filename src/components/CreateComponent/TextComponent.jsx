@@ -27,6 +27,7 @@ const TextComponent = ({ textProps, setIsTyping, setHidingElement, isSelected, o
         const node = componentRef.current;
         textProps.x = node.attrs.x;
         textProps.y = node.attrs.y;
+        textProps.rotation = node.attrs.rotation;
         onChange(textProps);
     }
 
@@ -40,11 +41,12 @@ const TextComponent = ({ textProps, setIsTyping, setHidingElement, isSelected, o
         node.setAttrs({
             width: node.width() * node.scaleX(),
             scaleX: 1,
+            rotation: node.rotation()
         });
         textProps.rotation = node.attrs.rotation;
         textProps.width = node.attrs.width;
         textProps.height = node.attrs.height;
-        onChange(textProps);
+        
     }
 
     useEffect(() => {
@@ -60,6 +62,7 @@ const TextComponent = ({ textProps, setIsTyping, setHidingElement, isSelected, o
                 text={textProps.text}
                 x={textProps.x}
                 y={textProps.y}
+                rotation={textProps.rotation}
                 fontSize={textProps.fontSize}
                 fontFamily={textProps.fontFamily}
                 width={textProps.width}
@@ -73,6 +76,16 @@ const TextComponent = ({ textProps, setIsTyping, setHidingElement, isSelected, o
                 onTap={handleClick}
                 onDragEnd={handleDragEnd}
                 onTransform={handleTransform}
+                onTransformEnd={() => {
+                    const node = componentRef.current; 
+                    onChange(
+                    {
+                        ...textProps,
+                        rotation: node.rotation(),
+                        width: Math.max(5, node.width() * node.scaleX()),
+                        height: Math.max(node.height() * node.scaleY()),
+                    })
+                }}
                 ref={componentRef}
             />
             {isSelected && 

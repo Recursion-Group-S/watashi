@@ -16,7 +16,6 @@ const ImageTab = () => {
   const { isValidDrop, addItem } = useNewItem();
   const setBgRef = useRef(null);
   const [backgroundImage, setBackgroundImage] = useAtom(backgroundImageAtom);
-  const currentMap = useAtomValue(currentMapAtom);
 
   const handleShift = (e) => {
     setShift({
