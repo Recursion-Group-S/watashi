@@ -1,8 +1,16 @@
 import React from "react";
 import { useAuthUser } from "../hooks/useAuthUser";
+import { signOut } from "firebase/auth";
+import { auth } from "../client/firebase";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const userAuth = useAuthUser();
+  const navigate = useNavigate()
+
+  const logout = async () => {
+    signOut(auth).then(() => navigate('/'))
+  }
 
   return (
     <header>
@@ -17,7 +25,7 @@ const Header = () => {
           </div>
           {userAuth ? (
             <div className="mt-4 flex flex-col gap-4 sm:mt-0 sm:flex-row sm:items-center">
-              <a href="/gallery">Gallery</a>
+              <button onClick={logout}>Logout</button>
               <img
                 className="w-10 h-10 rounded-full"
                 src={userAuth.photoURL}
