@@ -81,6 +81,8 @@ const TextComponent = ({ textProps, setIsTyping, setHidingElement, isSelected, o
                     onChange(
                     {
                         ...textProps,
+                        x: node.x(),
+                        y: node.y(),
                         rotation: node.rotation(),
                         width: Math.max(5, node.width() * node.scaleX()),
                         height: Math.max(node.height() * node.scaleY()),
