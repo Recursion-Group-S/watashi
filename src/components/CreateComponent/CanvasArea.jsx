@@ -185,6 +185,10 @@ const CanvasArea = ({ }, canvasRef) => {
         currentMap.backgroundColor = bgColor;
     },[bgColor])
 
+    useEffect(() => {
+        cancelSelectedText();
+        selectImage(null)
+    },[canvasItems])
     
     return (
         <div ref={canvasRef}>
