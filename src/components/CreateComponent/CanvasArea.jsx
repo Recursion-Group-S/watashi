@@ -65,7 +65,7 @@ const CanvasArea = ({ }, canvasRef) => {
 
     const handleClick = (e) => {
         setIsBgColorSetting(false);
-        if (selectedText && (e.target == stageRef.current || e.target === backgroundRef.current)){
+        if (selectedText && (e.target === backgroundRef.current || e.target === stageRef.current.children[0].children[0])){
             cancelSelectedText();
         }
     }
@@ -119,8 +119,7 @@ const CanvasArea = ({ }, canvasRef) => {
     }, [isUnderline])
 
     const checkDeselect = (e) => {
-        // const clickedOnEmpty = e.target === e.target.getStage();
-        const clickedOnEmpty = e.target === backgroundRef.current;
+        const clickedOnEmpty = e.target === backgroundRef.current || e.target === stageRef.current.children[0].children[0];
         if (clickedOnEmpty) {
             selectImage(null);
         }
@@ -186,9 +185,6 @@ const CanvasArea = ({ }, canvasRef) => {
         currentMap.backgroundColor = bgColor;
     },[bgColor])
 
-    useEffect(() => {
-        console.log('bg')
-    }, [backgroundImage])
     
     return (
         <div ref={canvasRef}>
