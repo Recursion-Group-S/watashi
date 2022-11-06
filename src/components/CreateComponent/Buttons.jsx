@@ -17,18 +17,6 @@ const Buttons = () => {
         setModalDispStatus("");
     }
 
-    const controlSaveButtonClass = () => {
-        if (canvasItems.length === 0) {
-            setSaveButtonClass("border-zinc-400 bg-zinc-400 hover:text-white hover:bg-zinc-400 focus:outline-none cursor-not-allowed");
-        } else {
-            setSaveButtonClass("");
-        }
-    }
-
-    useLayoutEffect(() => {
-        controlSaveButtonClass();
-    }, [canvasItems]);
-
     return (
         <div className="m-0 p-0 h-12">
 
@@ -43,9 +31,8 @@ const Buttons = () => {
                 </div>
                 <div className="w-5/12">
                     <button
-                        className={`${saveButtonClass} w-full text-center inline-block rounded-2xl border border-zinc-800 bg-zinc-800 px-12 py-2 text-sm font-medium text-white hover:bg-white hover:text-zinc-800 focus:outline-none focus:ring active:text-zinc-800`}
+                        className={`w-full text-center inline-block rounded-2xl border border-zinc-800 bg-zinc-800 px-12 py-2 text-sm font-medium text-white hover:bg-white hover:text-zinc-800 focus:outline-none focus:ring active:text-zinc-800`}
                         onClick={displayModal}
-                    // disabled={canvasItems.length === 0}
                     >
                         Save
                     </button>
