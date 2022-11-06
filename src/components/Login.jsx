@@ -27,7 +27,7 @@ const Login = () => {
       </div>
       <button
         onClick={clickLogin}
-        className="m-auto block rounded-2xl border border-zinc-800 bg-zinc-800 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-zinc-800 focus:outline-none focus:ring active:text-zinc-500"
+        className="m-auto block rounded-2xl border border-zinc-800 bg-zinc-800 px-12 py-3 text-sm font-medium text-white hover:bg-white hover:text-zinc-800 focus:outline-none focus:ring active:text-zinc-500"
       >
         GET STARTED
       </button>

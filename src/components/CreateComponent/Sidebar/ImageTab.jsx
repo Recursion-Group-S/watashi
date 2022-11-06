@@ -10,13 +10,13 @@ import { currentMapAtom } from "../../../atoms/CurrentMapAtom";
 import ReactLoading from "react-loading";
 
 const ImageTab = () => {
-    const { uploadedImages, uploadToServer, deleteUploadedImage,loading } = useUploadImg();
-    const [canvasAtom] = useAtom(canvasRefAtom);
-    const [shift, setShift] = useState({ x: 0, y: 0 });
-    const { isValidDrop, addItem } = useNewItem();
-    const setBgRef = useRef(null);
-    const [backgroundImage, setBackgroundImage] = useAtom(backgroundImageAtom);
-    const currentMap = useAtomValue(currentMapAtom);
+  const { uploadedImages, uploadToServer, deleteUploadedImage, loading } = useUploadImg();
+  const [canvasAtom] = useAtom(canvasRefAtom);
+  const [shift, setShift] = useState({ x: 0, y: 0 });
+  const { isValidDrop, addItem } = useNewItem();
+  const setBgRef = useRef(null);
+  const [backgroundImage, setBackgroundImage] = useAtom(backgroundImageAtom);
+  const currentMap = useAtomValue(currentMapAtom);
 
   const handleShift = (e) => {
     setShift({
@@ -66,9 +66,9 @@ const ImageTab = () => {
       </div>
       <div
         className="overflow-y-scroll border rounded-lg p-3"
-        style={{ height: 360 }}
+        style={{ height: 344 }}
       >
-        <div className="flex flex-wrap gap-5">
+        <div className="flex flex-wrap">
           {loading ? (
             <div className="flex justify-center w-screen items-center mt-32">
               <ReactLoading type="spin" color="#f6e8aa" />
@@ -78,9 +78,9 @@ const ImageTab = () => {
               return (
                 <>
                   {/* UIの変更 */}
-                  <div className="relative mb-5" key={uploadedPath.path}>
+                  <div className="flex justify-center w-1/3 relative mb-4" key={uploadedPath.path}>
                     <img
-                      className="object-contain cursor-grab"
+                      className="object-contain cursor-grab rounded shadow"
                       width={100}
                       height={80}
                       key={uploadedPath.path}
@@ -91,12 +91,12 @@ const ImageTab = () => {
                       onDragStart={handleShift}
                     />
                     <button
-                      className="absolute border align-middle rounded-full bg-gray-300 text-lg -top-2 -right-2 w-7 h-7 flex justify-center items-center border-white border-2"
+                      className="absolute align-middle rounded-full bg-gray-300 text-lg -top-2 right-0 w-7 h-7 flex justify-center items-center border-white border-2"
                       onClick={() => {
                         deleteUploadedImage(uploadedPath.path);
                       }}
                     >
-                      <div className="">×</div>
+                      <div className="text-white text-sm">&#10005;</div>
                     </button>
                   </div>
                 </>
@@ -110,30 +110,30 @@ const ImageTab = () => {
           Background Image
         </label>
         <div
-          className="border rounded flex justify-center items-center"
+          className="border flex justify-center items-center rounded-lg"
           style={{ height: 110 }}
         >
           {backgroundImage.src && (
             <div className="relative" style={{ height: 100, width: 100 }}>
-              <img src={backgroundImage.src} />
+              <img src={backgroundImage.src} alt={backgroundImage.path} className="rounded" />
               <button
-                className="absolute border align-middle rounded-full bg-gray-300 text-lg -top-2 -right-2 w-7 h-7 flex justify-center items-center border-white border-2"
+                className="absolute align-middle rounded-full bg-gray-300 text-lg -top-2 -right-2 w-7 h-7 flex justify-center items-center border-white border-2"
                 onClick={() => {
                   setBackgroundImage(new Image());
                 }}
               >
-                <div className="">×</div>
+                <div className="text-white text-sm">&#10005;</div>
               </button>
             </div>
           )}
           {!backgroundImage.src && (
             <div
-              className="border-dashed border-2 flex justify-center items-center"
+              className="border-dashed border-2 flex justify-center items-center rounded"
               style={{ height: 100, width: 100 }}
               ref={setBgRef}
               onDragOver={(e) => e.preventDefault()}
             >
-              <p className="text-slate-400">drop here</p>
+              <p className="text-slate-400">Drop here</p>
             </div>
           )}
         </div>
